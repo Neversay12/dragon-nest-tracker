@@ -281,7 +281,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="ebf3a7922fea";</script>
+<script>window.DN_BUILD="66ed9e127294";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -588,18 +588,18 @@ function charForm(c,onSave){
   let img=c?c.img||'':'';
   modal(c?'แก้ไขตัวละคร':'เพิ่มตัวละคร',
    '<div class="imgdrop" id="cDrop"><span id="cPrev"></span><div><b>รูปตัวละคร</b><small>กด Ctrl+V เพื่อวาง หรือลากรูปมาที่นี่</small><div class="btns"><button type="button" class="btn small" id="cPick">เลือกรูป</button><button type="button" class="btn small" id="cRm">ลบรูป</button></div></div><input id="cFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden></div>'+
-   '<label class="field">ชื่อตัวละคร<input id="cName" name="name" maxlength="40" value="'+keep(c?c.name:'')+'"></label><label class="field">Job / Class<input id="cJob" name="job" maxlength="40" list="cJobs" placeholder="พิมพ์หรือเลือก เช่น Warrior" value="'+esc(c?c.job:'')+'"><datalist id="cJobs">'+['Warrior','Archer','Sorceress','Cleric','Academic','Kali','Assassin','Lancea','Machina'].map(x=>'<option value="'+x+'"></option>').join('')+'</datalist></label>'+
+   '<label class="field">ชื่อตัวละคร<input id="cLabel" name="dn_label" type="text" maxlength="40" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" data-lpignore="true" data-1p-ignore data-form-type="other" value="'+keep(c?c.name:'')+'"></label><label class="field">Job / Class<input id="cJob" name="job" maxlength="40" list="cJobs" placeholder="พิมพ์หรือเลือก เช่น Warrior" value="'+esc(c?c.job:'')+'"><datalist id="cJobs">'+['Warrior','Archer','Sorceress','Cleric','Academic','Kali','Assassin','Lancea','Machina'].map(x=>'<option value="'+x+'"></option>').join('')+'</datalist></label>'+
    (c&&S.chars.length>1?'<div><button type="button" class="btn small danger" id="cDel">ลบตัวละครนี้</button></div>':''),
-   'บันทึก',fd=>{const name=String(fd.get('name')).trim();if(!name) return 'กรุณาใส่ชื่อตัวละคร';onSave(name,String(fd.get('job')).trim(),img);save()});
+   'บันทึก',fd=>{const name=String(fd.get('dn_label')).trim();if(!name) return 'กรุณาใส่ชื่อตัวละคร';onSave(name,String(fd.get('job')).trim(),img);save()});
   const drop=$('#cDrop',dlg),file=$('#cFile',dlg),er=$('#fErr',dlg);
-  const show=()=>{$('#cPrev',dlg).innerHTML=tr(avatar({img,name:$('#cName',dlg).value||'?'},'xl'));$('#cRm',dlg).hidden=!img};
+  const show=()=>{$('#cPrev',dlg).innerHTML=tr(avatar({img,name:$('#cLabel',dlg).value||'?'},'xl'));$('#cRm',dlg).hidden=!img};
   const take=async f=>{
     er.hidden=true;
     if(!f||!/^image\/(png|jpeg|webp|gif|bmp)$/.test(f.type)){er.textContent=tr('ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP');er.hidden=false;return}
     try{img=await toAvatar(f);show()}catch(e){er.textContent=tr(e.message==='big'?'รูปใหญ่เกิน 15 MB':'เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น');er.hidden=false}
   };
   show();
-  $('#cName',dlg).addEventListener('input',show);
+  $('#cLabel',dlg).addEventListener('input',show);
   $('#cPick',dlg).onclick=()=>file.click();
   $('#cRm',dlg).onclick=()=>{img='';show()};
   file.onchange=()=>{if(file.files[0]) take(file.files[0]);file.value=''};
