@@ -170,6 +170,13 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .qrwrap{align-self:center;width:fit-content;background:#fff;padding:10px;border-radius:6px;min-width:204px;min-height:204px}
 .qrwrap img,.qrwrap canvas{display:block;max-width:100%}
 .btnrow{display:flex;flex-wrap:wrap;gap:6px}
+.qrguard{display:flex;justify-content:center}
+.qrcover{width:204px;height:204px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center;background:var(--raised);border:1.5px dashed var(--line);border-radius:6px}
+.qrcover svg{width:28px;height:28px;color:var(--accent)}
+.qrcover b{font-weight:600;color:var(--ink)}
+.qrcover small{font-size:12px;line-height:1.35;color:var(--muted)}
+#sHide{align-self:center}
+.undo-list{display:flex;flex-direction:column;gap:6px}
 .sync-or{border-top:1px solid var(--line);margin:2px 0}
 .sndgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .sndopt{display:flex;flex-direction:column;gap:1px;min-width:0;text-align:left;padding:8px 10px;background:var(--raised);border:1.5px solid var(--line);border-radius:6px}
@@ -296,6 +303,7 @@ const DICT=[
 ['รูปพื้นหลังเว็บ','Background image','รูป Background'],['กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่','Press Ctrl+V to paste, or drag an image here','กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่'],['ความเข้มของฉากบังรูป: ','Image dimming: ','ความเข้มของฉากบังรูป: '],['ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น','More dimming makes text easier to read. The image stays on this device.','ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น'],['พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง','Not enough storage. Try a smaller image.','พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง'],['ใช้รูปพื้นหลังแล้ว','Background applied','ใช้รูป Background แล้ว'],['ลบรูปพื้นหลังแล้ว','Background removed','ลบรูป Background แล้ว'],['ตัวอย่างการ์ด','Sample card','ตัวอย่างการ์ด'],['ยังไม่ได้ใส่รูป','No image yet','ยังไม่ได้ใส่รูป'],['ใส่รูปพื้นหลัง','Add background','ใส่รูป Background'],['เปลี่ยนรูปพื้นหลัง','Change background','เปลี่ยนรูป Background'],['ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP','Use a PNG, JPG, WEBP, GIF or BMP file','ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP'],['รูปใหญ่เกิน 15 MB','Image is over 15 MB','รูปใหญ่เกิน 15 MB'],['รูปใหญ่เกิน 25 MB','Image is over 25 MB','รูปใหญ่เกิน 25 MB'],['เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น','Can’t open this image. Try another one.','เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น'],
 ['อุปกรณ์: ','Devices: ','Device: '],['ยังไม่เชื่อม','Not linked','ยังไม่ Link'],['กำลังเชื่อม','Connecting','กำลัง Connect'],['กำลังซิงก์','Syncing','กำลัง Sync'],['ซิงก์แล้ว','Synced','Sync แล้ว'],['ออฟไลน์','Offline','Offline'],['ซิงก์ไม่สำเร็จ','Sync failed','Sync ไม่สำเร็จ'],
 ['เชื่อมอุปกรณ์แล้ว','Device linked','Link อุปกรณ์แล้ว'],['เชื่อมอุปกรณ์นี้?','Link this device?','Link อุปกรณ์นี้?'],['เชื่อมอุปกรณ์','Link devices','Link อุปกรณ์'],['สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง','Create a code on your first device, then scan the QR on your phone or iPad. Every device stays in sync.','สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะ Sync ทุกเครื่อง'],['สร้างรหัสสำหรับเครื่องนี้','Create a code for this device','สร้างรหัสสำหรับเครื่องนี้'],['มีรหัสจากเครื่องอื่นแล้ว','Have a code from another device','มีรหัสจากเครื่องอื่นแล้ว'],['การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น','Linking replaces the data on this device with the data from that code.','การ Link จะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น'],['เชื่อมด้วยรหัสนี้','Link with this code','Link ด้วยรหัสนี้'],['รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ','The code must have 32 characters. Check that you copied all of it.','รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ'],['ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง','Code not found. Check it and try again.','ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง'],['เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่','Can’t connect. Check your internet and try again.','เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่'],['สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้','Scan this QR on your phone or iPad. Keep it private, because anyone with the code can edit your data.','สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อ Link อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้'],['เปลี่ยนรหัสเชื่อมต่อ?','Change the link code?','เปลี่ยนรหัส Link?'],['รหัสเชื่อมต่อ','Link code','รหัส Link'],['คัดลอกลิงก์แล้ว','Link copied','คัดลอกลิงก์แล้ว'],['คัดลอกลิงก์','Copy link','คัดลอกลิงก์'],['เปลี่ยนรหัสแล้ว','Code changed','เปลี่ยนรหัสแล้ว'],['เปลี่ยนรหัส','Change code','เปลี่ยนรหัส'],['เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่','Other linked devices will disconnect and must scan the new QR.','เครื่องอื่นที่ Link อยู่จะหลุด และต้องสแกน QR ใหม่'],['เลิกเชื่อมเครื่องนี้?','Unlink this device?','เลิก Link เครื่องนี้?'],['เลิกเชื่อมเครื่องนี้','Unlink this device','เลิก Link เครื่องนี้'],['ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ซิงก์กับเครื่องอื่นอีก','Your data stays on this device but stops syncing.','ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ Sync กับเครื่องอื่นอีก'],['เลิกเชื่อมแล้ว','Device unlinked','เลิก Link แล้ว'],['>เลิกเชื่อม<','>Unlink<','>เลิก Link<'],['ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR','The data on this device will be replaced by the data from the device that made the QR.','ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR'],['>เชื่อมเลย<','>Link now<','>Link เลย<'],['รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุดซิงก์','This code was cancelled, so this device stopped syncing.','รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุด Sync'],['ข้อมูลใหญ่เกินกว่าจะซิงก์ ลองลดจำนวนรูปตัวละคร','Too much data to sync. Try using fewer character images.','ข้อมูลใหญ่เกินกว่าจะ Sync ลองลดจำนวนรูป Character'],['สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน','Couldn’t make the QR. Use the code below.','สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน'],
+['QR ถูกซ่อนไว้','QR is hidden','QR ถูกซ่อนไว้'],['กดเมื่อไม่ได้สตรีมหรือแชร์จอ','Reveal only when you are not streaming or sharing your screen','กดเมื่อไม่ได้ Stream หรือแชร์จอ'],['แสดง QR','Show QR','แสดง QR'],['ซ่อน QR','Hide QR','ซ่อน QR'],['ย้อนข้อมูลล่าสุด','Restore recent data','ย้อนข้อมูลล่าสุด'],['ย้อนข้อมูลแล้ว','Data restored','ย้อนข้อมูลแล้ว'],['ย้อนข้อมูลไม่สำเร็จ','Couldn’t restore that data','ย้อนข้อมูลไม่สำเร็จ'],['ย้อนไปข้อมูลนี้?','Restore this data?','ย้อนไปข้อมูลนี้?'],['เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้','Pick a time to go back to. Your current data is kept so you can undo this.','เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้'],['ข้อมูลบนทุกเครื่องที่เชื่อมอยู่จะกลับไปเป็นชุดนี้','Every linked device will go back to this data.','ข้อมูลบนทุกเครื่องที่ Link อยู่จะกลับไปเป็นชุดนี้'],['<h2>ย้อนข้อมูล','<h2>Restore data','<h2>ย้อนข้อมูล'],['>ย้อนข้อมูล<','>Restore<','>ย้อนข้อมูล<'],
 ['<h2>เสียงกด','<h2>Click sound','<h2>Sound'],['กดเพื่อฟังเสียง แล้วเลือกแบบที่ชอบ','Tap to hear each sound, then keep the one you like.','กดเพื่อฟัง Sound แล้วเลือกแบบที่ชอบ'],['ระดับเสียง<','Volume<','Volume<'],['>เสร็จ<','>Done<','>เสร็จ<'],['ทุ้มกลม ฟังสบาย','Low and round, easy on the ears','ทุ้มกลม ฟังสบาย'],['ต็อกสั้นแบบเคาะไม้','A short wooden tap','ต็อกสั้นแบบเคาะไม้'],['ป๊อปเบาแบบฟองน้ำ','A light bubble pop','ป๊อปเบาแบบฟองน้ำ'],['ทุ้มนุ่มแนวคีย์บอร์ดลูบสวิตช์','Deep and muted, like a lubed keyboard','ทุ้มนุ่มแนวคีย์บอร์ดลูบสวิตช์'],
 ['เสียงกด: ','Click sound: ','Sound: '],['ระดับเสียงกด ตอนนี้ ','Click sound level, now ','ระดับ Sound ตอนนี้ '],[' กดเพื่อเปลี่ยน',', press to change',' กดเพื่อเปลี่ยน'],[' วัน ','d ','d ',' วัน ']
 ];
@@ -523,7 +531,7 @@ function modal(title,inner,submitLabel,onSubmit,danger){
     const msg=onSubmit&&onSubmit(new FormData(e.target));
     if(msg){const er=$('#fErr',dlg);er.textContent=tr(msg);er.hidden=false;return}
     dlg.close();render()};
-  dlg.onpaste=null;dlg.ondragover=null;dlg.ondrop=null;
+  dlg.onpaste=null;dlg.ondragover=null;dlg.ondrop=null;dlg.oncancel=null;
   if(!dlg.open) dlg.showModal();
   const f=$('input:not([type=file]),textarea',dlg);if(f) f.focus();
 }
@@ -1000,6 +1008,7 @@ function applyRemote(d){
   let next;
   try{next=clean({...S,...JSON.parse(d.payload),active:S.active,view:S.view,hideDone:S.hideDone,collapsed:S.collapsed})}
   catch(e){setSyncState('error');return}
+  rememberSnapshot();
   S=next;
   syncQuiet=true;applyResets();save();syncQuiet=false;
   sync.last=syncJson();
@@ -1045,27 +1054,97 @@ function copyText(text,done,input){
 async function drawQr(el){
   try{
     if(!window.QRCode) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
-    if(!el.isConnected) return;
+    if(!el.isConnected||el.hidden) return;
     el.innerHTML='';
     new QRCode(el,{text:syncUrl(),width:184,height:184,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+    el.removeAttribute('title');
   }catch(e){el.textContent=tr('สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน')}
+}
+// Local restore points. A new one is kept at most every 10 minutes, so a burst of unwanted edits
+// cannot push the last good copy out of the list.
+const UNDO_KEY='dn-sync-undo',UNDO_GAP=600000,CODE_MASK='••••-••••-••••-••••-••••-••••-••••-••••';
+let secretTimer=null,hideSecret=null;
+dlg.addEventListener('close',()=>{if(hideSecret) hideSecret()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&hideSecret) hideSecret()});
+function readUndo(){
+  try{const a=JSON.parse(lsGet(UNDO_KEY)||'[]');return Array.isArray(a)?a.filter(x=>x&&typeof x.at==='number'&&typeof x.data==='string'):[]}
+  catch(e){return []}
+}
+function rememberSnapshot(force){
+  const data=syncJson(),list=readUndo();
+  if(list[0]&&list[0].data===data) return;
+  if(!force&&list[0]&&Date.now()-list[0].at<UNDO_GAP) return;
+  let next=[{at:Date.now(),data},...list].slice(0,3);
+  while(next.length>1&&JSON.stringify(next).length>900000) next=next.slice(0,-1);
+  while(next.length){
+    try{localStorage.setItem(UNDO_KEY,JSON.stringify(next));return}
+    catch(e){next=next.slice(0,-1)}
+  }
+}
+function restoreSnapshot(entry){
+  let next;
+  try{next=clean({...S,...JSON.parse(entry.data),active:S.active,view:S.view,hideDone:S.hideDone,collapsed:S.collapsed})}
+  catch(e){toast('ย้อนข้อมูลไม่สำเร็จ');return}
+  rememberSnapshot(true);
+  S=next;
+  syncQuiet=true;applyResets();syncQuiet=false;
+  sync.last='';
+  save();
+  toast('ย้อนข้อมูลแล้ว');
+}
+const undoButton=()=>readUndo().length?'<div class="sync-or"></div><button type="button" class="btn small" id="sUndo">ย้อนข้อมูลล่าสุด</button>':'';
+function bindUndo(){const b=$('#sUndo',dlg);if(b) b.onclick=undoForm}
+function undoForm(){
+  const list=readUndo(),fmt=at=>new Date(at).toLocaleString(lang==='en'?'en-GB':'th-TH',{dateStyle:'short',timeStyle:'short'});
+  modal('ย้อนข้อมูล','<p class="note">เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้</p><div class="undo-list">'+list.map((x,i)=>'<button type="button" class="btn" data-undo="'+i+'">'+keep(fmt(x.at))+'</button>').join('')+'</div>',null,null);
+  dlg.querySelectorAll('[data-undo]').forEach(b=>b.onclick=()=>{
+    const entry=list[Number(b.dataset.undo)];
+    modal('ย้อนไปข้อมูลนี้?','<p class="note">ข้อมูลบนทุกเครื่องที่เชื่อมอยู่จะกลับไปเป็นชุดนี้</p>','ย้อนข้อมูล',()=>{restoreSnapshot(entry)},true);
+  });
 }
 function syncForm(){
   if(!sync.code){
     modal('เชื่อมอุปกรณ์',
-      '<p class="note">สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง</p><button type="button" class="btn primary" id="sNew">สร้างรหัสสำหรับเครื่องนี้</button><div class="sync-or"></div><label class="field">มีรหัสจากเครื่องอื่นแล้ว<input id="sCode" name="code" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label><p class="note">การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น</p>',
+      '<p class="note">สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง</p><button type="button" class="btn primary" id="sNew">สร้างรหัสสำหรับเครื่องนี้</button><div class="sync-or"></div><label class="field">มีรหัสจากเครื่องอื่นแล้ว<input id="sCode" name="code" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label><p class="note">การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น</p>'+undoButton(),
       'เชื่อมด้วยรหัสนี้',fd=>{
         const code=normalizeCode(fd.get('code'));
         if(!code) return 'รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ';
         joinSync(code);
       });
     $('#sNew',dlg).onclick=async()=>{await createSync();syncForm()};
+    bindUndo();
     return;
   }
   modal('เชื่อมอุปกรณ์',
-    '<div class="qrwrap" id="sQr"></div><p class="note">สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้</p><label class="field">รหัสเชื่อมต่อ<input id="sShow" readonly value="'+keep(sync.code)+'"></label><div class="btnrow"><button type="button" class="btn small" id="sCopyLink">คัดลอกลิงก์</button><button type="button" class="btn small" id="sCopyCode">คัดลอกรหัส</button></div><div class="sync-or"></div><div class="btnrow"><button type="button" class="btn small danger" id="sRotate">เปลี่ยนรหัส</button><button type="button" class="btn small danger" id="sUnlink">เลิกเชื่อมเครื่องนี้</button></div>',
+    '<div class="qrguard"><div class="qrwrap" id="sQr" hidden></div><div class="qrcover" id="sCover">'+svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>')+'<b>QR ถูกซ่อนไว้</b><small>กดเมื่อไม่ได้สตรีมหรือแชร์จอ</small><button type="button" class="btn primary small" id="sReveal">แสดง QR</button></div></div><button type="button" class="btn small" id="sHide" hidden>ซ่อน QR</button><p class="note">สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้</p><label class="field">รหัสเชื่อมต่อ<input id="sShow" readonly value="'+CODE_MASK+'"></label><div class="btnrow"><button type="button" class="btn small" id="sCopyLink" disabled>คัดลอกลิงก์</button><button type="button" class="btn small" id="sCopyCode" disabled>คัดลอกรหัส</button></div><div class="sync-or"></div><div class="btnrow"><button type="button" class="btn small danger" id="sRotate">เปลี่ยนรหัส</button><button type="button" class="btn small danger" id="sUnlink">เลิกเชื่อมเครื่องนี้</button></div>'+undoButton(),
     null,null);
-  drawQr($('#sQr',dlg));
+  bindUndo();
+  const qr=$('#sQr',dlg),cover=$('#sCover',dlg),shown=$('#sShow',dlg),hideBtn=$('#sHide',dlg),copies=[$('#sCopyLink',dlg),$('#sCopyCode',dlg)];
+  const hideNow=()=>{
+    clearInterval(secretTimer);secretTimer=null;
+    qr.innerHTML='';qr.removeAttribute('title');qr.hidden=true;cover.hidden=false;hideBtn.hidden=true;
+    shown.value=CODE_MASK;copies.forEach(b=>b.disabled=true);
+  };
+  hideSecret=hideNow;
+  hideNow();
+  hideBtn.onclick=hideNow;
+  // Clear the QR in the same tick as every way of closing, so it never lingers in the page.
+  $('#fCancel',dlg).onclick=()=>{hideNow();dlg.close()};
+  $('form',dlg).addEventListener('submit',hideNow,true);
+  dlg.oncancel=hideNow;
+  $('#sReveal',dlg).onclick=()=>{
+    let left=30;
+    const label=()=>hideBtn.textContent=tr('ซ่อน QR')+' ('+left+')';
+    clearInterval(secretTimer);
+    qr.hidden=false;cover.hidden=true;hideBtn.hidden=false;
+    shown.value=sync.code;copies.forEach(b=>b.disabled=false);
+    label();drawQr(qr);
+    secretTimer=setInterval(()=>{
+      if(!qr.isConnected||!dlg.open){hideNow();return}
+      left--;
+      if(left<=0) hideNow();else label();
+    },1000);
+  };
   $('#sCopyLink',dlg).onclick=()=>copyText(syncUrl(),'คัดลอกลิงก์แล้ว',$('#sShow',dlg));
   $('#sCopyCode',dlg).onclick=()=>copyText(sync.code,'คัดลอกรหัสแล้ว',$('#sShow',dlg));
   $('#sRotate',dlg).onclick=()=>modal('เปลี่ยนรหัสเชื่อมต่อ?','<p class="note">เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่</p>','เปลี่ยนรหัส',()=>{rotateSync()},true);
