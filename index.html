@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>สมุดเคลียร์ Dragon Nest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: a raid logbook. Character tabs on top, collapsible ledgers below, pips as the tally marks. */
+:root{
+  --bg:#e9edf3;--surface:#fff;--raised:#f3f5f9;--ink:#192033;--muted:#566077;--line:#d2d8e3;
+  --accent:#2453c4;--on-accent:#fff;--hard:#c23a28;--hard-soft:#fbe7e3;--done:#1e7d55;--done-soft:#def3e9;
+  --display:"Chakra Petch","IBM Plex Sans Thai",system-ui,sans-serif;
+  --body:"IBM Plex Sans Thai","Noto Sans Thai",Tahoma,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11141d;--surface:#1a1f2d;--raised:#232a3b;--ink:#e9ecf4;--muted:#a0a9bd;--line:#30384c;
+  --accent:#86a8ff;--on-accent:#10131c;--hard:#ff9583;--hard-soft:#3b211f;--done:#5dd6a0;--done-soft:#17352a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11141d;--surface:#1a1f2d;--raised:#232a3b;--ink:#e9ecf4;--muted:#a0a9bd;--line:#30384c;
+  --accent:#86a8ff;--on-accent:#10131c;--hard:#ff9583;--hard-soft:#3b211f;--done:#5dd6a0;--done-soft:#17352a;color-scheme:dark}
+:root{--art:none}
+:root[data-skin="dark"]{--bg:#11141d;--surface:#1a1f2d;--raised:#232a3b;--ink:#e9ecf4;--muted:#a0a9bd;--line:#30384c;--accent:#86a8ff;--on-accent:#10131c;--hard:#ff9583;--hard-soft:#3b211f;--done:#5dd6a0;--done-soft:#17352a;--art:none;color-scheme:dark}
+:root[data-skin="light"]{--bg:#e9edf3;--surface:#fff;--raised:#f3f5f9;--ink:#192033;--muted:#566077;--line:#d2d8e3;--accent:#2453c4;--on-accent:#fff;--hard:#c23a28;--hard-soft:#fbe7e3;--done:#1e7d55;--done-soft:#def3e9;--art:none;color-scheme:light}
+:root[data-skin="lava"]{--bg:#190d0b;--surface:#261512;--raised:#351d18;--ink:#f8ebe5;--muted:#c6a79c;--line:#4f2d25;--accent:#ffa45c;--on-accent:#21100a;--hard:#ff8f7d;--hard-soft:#47201b;--done:#ffd166;--done-soft:#40301a;--art:radial-gradient(90% 60% at 85% 0%,#6d2413 0%,transparent 70%),radial-gradient(70% 50% at 0% 100%,#4a1a10 0%,transparent 70%);color-scheme:dark}
+:root[data-skin="ocean"]{--bg:#081820;--surface:#0f2530;--raised:#163341;--ink:#e4f4f8;--muted:#96b9c4;--line:#27495a;--accent:#5fd4e8;--on-accent:#06171d;--hard:#ff9f8f;--hard-soft:#3a2830;--done:#6fe3bd;--done-soft:#123d38;--art:radial-gradient(90% 60% at 15% 0%,#14506a 0%,transparent 70%),radial-gradient(70% 50% at 100% 100%,#0e3b55 0%,transparent 70%);color-scheme:dark}
+:root[data-skin="forest"]{--bg:#0e1710;--surface:#172319;--raised:#203023;--ink:#e9f3e6;--muted:#a3b8a2;--line:#33483a;--accent:#a8dc6c;--on-accent:#101a0b;--hard:#ffa08a;--hard-soft:#3a2720;--done:#7fe0a0;--done-soft:#1b3d29;--art:radial-gradient(90% 60% at 80% 0%,#2c5230 0%,transparent 70%),radial-gradient(70% 50% at 0% 100%,#1e3d27 0%,transparent 70%);color-scheme:dark}
+:root[data-skin="sakura"]{--bg:#fbeef2;--surface:#fffafb;--raised:#fdeaf0;--ink:#38202b;--muted:#7b5866;--line:#efd0db;--accent:#c23468;--on-accent:#fff;--hard:#b92f2f;--hard-soft:#fde2e0;--done:#23805f;--done-soft:#dff3ea;--art:radial-gradient(80% 50% at 90% 0%,#f8c9d9 0%,transparent 70%),radial-gradient(70% 50% at 0% 100%,#fbdbe5 0%,transparent 70%);color-scheme:light}
+:root{--daily:#8a5200;--daily-soft:#fdf0d5;--weekly:#6a35b8;--weekly-soft:#efe6fb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--daily:#ffcf70;--daily-soft:#3d2f12;--weekly:#c9a6ff;--weekly-soft:#2e2445}}
+:root[data-theme="dark"],:root[data-skin="dark"],:root[data-skin="lava"],:root[data-skin="ocean"],:root[data-skin="forest"]{--daily:#ffcf70;--daily-soft:#3d2f12;--weekly:#c9a6ff;--weekly-soft:#2e2445}
+:root[data-skin="light"],:root[data-skin="sakura"]{--daily:#8a5200;--daily-soft:#fdf0d5;--weekly:#6a35b8;--weekly-soft:#efe6fb}
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:var(--art);background-attachment:fixed;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#app{max-width:960px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
+h1{font-family:var(--display);font-size:26px;line-height:1.2;margin:0}
+.sub{color:var(--muted);font-size:13px;margin:2px 0 0}
+.clocks{display:flex;gap:18px;font-variant-numeric:tabular-nums}
+.clock span{display:block;font-size:12px;color:var(--muted)}
+.clock b{font-family:var(--display);font-size:17px;font-weight:600}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px}
+.tab{flex:none;min-width:128px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 11px}
+.tab[aria-selected="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.tab{display:flex;align-items:center;gap:9px;min-width:178px}
+.tabtxt{flex:1;min-width:0;display:block}
+.tab strong{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.avatar{flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:6px;overflow:hidden;background:var(--raised);border:1px solid var(--line);color:var(--accent);font-family:var(--display);font-weight:700;font-size:18px}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar.lg{width:68px;height:68px;font-size:28px;border-radius:8px}
+.avatar.xl{width:88px;height:88px;font-size:34px;border-radius:8px}
+.avatar.sm{width:30px;height:30px;font-size:13px;border-radius:4px}
+.hero{display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;text-align:left;min-width:0}
+.hero:hover .avatar{border-color:var(--accent)}
+.herotxt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.jobpill{font-size:13px;font-weight:600;color:var(--accent);background:var(--raised);border-radius:3px;padding:0 7px}
+.herotxt small{font-size:13px;color:var(--muted)}
+.skins{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.skins>span{font-size:13px;color:var(--muted);margin-right:2px}
+.skin{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:2px 10px 2px 6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;font-size:13px}
+.skin i{width:18px;height:18px;border-radius:50%;border:1px solid var(--line)}
+.skin[aria-checked="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);font-weight:600}
+.imgdrop{display:flex;gap:12px;align-items:center;padding:10px;border:1.5px dashed var(--line);border-radius:7px;background:var(--bg)}
+.imgdrop.over{border-color:var(--accent)}
+.imgdrop b{display:block;font-weight:600;font-size:14px}
+.imgdrop small{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
+.imgdrop .btns{display:flex;flex-wrap:wrap;gap:4px}
+th .thc{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+th small{font-weight:400;font-size:11px;color:var(--muted)}
+.tab small{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.bar{display:block;height:3px;background:var(--line);margin-top:4px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--done)}
+.tab.add{min-width:0;border-style:dashed;color:var(--accent);font-weight:600;display:flex;align-items:center}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.toolbar>div{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btn{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:5px 11px;font-size:14px;min-height:34px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.btn.danger{color:var(--hard);border-color:var(--hard)}
+.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.small{min-height:28px;padding:1px 8px;font-size:13px}
+.btn.tool{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:6px 14px;font-weight:600;background:var(--raised);border:1.5px solid var(--line)}
+.btn.tool svg{width:17px;height:17px;flex:none;color:var(--accent)}
+.btn.tool:hover{border-color:var(--accent);background:var(--surface)}
+.btn.tool[aria-pressed="true"],.btn.tool[aria-pressed="true"]:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.tool[aria-pressed="true"] svg{color:inherit}
+.btn.edit,.btn.warn{display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:4px 12px;font-size:14px;font-weight:600}
+.btn.edit svg,.btn.warn svg{width:16px;height:16px;flex:none}
+.btn.edit{background:var(--raised);border:1.5px solid var(--line)}
+.btn.warn{color:var(--hard);background:var(--hard-soft);border:2px solid var(--hard)}
+.btn.warn:hover{color:var(--surface);background:var(--hard);border-color:var(--hard)}
+.toolgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.toolgrid .btn.tool{justify-content:flex-start;text-align:left;gap:10px;padding:8px 12px;min-width:0}
+.toolgrid .btn.tool svg{width:21px;height:21px}
+.tt{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.tt b{font-weight:600}
+.tt small{font-weight:400;font-size:12px;color:var(--muted)}
+.btn[aria-pressed="true"] .tt small,.btn.warn .tt small{color:inherit}
+.btn.edit,.btn.warn{text-align:left}
+#app{position:relative;z-index:1}
+#toast{z-index:5}
+#bgImg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+#bgImg::after{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--dim,.4)}
+.skinbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px}
+.skin.bgbtn{padding:2px 12px 2px 8px;font-weight:600;border-style:dashed;border-color:var(--accent);color:var(--accent)}
+.skin.bgbtn svg,.skin.snd svg{width:17px;height:17px;flex:none}
+.langs{display:inline-flex;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.langs button{min-height:32px;padding:2px 11px;border:0;background:none;font-size:13px;font-weight:600;color:var(--muted)}
+.langs button+button{border-left:1px solid var(--line)}
+.langs button:hover{color:var(--ink)}
+.langs button[aria-checked="true"]{background:var(--accent);color:var(--on-accent)}
+.skin.snd{padding:2px 12px 2px 8px;font-weight:600}
+.skin.snd svg{color:var(--accent)}
+.skin.snd.off{color:var(--muted)}
+.skin.snd.off svg{color:var(--muted)}
+.has-bg header,.has-bg .skinbar{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:10px 12px}
+.has-bg .section-label,.has-bg footer{width:fit-content;max-width:100%;background:var(--surface);color:var(--ink);border-radius:4px;padding:1px 8px}
+.has-bg .section-label{margin:4px 0 -6px}
+.bgprev{position:relative;aspect-ratio:16/9;max-width:100%;overflow:hidden;border-radius:6px;border:1px solid var(--line);background:var(--raised) center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.bgprev i{position:absolute;inset:0;background:var(--bg)}
+.bgprev span{position:relative;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:4px 12px;font-size:13px}
+.bgdrop{display:flex;flex-direction:column;gap:7px;padding:10px;border:1.5px dashed var(--line);border-radius:7px;background:var(--bg)}
+.bgdrop.over{border-color:var(--accent)}
+.bgdrop small{color:var(--muted);font-size:12px}
+.bgdrop .btns{display:flex;flex-wrap:wrap;gap:4px}
+.field input[type=range]{padding:0;border:0;background:none;accent-color:var(--accent)}
+.gtoggle .gcount{display:inline-flex;align-items:center;gap:5px}
+.gcount svg{width:16px;height:16px;flex:none;stroke-width:3}
+.group.complete{border:1.5px solid var(--done)}
+.group.complete .ghead{background:var(--done-soft)}
+.group.complete .gname,.group.complete .gcount,.group.complete .sign{color:var(--done)}
+.group.complete .gcount{font-weight:600}
+.group.complete .empty{background:var(--done-soft);color:var(--done);border-top-color:var(--done)}
+.row.daily{box-shadow:inset 4px 0 0 var(--daily)}
+.row.weekly{box-shadow:inset 4px 0 0 var(--weekly)}
+.tag.daily{background:var(--daily-soft);color:var(--daily);font-weight:600}
+.tag.weekly{background:var(--weekly-soft);color:var(--weekly);font-weight:600}
+.drag{flex:none;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:5px;cursor:grab;touch-action:none;user-select:none;color:var(--muted)}
+.drag svg{width:20px;height:20px}
+.ghead .drag{margin-left:6px}
+.row[data-grab]{cursor:grab}
+.row[data-grab] button{cursor:pointer}
+.group.lifted>:not(.ghead){display:none}
+.drop-slot{flex:none;border:2px dashed var(--accent);border-radius:6px;background:var(--raised)}
+.is-dragging,.is-dragging *{cursor:grabbing!important;user-select:none}
+.drag:hover{color:var(--accent);background:var(--raised)}
+.row.dragging,.group.dragging{background:var(--surface);opacity:.97;border-radius:6px;box-shadow:0 12px 30px rgba(8,10,18,.45),0 0 0 2px var(--accent)}
+.row.dragging .drag{cursor:grabbing}
+.btn:disabled{opacity:.35;cursor:default;border-color:var(--line)}
+.manage{flex-wrap:wrap}
+.gtoggle .gname{min-width:0}
+.gtoggle .gcount{flex:none;white-space:nowrap}
+@media (max-width:760px){
+  .ghead{flex-wrap:wrap;padding-right:0}
+  .ghead .gtoggle{flex:1 1 calc(100% - 44px)}
+  .ghead .manage{padding:0 12px 9px}
+}
+.skin.syncp svg{color:var(--muted)}
+.skin.syncp[data-state="ok"]{color:var(--done);border-color:var(--done)}
+.skin.syncp[data-state="ok"] svg{color:var(--done)}
+.skin.syncp[data-state="saving"],.skin.syncp[data-state="connecting"]{color:var(--accent);border-color:var(--accent)}
+.skin.syncp[data-state="saving"] svg,.skin.syncp[data-state="connecting"] svg{color:var(--accent)}
+.skin.syncp[data-state="error"]{color:var(--hard);border-color:var(--hard)}
+.skin.syncp[data-state="error"] svg{color:var(--hard)}
+.qrwrap{align-self:center;width:fit-content;background:#fff;padding:10px;border-radius:6px;min-width:204px;min-height:204px}
+.qrwrap img,.qrwrap canvas{display:block;max-width:100%}
+.btnrow{display:flex;flex-wrap:wrap;gap:6px}
+.sync-or{border-top:1px solid var(--line);margin:2px 0}
+.charcard{background:var(--surface);border:1.5px solid var(--line);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:8px;padding:12px 14px}
+.guide{margin:0;padding:8px 12px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.guide b{color:var(--ink);font-weight:600}
+.guide.editing{border-color:var(--accent);color:var(--ink)}
+.passrow{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.passrow em{font-style:normal;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:50px}
+@media (max-width:620px){.toolgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolgrid .btn.tool{padding:7px 9px;gap:7px}}
+.char-title{font-family:var(--display);font-size:19px;font-weight:600}
+.char-title small{font-family:var(--body);font-size:13px;font-weight:400;color:var(--muted);margin-left:6px}
+.section-label{font-family:var(--display);font-size:13px;letter-spacing:.06em;color:var(--muted);margin:6px 0 -6px}
+.group{background:var(--surface);border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.ghead{display:flex;align-items:center;gap:6px;background:var(--raised);padding-right:8px}
+.gtoggle{flex:1;min-width:0;display:flex;align-items:center;gap:9px;background:none;border:0;padding:9px 12px;text-align:left}
+.gtoggle .sign{font-family:var(--display);font-weight:700;color:var(--accent);width:12px}
+.gtoggle .gname{font-family:var(--display);font-weight:600;font-size:16px}
+.gtoggle .gcount{margin-left:auto;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
+.row.done{background:var(--done-soft)}
+.iname{display:flex;flex-wrap:wrap;gap:3px 7px;align-items:center;min-width:0}
+.iname b{font-weight:500}
+.row.hard .iname b{color:var(--hard)}
+.tag{font-size:11px;line-height:1.5;padding:0 6px;border-radius:3px;background:var(--raised);color:var(--muted)}
+.tag.hard{background:var(--hard-soft);color:var(--hard)}
+.tag.ok{background:transparent;color:var(--done);font-weight:600;padding:0}
+.ctrls{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:flex-end}
+.pips{display:flex;flex-wrap:wrap;gap:4px}
+.pip{width:28px;height:28px;padding:0;border:1.5px solid var(--line);background:var(--bg);border-radius:4px;color:transparent;font-size:15px;font-weight:700;line-height:1}
+.pip:hover{border-color:var(--done)}
+.pip.on{background:var(--done);border-color:var(--done);color:var(--surface)}
+.stepper{display:inline-flex;align-items:center;gap:3px;font-variant-numeric:tabular-nums}
+.stepper>span{min-width:52px;text-align:center;font-size:14px}
+.stepper label,.stepper em{font-style:normal;font-size:12px;color:var(--muted);margin-right:3px}
+.stepper button{width:28px;height:28px;padding:0;border:1px solid var(--line);background:var(--raised);border-radius:4px;font-weight:600}
+.stepper.fail>span{min-width:44px;color:var(--hard)}
+.manage{display:flex;gap:4px}
+.gadd{border-top:1px solid var(--line);padding:8px 12px}
+.empty{padding:14px 12px;color:var(--muted);border-top:1px solid var(--line);font-size:14px}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:7px}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:center}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
+thead th{background:var(--raised)}
+thead th:first-child{background:var(--raised)}
+th button{background:none;border:0;padding:0;font-weight:600;color:var(--accent)}
+tr.gr td{background:var(--raised);font-family:var(--display);font-weight:600;text-align:left}
+td.ok{background:var(--done-soft);color:var(--done);font-weight:600}
+td.zero{color:var(--muted)}
+footer{color:var(--muted);font-size:12px}
+dialog{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:18px;width:min(420px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(8,10,18,.55)}
+dialog h2{font-family:var(--display);font-size:19px;margin:0 0 12px}
+dialog form{display:flex;flex-direction:column;gap:11px}
+.field{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--muted);min-width:0}
+.field input,.field select,.field textarea{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:7px 9px;font-size:15px;color:var(--ink);width:100%}
+.field textarea{min-height:92px;font-family:ui-monospace,Consolas,monospace;font-size:12px;word-break:break-all}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:6px;margin-top:4px}
+.note{font-size:13px;color:var(--muted);margin:0}
+.err{font-size:13px;color:var(--hard);margin:0}
+#toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 14px;border-radius:5px;font-size:14px;max-width:calc(100vw - 32px)}
+@media (max-width:620px){
+  .row{grid-template-columns:minmax(0,1fr)}
+  .ctrls{justify-content:flex-start}
+  .clocks{width:100%}
+}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
+</style>
+<script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
+</head>
+<body>
+<div id="bgImg" hidden></div>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function(){
+const KEY='dn-weekly-tracker-v1';
+const H=36e5,D=24*H,W=7*D;
+// Resets happen at 08:00 Thailand time, which is 01:00 UTC. 1 Jan 1970 was a Thursday, so day 2 is Saturday.
+const dayStart=t=>Math.floor((t-H)/D)*D+H;
+const weekStart=t=>{const a=2*D+H;return Math.floor((t-a)/W)*W+a};
+const uid=()=>Math.random().toString(36).slice(2,10);
+const escPlain=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Language: Thai source strings are translated at render. Text the user typed is wrapped in
+// private-use markers so it is never translated. Columns: Thai key, English, Thai+English, optional pure-Thai override.
+const DICT=[
+['สมุดเคลียร์ Dragon Nest','Dragon Nest Clear Log','สมุด Clear Dragon Nest'],
+['ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ','Track quests and dungeons per character. Data stays on your device.','ติ๊ก Quest และ Dungeon แยกตาม Character ข้อมูลเก็บในเครื่องของคุณ'],
+['รีรายวัน 08:00','Daily reset 08:00','Daily Reset 08:00','รีเซ็ตรายวัน 08:00'],
+['รีรายสัปดาห์ เสาร์ 08:00','Weekly reset Sat 08:00','Weekly Reset เสาร์ 08:00','รีเซ็ตรายสัปดาห์ เสาร์ 08:00'],
+['เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้','This browser blocks saving. Progress is lost when you close the page. Use Backup / Transfer to keep a code.','เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล Progress จะหายเมื่อปิดหน้า กด “Backup / ย้ายข้อมูล” เพื่อเก็บรหัสไว้'],
+['ธีมพื้นหลัง','Theme','Theme'],['>ภาษา<','>Language<','>Language<'],
+['aria-label="ตัวละคร"','aria-label="Characters"','aria-label="Characters"'],
+['ตัวละคร 1','Character 1','Character 1'],['เควสและกิลด์','Quests & Guild','Quest & Guild'],['เควสภารกิจรายวัน','Daily Quest','Daily Quest'],['เควสรายสัปดาห์','Weekly Quest','Weekly Quest'],['เควสบอร์ด','Board Quest','Board Quest'],['เช็คชื่อกิลด์','Guild Check-in','Guild Check-in'],['ส่งของกิลด์','Guild Delivery','Guild Delivery'],['Sea Dragon Nest (ยาก)','Sea Dragon Nest (Hard)','Sea Dragon Nest (Hard)'],
+['ภาพรวมทุกตัว','Overview','Overview'],['ตารางเทียบทุกตัวละคร','All characters side by side','ตารางเทียบทุก Character'],['กลับหน้าตัวละคร','Back to character','กลับหน้า Character'],['ออกจากตารางภาพรวม','Leave the overview','ออกจากตาราง Overview'],
+['แสดงที่ครบแล้ว','Show cleared','แสดงที่ Clear แล้ว'],['ตอนนี้ซ่อนรายการที่ครบอยู่','Cleared items are hidden','ตอนนี้ซ่อนรายการที่ Clear แล้ว'],['ซ่อนที่ครบแล้ว','Hide cleared','ซ่อนที่ Clear แล้ว'],['เหลือเฉพาะที่ยังไม่เคลียร์','Show only what is left','เหลือเฉพาะที่ยังไม่ Clear'],
+['เสร็จสิ้นการแก้ไข','Done editing','เสร็จสิ้นการแก้ไข'],['กลับไปติ๊กตามปกติ','Back to ticking','กลับไปติ๊กตามปกติ'],['แก้ไขรายการ','Edit list','แก้ไขรายการ'],['เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด','Add, remove, rename dungeons','เพิ่ม ลบ เปลี่ยนชื่อ Dungeon และหมวด'],
+['สำรอง/ย้ายข้อมูล','Backup / Transfer','Backup / ย้ายข้อมูล'],['ย้ายเครื่องหรือส่งรายการให้เพื่อน','Move device or share your list','ย้ายเครื่องหรือส่งรายการให้เพื่อน'],
+['แก้ไขตัวละคร','Edit character','แก้ไข Character'],['ชื่อ, Job, รูป','Name, Job, image','ชื่อ, Job, รูป','ชื่อ, อาชีพ, รูป'],['<h2>ล้างการติ๊กของ ','<h2>Reset ticks for ','<h2>Reset การติ๊กของ '],['ล้างการติ๊ก','Reset ticks','Reset การติ๊ก'],['รีเป็น 0 เฉพาะตัวนี้','Back to 0, this character only','Reset เป็น 0 เฉพาะตัวนี้','กลับเป็น 0 เฉพาะตัวนี้'],
+['กดเพื่อใส่ Job / Class','Tap to add Job / Class','กดเพื่อใส่ Job / Class','กดเพื่อใส่อาชีพ'],['ยังไม่ใส่ Job','No Job yet','ยังไม่ใส่ Job','ยังไม่ใส่อาชีพ'],['Job / Class','Job / Class','Job / Class','อาชีพ'],['พิมพ์หรือเลือก เช่น Warrior','Type or pick, e.g. Warrior','พิมพ์หรือเลือก เช่น Warrior'],
+['เคลียร์แล้ว ','Cleared ','Clear แล้ว '],['+ เพิ่มตัวละคร','+ Add character','+ เพิ่ม Character'],['วิธีติ๊ก','How to tick','วิธีติ๊ก'],['กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก ปุ่ม − + ใช้นับจำนวน','Tap a box for each clear. Tap the same box again to undo. Use − + to count.','กดช่องตามจำนวนครั้งที่ Clear กดช่องเดิมซ้ำเพื่อเอาออก ปุ่ม − + ใช้นับจำนวน'],
+['กำลังแก้ไขรายการ','Editing the list','กำลังแก้ไขรายการ'],['คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”','Hold ≡ and drag a row to where you want it. Use Edit, Delete and Add in each category, then press Done editing.','คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”'],
+['>ภารกิจ<','>Quests<','>Quest<'],['>ดันเจี้ยน<','>Dungeons<','>Dungeon<'],['>รายการ<','>Item<','>รายการ<'],['เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย','Fan-made tool, not affiliated with the game developer. Resets use Thailand time.','เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลา Reset อิงเวลาประเทศไทย'],
+['>ยาก<','>Hard<','>Hard<'],['>ปกติ<','>Normal<','>Normal<'],['>ครบแล้ว<','>Cleared<','>Clear แล้ว<'],['>รายสัปดาห์<','>Weekly<','>Weekly<'],['>รายวัน<','>Daily<','>Daily<'],
+['<em>ผ่าน','<em>Clear','<em>Clear'],['<em>พลาด','<em>Fail','<em>Fail'],['ผ่านแล้ว ','Cleared ','Clear แล้ว '],[' จาก ',' of ',' จาก '],[' ครั้งที่ ',' run ',' ครั้งที่ '],['ลดจำนวนผ่าน ','Decrease clears ','ลดจำนวน Clear '],['เพิ่มจำนวนผ่าน ','Increase clears ','เพิ่มจำนวน Clear '],['ลดจำนวนพลาด ','Decrease fails ','ลดจำนวน Fail '],['เพิ่มจำนวนพลาด ','Increase fails ','เพิ่มจำนวน Fail '],
+['เคลียร์ครบทุกรายการในหมวดนี้แล้ว','Everything in this category is cleared','Clear ครบทุกรายการในหมวดนี้แล้ว'],['ยังไม่มีรายการ กด “แก้ไขรายการ” เพื่อเพิ่ม','No items yet. Press Edit list to add one.','ยังไม่มีรายการ กด “แก้ไขรายการ” เพื่อเพิ่ม'],['+ เพิ่มรายการใน ','+ Add item to ','+ เพิ่มรายการใน '],['+ เพิ่มหมวดหมู่','+ Add category','+ เพิ่มหมวดหมู่'],
+['ลากเพื่อจัดลำดับ','Drag to reorder','ลากเพื่อจัดลำดับ'],['>แก้ไข<','>Edit<','>แก้ไข<'],['>ลบ<','>Delete<','>ลบ<'],['>ล้าง<','>Reset<','>Reset<'],['>เพิ่ม<','>Add<','>เพิ่ม<'],['>เปลี่ยนชื่อ<','>Rename<','>เปลี่ยนชื่อ<'],['บันทึก','Save','บันทึก'],['ยกเลิก','Cancel','ยกเลิก'],
+['เพิ่มตัวละคร','Add character','เพิ่ม Character'],['ลบตัวละครนี้','Delete this character','ลบ Character นี้'],['ชื่อตัวละคร','Character name','ชื่อ Character'],['รูปตัวละคร','Character image','รูป Character'],['กด Ctrl+V เพื่อวาง หรือลากรูปมาที่นี่','Press Ctrl+V to paste, or drag an image here','กด Ctrl+V เพื่อวาง หรือลากรูปมาที่นี่'],['เลือกรูป','Choose image','เลือกรูป'],['ลบรูป','Remove image','ลบรูป'],
+['เพิ่มรายการ','Add item','เพิ่มรายการ'],['ชื่อ<input','Name<input','ชื่อ<input'],['เช่น Wonderful Theme Park','e.g. Wonderful Theme Park','เช่น Wonderful Theme Park'],['ผ่านได้ (ครั้ง)','Clears allowed','Clear ได้ (ครั้ง)'],['พลาดได้ (0 = ไม่นับ)','Fails allowed (0 = off)','Fail ได้ (0 = ไม่นับ)'],['ระดับ<select','Difficulty<select','Difficulty<select'],['รีเซ็ต<select','Reset<select','Reset<select'],
+['กรุณาใส่ชื่อรายการ','Enter an item name','กรุณาใส่ชื่อรายการ'],['จำนวนผ่านต้องเป็นเลข 1 ถึง 9999','Clears must be 1 to 9999','จำนวน Clear ต้องเป็นเลข 1 ถึง 9999'],['จำนวนพลาดต้องเป็นเลข 0 ถึง 9999','Fails must be 0 to 9999','จำนวน Fail ต้องเป็นเลข 0 ถึง 9999'],['กรุณาใส่ชื่อตัวละคร','Enter a character name','กรุณาใส่ชื่อ Character'],['กรุณาใส่ชื่อหมวดหมู่','Enter a category name','กรุณาใส่ชื่อหมวดหมู่'],
+['<h2>ลบหมวด ','<h2>Delete category ','<h2>ลบหมวด '],['<h2>ลบ ','<h2>Delete ','<h2>ลบ '],['ความคืบหน้าของตัวละครนี้จะหายถาวร','This character’s progress will be deleted permanently.','Progress ของ Character นี้จะหายถาวร'],['รายการทั้ง ','All ','รายการทั้ง '],[' รายการและความคืบหน้าในหมวดนี้จะหายถาวร',' items and their progress will be deleted permanently.',' รายการและ Progress ในหมวดนี้จะหายถาวร'],['รายการนี้และความคืบหน้าของทุกตัวละครจะหายถาวร','This item and every character’s progress on it will be deleted permanently.','รายการนี้และ Progress ของทุก Character จะหายถาวร'],['ตัวเลขผ่านและพลาดของตัวละครนี้จะกลับเป็น 0','This character’s clear and fail counts go back to 0.','จำนวน Clear และ Fail ของ Character นี้จะกลับเป็น 0'],
+['เพิ่มหมวดหมู่','Add category','เพิ่มหมวดหมู่'],['เปลี่ยนชื่อหมวดหมู่','Rename category','เปลี่ยนชื่อหมวดหมู่'],['ชื่อหมวดหมู่','Category name','ชื่อหมวดหมู่'],['เช่น Dark Lair','e.g. Dark Lair','เช่น Dark Lair'],
+['คัดลอกรหัสนี้ไปวางในอุปกรณ์อื่น หรือส่งให้เพื่อนเพื่อใช้รายการเดียวกัน','Paste this code on another device, or send it to a friend to use the same list.','คัดลอกรหัสนี้ไปวางในอุปกรณ์อื่น หรือส่งให้เพื่อนเพื่อใช้รายการเดียวกัน'],['รหัสของคุณ','Your code','รหัสของคุณ'],['คัดลอกรหัสแล้ว','Code copied','คัดลอกรหัสแล้ว'],['คัดลอกรหัส','Copy code','คัดลอกรหัส'],['วางรหัสเพื่อนำเข้า','Paste a code to import','วางรหัสเพื่อ Import'],['การนำเข้าจะแทนที่ข้อมูลทั้งหมดในเครื่องนี้','Importing replaces all data on this device.','การ Import จะแทนที่ข้อมูลทั้งหมดในเครื่องนี้'],['นำเข้าและแทนที่','Import and replace','Import และแทนที่'],['นำเข้าข้อมูลแล้ว','Data imported','Import ข้อมูลแล้ว'],['รหัสไม่ถูกต้อง ตรวจสอบว่าคัดลอกมาครบ','Invalid code. Check that you copied all of it.','รหัสไม่ถูกต้อง ตรวจสอบว่าคัดลอกมาครบ'],['เลือกข้อความแล้ว กด Ctrl+C เพื่อคัดลอก','Text selected. Press Ctrl+C to copy.','เลือกข้อความแล้ว กด Ctrl+C เพื่อคัดลอก'],
+['รีเซ็ตรายสัปดาห์แล้ว','Weekly reset done','Weekly Reset แล้ว'],['รีเซ็ตรายวันแล้ว','Daily reset done','Daily Reset แล้ว'],
+['รูปพื้นหลังเว็บ','Background image','รูป Background'],['กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่','Press Ctrl+V to paste, or drag an image here','กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่'],['ความเข้มของฉากบังรูป: ','Image dimming: ','ความเข้มของฉากบังรูป: '],['ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น','More dimming makes text easier to read. The image stays on this device.','ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น'],['พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง','Not enough storage. Try a smaller image.','พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง'],['ใช้รูปพื้นหลังแล้ว','Background applied','ใช้รูป Background แล้ว'],['ลบรูปพื้นหลังแล้ว','Background removed','ลบรูป Background แล้ว'],['ตัวอย่างการ์ด','Sample card','ตัวอย่างการ์ด'],['ยังไม่ได้ใส่รูป','No image yet','ยังไม่ได้ใส่รูป'],['ใส่รูปพื้นหลัง','Add background','ใส่รูป Background'],['เปลี่ยนรูปพื้นหลัง','Change background','เปลี่ยนรูป Background'],['ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP','Use a PNG, JPG, WEBP, GIF or BMP file','ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP'],['รูปใหญ่เกิน 15 MB','Image is over 15 MB','รูปใหญ่เกิน 15 MB'],['รูปใหญ่เกิน 25 MB','Image is over 25 MB','รูปใหญ่เกิน 25 MB'],['เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น','Can’t open this image. Try another one.','เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น'],
+['อุปกรณ์: ','Devices: ','Device: '],['ยังไม่เชื่อม','Not linked','ยังไม่ Link'],['กำลังเชื่อม','Connecting','กำลัง Connect'],['กำลังซิงก์','Syncing','กำลัง Sync'],['ซิงก์แล้ว','Synced','Sync แล้ว'],['ออฟไลน์','Offline','Offline'],['ซิงก์ไม่สำเร็จ','Sync failed','Sync ไม่สำเร็จ'],
+['เชื่อมอุปกรณ์แล้ว','Device linked','Link อุปกรณ์แล้ว'],['เชื่อมอุปกรณ์นี้?','Link this device?','Link อุปกรณ์นี้?'],['เชื่อมอุปกรณ์','Link devices','Link อุปกรณ์'],['สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง','Create a code on your first device, then scan the QR on your phone or iPad. Every device stays in sync.','สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะ Sync ทุกเครื่อง'],['สร้างรหัสสำหรับเครื่องนี้','Create a code for this device','สร้างรหัสสำหรับเครื่องนี้'],['มีรหัสจากเครื่องอื่นแล้ว','Have a code from another device','มีรหัสจากเครื่องอื่นแล้ว'],['การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น','Linking replaces the data on this device with the data from that code.','การ Link จะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น'],['เชื่อมด้วยรหัสนี้','Link with this code','Link ด้วยรหัสนี้'],['รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ','The code must have 32 characters. Check that you copied all of it.','รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ'],['ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง','Code not found. Check it and try again.','ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง'],['เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่','Can’t connect. Check your internet and try again.','เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่'],['สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้','Scan this QR on your phone or iPad. Keep it private, because anyone with the code can edit your data.','สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อ Link อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้'],['เปลี่ยนรหัสเชื่อมต่อ?','Change the link code?','เปลี่ยนรหัส Link?'],['รหัสเชื่อมต่อ','Link code','รหัส Link'],['คัดลอกลิงก์แล้ว','Link copied','คัดลอกลิงก์แล้ว'],['คัดลอกลิงก์','Copy link','คัดลอกลิงก์'],['เปลี่ยนรหัสแล้ว','Code changed','เปลี่ยนรหัสแล้ว'],['เปลี่ยนรหัส','Change code','เปลี่ยนรหัส'],['เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่','Other linked devices will disconnect and must scan the new QR.','เครื่องอื่นที่ Link อยู่จะหลุด และต้องสแกน QR ใหม่'],['เลิกเชื่อมเครื่องนี้?','Unlink this device?','เลิก Link เครื่องนี้?'],['เลิกเชื่อมเครื่องนี้','Unlink this device','เลิก Link เครื่องนี้'],['ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ซิงก์กับเครื่องอื่นอีก','Your data stays on this device but stops syncing.','ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ Sync กับเครื่องอื่นอีก'],['เลิกเชื่อมแล้ว','Device unlinked','เลิก Link แล้ว'],['>เลิกเชื่อม<','>Unlink<','>เลิก Link<'],['ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR','The data on this device will be replaced by the data from the device that made the QR.','ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR'],['>เชื่อมเลย<','>Link now<','>Link เลย<'],['รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุดซิงก์','This code was cancelled, so this device stopped syncing.','รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุด Sync'],['ข้อมูลใหญ่เกินกว่าจะซิงก์ ลองลดจำนวนรูปตัวละคร','Too much data to sync. Try using fewer character images.','ข้อมูลใหญ่เกินกว่าจะ Sync ลองลดจำนวนรูป Character'],['สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน','Couldn’t make the QR. Use the code below.','สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน'],
+['เสียงกด: ','Click sound: ','Sound: '],['ระดับเสียงกด ตอนนี้ ','Click sound level, now ','ระดับ Sound ตอนนี้ '],[' กดเพื่อเปลี่ยน',', press to change',' กดเพื่อเปลี่ยน'],[' วัน ','d ','d ',' วัน ']
+];
+const WORDS={'มืด':['Dark','Dark'],'สว่าง':['Light','Light'],'ลาวา':['Lava','Lava'],'ทะเล':['Ocean','Ocean'],'ป่า':['Forest','Forest'],'ซากุระ':['Sakura','Sakura'],'ปิด':['Off','Off'],'เบา':['Low','Low'],'กลาง':['Medium','Medium'],'ดัง':['High','High']};
+const SEED_NAMES=new Set(['ตัวละคร 1','เควสและกิลด์','เควสภารกิจรายวัน','เควสรายสัปดาห์','เควสบอร์ด','เช็คชื่อกิลด์','ส่งของกิลด์','Sea Dragon Nest (ยาก)']);
+const LANGS=[['th','ไทย'],['en','EN'],['mix','ไทย+EN']];
+let lang='mix';
+try{const v=localStorage.getItem('dn-lang');if(LANGS.some(x=>x[0]===v)) lang=v}catch(e){}
+document.documentElement.lang=lang==='en'?'en':'th';
+const trCache={};
+function trTable(){
+  if(trCache[lang]) return trCache[lang];
+  const map=new Map();
+  DICT.forEach(e=>{const to=lang==='en'?e[1]:lang==='mix'?e[2]:e[3];if(to!==undefined) map.set(e[0],to)});
+  const keys=[...map.keys()].sort((a,b)=>b.length-a.length).map(k=>k.replace(/[.*+?^${}()|[\]\\\/]/g,'\\$&'));
+  return trCache[lang]={map,re:keys.length?new RegExp(keys.join('|'),'g'):null};
+}
+function tr(s){
+  const t=trTable();
+  return String(s).split(/([^]*)/).map(p=>p[0]===''?p.slice(1,-1):(t.re?p.replace(t.re,m=>t.map.get(m)):p)).join('');
+}
+const mark=s=>{s=String(s);return SEED_NAMES.has(s)?s:''+s+''};
+const esc=s=>escPlain(mark(s));
+const keep=s=>escPlain(''+s+'');
+const L=s=>keep(lang==='th'||!WORDS[s]?s:WORDS[s][lang==='en'?0:1]);
+const $=(s,r=document)=>r.querySelector(s);
+const item=(name,clear,fail=0,tier='normal',reset='weekly')=>({id:uid(),name,clear,fail,tier,reset});
+
+function seed(){
+  const now=Date.now(),c={id:uid(),name:'ตัวละคร 1',job:''};
+  return {v:4,active:c.id,view:'char',hideDone:false,chars:[c],progress:{},collapsed:{},
+    stamps:{daily:dayStart(now),weekly:weekStart(now)},
+    groups:[
+      {id:uid(),kind:'quest',name:'เควสและกิลด์',items:[
+        item('เควสภารกิจรายวัน',5,0,'normal','daily'),
+                item('เควสบอร์ด',1,0,'normal','daily'),
+        item('เช็คชื่อกิลด์',1,0,'normal','daily'),
+        item('ส่งของกิลด์',1,0,'normal','daily'),
+        item('เควสรายสัปดาห์',7,0,'normal','weekly')]},
+      {id:uid(),kind:'dungeon',name:'Nest',items:[
+        item('Minotaur Nest',7),
+        item('Cerberus Nest',5),
+        item('Cerberus Nest (Hardcore)',2,0,'hard'),
+        item('Manticore Nest',3),
+        item('Manticore Nest (Hardcore)',1,0,'hard'),
+        item('Apocalypse Nest',3),
+        item('Apocalypse Nest (Hell Mode)',1,0,'hard'),
+        item('Sea Dragon Nest',1),
+        item('Sea Dragon Nest (ยาก)',1,0,'hard')]},
+      {id:uid(),kind:'dungeon',name:'Chaos Rift',items:[
+        item('Banquet Hall of Darkness',999),
+        item('Chaos Rift Kamala',3),
+        item('Chaos Rift Bairra',3)]}
+    ]};
+}
+function safeImg(v){return typeof v==='string'&&v.length<200000&&/^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(v)?v:''}
+function avatar(c,size){
+  const inner=c.img?'<img src="'+c.img+'" alt="">':keep((Array.from(tr(mark(c.name||'?')).trim())[0]||'?').toUpperCase());
+  return '<span class="avatar'+(size?' '+size:'')+'" aria-hidden="true">'+inner+'</span>';
+}
+// Crop to a centred square and shrink, so many portraits still fit in browser storage.
+function toAvatar(file){return new Promise((ok,no)=>{
+  if(file.size>15e6) return no(new Error('big'));
+  const u=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{
+    const n=192,cv=document.createElement('canvas'),w=im.naturalWidth,h=im.naturalHeight,s=Math.min(w,h);
+    cv.width=cv.height=n;const x=cv.getContext('2d');
+    x.fillStyle='#20263a';x.fillRect(0,0,n,n);x.drawImage(im,(w-s)/2,(h-s)/2,s,s,0,0,n,n);
+    URL.revokeObjectURL(u);
+    let d=cv.toDataURL('image/webp',.82);
+    if(!d.startsWith('data:image/webp')) d=cv.toDataURL('image/jpeg',.82);
+    ok(d);
+  };
+  im.onerror=()=>{URL.revokeObjectURL(u);no(new Error('bad'))};
+  im.src=u;
+})}
+const SKINS=[['dark','มืด','#11141d'],['light','สว่าง','#f3f5f9'],['lava','ลาวา','linear-gradient(135deg,#6d2413,#ffa45c)'],['ocean','ทะเล','linear-gradient(135deg,#0e3b55,#5fd4e8)'],['forest','ป่า','linear-gradient(135deg,#1e3d27,#a8dc6c)'],['sakura','ซากุระ','linear-gradient(135deg,#f8c9d9,#c23468)']];
+let skin=null;
+try{const v=localStorage.getItem('dn-skin');if(SKINS.some(x=>x[0]===v)) skin=v}catch(e){}
+function applySkin(){if(skin) document.documentElement.setAttribute('data-skin',skin);else document.documentElement.removeAttribute('data-skin')}
+function currentSkin(){
+  if(skin) return skin;
+  const t=document.documentElement.getAttribute('data-theme');
+  if(t==='dark'||t==='light') return t;
+  return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+}
+function skinRow(){
+  const cur=currentSkin();
+  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(bg.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
+}
+applySkin();
+function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?Math.min(max,Math.max(min,v)):min}
+function clean(x){
+  if(!x||!Array.isArray(x.chars)||!Array.isArray(x.groups)||!x.chars.length) throw new Error('bad');
+  const now=Date.now();
+  const s={v:4,view:x.view==='all'?'all':'char',hideDone:!!x.hideDone,collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
+    stamps:{daily:Number(x.stamps&&x.stamps.daily)||dayStart(now),weekly:Number(x.stamps&&x.stamps.weekly)||weekStart(now)},
+    chars:x.chars.map(c=>({id:String(c.id||uid()),name:String(c.name||'ตัวละคร').slice(0,40),job:String(c.job||'').slice(0,40),img:safeImg(c.img)})),
+    groups:x.groups.map(g=>({id:String(g.id||uid()),kind:g.kind==='quest'?'quest':'dungeon',name:String(g.name||'หมวดหมู่').slice(0,60),
+      items:(Array.isArray(g.items)?g.items:[]).map(i=>({id:String(i.id||uid()),name:String(i.name||'รายการ').slice(0,80),clear:clampInt(i.clear,1,9999),fail:clampInt(i.fail,0,9999),tier:i.tier==='hard'?'hard':'normal',reset:i.reset==='daily'?'daily':'weekly'}))}))};
+  // Version 1 shipped two default fail limits. Remove them once; limits set after this are kept.
+  const fromV=Number(x.v)||1;
+  if(fromV<2) s.groups.forEach(g=>g.items.forEach(i=>{if(i.fail===10&&(i.name==='Cerberus Nest'||i.name==='Sea Dragon Nest (ยาก)')) i.fail=0}));
+  // Version 3 lists Daily before Weekly once. After this the user's own order is kept.
+  if(fromV<3) s.groups.filter(g=>g.kind==='quest').forEach(g=>{g.items=[...g.items.filter(i=>i.reset==='daily'),...g.items.filter(i=>i.reset!=='daily')]});
+  // Version 4 raises the default Weekly Quest from 6 to 7 once. A count the user sets later is kept.
+  if(fromV<4) s.groups.forEach(g=>g.items.forEach(i=>{if(i.name==='เควสรายสัปดาห์'&&i.clear===6) i.clear=7}));
+  const p=x.progress&&typeof x.progress==='object'?x.progress:{};
+  s.chars.forEach(c=>{const o=p[c.id];if(!o||typeof o!=='object')return;s.progress[c.id]={};
+    for(const k in o){s.progress[c.id][k]={c:clampInt(o[k]&&o[k].c,0,9999),f:clampInt(o[k]&&o[k].f,0,9999)}}});
+  s.active=s.chars.some(c=>c.id===x.active)?x.active:s.chars[0].id;
+  return s;
+}
+let storageOk=true,S,syncQuiet=false;
+try{const raw=localStorage.getItem(KEY);S=raw?clean(JSON.parse(raw)):seed()}catch(e){S=seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));storageOk=true}catch(e){storageOk=false}afterSave()}
+
+function applyResets(){
+  const now=Date.now(),d=dayStart(now),w=weekStart(now),types=[];
+  if(S.stamps.weekly<w){types.push('weekly');S.stamps.weekly=w}
+  if(S.stamps.daily<d){types.push('daily');S.stamps.daily=d}
+  if(!types.length) return null;
+  const ids=new Set();S.groups.forEach(g=>g.items.forEach(i=>{if(types.includes(i.reset))ids.add(i.id)}));
+  Object.values(S.progress).forEach(p=>ids.forEach(id=>delete p[id]));
+  const wasQuiet=syncQuiet;syncQuiet=true;save();syncQuiet=wasQuiet;return types;
+}
+const prog=(cid,iid)=>(S.progress[cid]&&S.progress[cid][iid])||{c:0,f:0};
+function setProg(cid,iid,patch){(S.progress[cid]=S.progress[cid]||{});S.progress[cid][iid]={...prog(cid,iid),...patch};save();render()}
+const findItem=id=>{for(const g of S.groups){const i=g.items.find(x=>x.id===id);if(i)return i}return null};
+// Farm dungeons with a huge cap such as 0/999 never count against "complete".
+const counts=i=>i.clear<100;
+function stats(cid,items){
+  const list=(items||S.groups.flatMap(g=>g.items)).filter(counts);
+  const total=list.reduce((n,i)=>n+i.clear,0),done=list.reduce((n,i)=>n+Math.min(prog(cid,i.id).c,i.clear),0);
+  return {done,total,pct:total?Math.round(done/total*100):0};
+}
+function cd(ms){const s=Math.max(0,Math.floor(ms/1000)),d=Math.floor(s/86400),p=n=>String(n).padStart(2,'0');
+  return (d?d+tr(' วัน '):'')+p(Math.floor(s/3600)%24)+':'+p(Math.floor(s/60)%60)+':'+p(s%60)}
+
+function rowHtml(i,cid,manage){
+  const p=prog(cid,i.id),done=counts(i)&&p.c>=i.clear;
+  if(S.hideDone&&done&&!manage) return '';
+  let ctl='';
+  if(i.clear<=12){
+    ctl+='<div class="passrow"><em>ผ่าน '+p.c+'/'+i.clear+'</em><div class="pips" role="group" aria-label="ผ่านแล้ว '+p.c+' จาก '+i.clear+'">';
+    for(let n=1;n<=i.clear;n++) ctl+='<button class="pip'+(n<=p.c?' on':'')+'" data-act="pip" data-item="'+i.id+'" data-n="'+n+'" data-fk="pip-'+i.id+'-'+n+'" aria-pressed="'+(n<=p.c)+'" aria-label="'+esc(i.name)+' ครั้งที่ '+n+'">✓</button>';
+    ctl+='</div></div>';
+  }else{
+    ctl+='<div class="stepper"><em>ผ่าน</em><button data-act="step" data-field="c" data-d="-1" data-item="'+i.id+'" data-fk="cm-'+i.id+'" aria-label="ลดจำนวนผ่าน '+esc(i.name)+'">−</button><span>'+p.c+'/'+i.clear+'</span><button data-act="step" data-field="c" data-d="1" data-item="'+i.id+'" data-fk="cp-'+i.id+'" aria-label="เพิ่มจำนวนผ่าน '+esc(i.name)+'">+</button></div>';
+  }
+  if(i.fail>0) ctl+='<div class="stepper fail"><em>พลาด</em><button data-act="step" data-field="f" data-d="-1" data-item="'+i.id+'" data-fk="fm-'+i.id+'" aria-label="ลดจำนวนพลาด '+esc(i.name)+'">−</button><span>'+p.f+'/'+i.fail+'</span><button data-act="step" data-field="f" data-d="1" data-item="'+i.id+'" data-fk="fp-'+i.id+'" aria-label="เพิ่มจำนวนพลาด '+esc(i.name)+'">+</button></div>';
+  if(manage) ctl+='<div class="manage"><button class="btn small" data-act="edit-item" data-item="'+i.id+'">แก้ไข</button><button class="btn small danger" data-act="del-item" data-item="'+i.id+'">ลบ</button></div>';
+  return '<div class="row '+i.reset+(done?' done':'')+(i.tier==='hard'?' hard':'')+'" data-row="'+i.id+'"'+(manage?' data-grab="1"':'')+'><div class="iname">'+(manage?'<span class="drag" role="button" tabindex="0" title="ลากเพื่อจัดลำดับ" aria-label="ลากเพื่อจัดลำดับ '+esc(i.name)+'" data-move-item="'+i.id+'" data-fk="drag-'+i.id+'">'+ICON.grip+'</span>':'')+'<b>'+esc(i.name)+'</b>'+
+    (i.tier==='hard'?'<span class="tag hard">ยาก</span>':'')+'<span class="tag '+i.reset+'">'+(i.reset==='daily'?'รายวัน':'รายสัปดาห์')+'</span>'+(done?'<span class="tag ok">ครบแล้ว</span>':'')+'</div><div class="ctrls">'+ctl+'</div></div>';
+}
+function groupHtml(g,cid,manage){
+  const open=!S.collapsed[g.id],st=stats(cid,g.items),complete=st.total>0&&st.done>=st.total;
+  let body='';
+  if(open){
+    const rows=g.items.map(i=>rowHtml(i,cid,manage)).join('');
+    body=rows||('<div class="empty">'+(g.items.length?'เคลียร์ครบทุกรายการในหมวดนี้แล้ว':'ยังไม่มีรายการ กด “แก้ไขรายการ” เพื่อเพิ่ม')+'</div>');
+    if(manage) body+='<div class="gadd"><button class="btn small" data-act="add-item" data-group="'+g.id+'">+ เพิ่มรายการใน '+esc(g.name)+'</button></div>';
+  }
+  return '<section class="group'+(complete?' complete':'')+'" data-group-id="'+g.id+'" data-kind="'+g.kind+'"><div class="ghead">'+(manage?'<span class="drag" role="button" tabindex="0" title="ลากเพื่อจัดลำดับ" aria-label="ลากเพื่อจัดลำดับ '+esc(g.name)+'" data-move-group="'+g.id+'" data-fk="gdrag-'+g.id+'">'+ICON.grip+'</span>':'')+'<button class="gtoggle" data-act="toggle" data-group="'+g.id+'" data-fk="g-'+g.id+'" aria-expanded="'+open+'"><span class="sign" aria-hidden="true">'+(open?'−':'+')+'</span><span class="gname">'+esc(g.name)+'</span><span class="gcount">'+(complete?ICON.check:'')+'เคลียร์แล้ว '+st.done+'/'+st.total+'</span></button>'+
+    (manage?'<div class="manage"><button class="btn small" data-act="edit-group" data-group="'+g.id+'">เปลี่ยนชื่อ</button><button class="btn small danger" data-act="del-group" data-group="'+g.id+'">ลบ</button></div>':'')+'</div>'+body+'</section>';
+}
+const svg=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const ICON={
+  grid:svg('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'),
+  eye:svg('<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>'),
+  eyeOff:svg('<path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a18 18 0 0 1-3 3.9"/><path d="M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M3 3l18 18"/>'),
+  pen:svg('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'),
+  check:svg('<path d="M20 6L9 17l-5-5"/>'),
+  grip:svg('<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>'),
+  swap:svg('<path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/>'),
+  user:svg('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+  warn:svg('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>')
+};
+const tt=(title,hint)=>'<span class="tt"><b>'+title+'</b><small>'+hint+'</small></span>';
+let manage=false;
+function overview(){
+  let h='<div class="tablewrap"><table><thead><tr><th scope="col">รายการ</th>'+S.chars.map(c=>'<th scope="col"><button class="thc" data-act="open-char" data-char="'+c.id+'">'+avatar(c,'sm')+'<span>'+esc(c.name)+'</span><small>'+esc(c.job||'-')+'</small></button></th>').join('')+'</tr></thead><tbody>';
+  S.groups.forEach(g=>{
+    h+='<tr class="gr"><td colspan="'+(S.chars.length+1)+'">'+esc(g.name)+'</td></tr>';
+    g.items.forEach(i=>{h+='<tr><td>'+esc(i.name)+'</td>'+S.chars.map(c=>{const p=prog(c.id,i.id),ok=counts(i)&&p.c>=i.clear;return '<td class="'+(ok?'ok':p.c?'':'zero')+'">'+(ok?'✓ ':'')+p.c+'/'+i.clear+'</td>'}).join('')+'</tr>'});
+  });
+  return h+'</tbody></table></div>';
+}
+function render(){
+  const fk=document.activeElement&&document.activeElement.dataset?document.activeElement.dataset.fk:null;
+  const scrollX=$('.tabs')?$('.tabs').scrollLeft:0;
+  const c=S.chars.find(x=>x.id===S.active)||S.chars[0];S.active=c.id;
+  const now=Date.now();
+  let h='<header><div><h1>สมุดเคลียร์ Dragon Nest</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
+  if(!storageOk) h+='<p class="err">เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้</p>';
+  h+=skinRow();
+  h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
+  h+='<div class="toolgrid"><button class="btn tool" data-act="view-all" data-fk="va" aria-pressed="'+(S.view==='all')+'">'+ICON.grid+(S.view==='all'?tt('กลับหน้าตัวละคร','ออกจากตารางภาพรวม'):tt('ภาพรวมทุกตัว','ตารางเทียบทุกตัวละคร'))+'</button>';
+  if(S.view==='char') h+='<button class="btn tool" data-act="hide" data-fk="hd" aria-pressed="'+S.hideDone+'">'+(S.hideDone?ICON.eyeOff+tt('แสดงที่ครบแล้ว','ตอนนี้ซ่อนรายการที่ครบอยู่'):ICON.eye+tt('ซ่อนที่ครบแล้ว','เหลือเฉพาะที่ยังไม่เคลียร์'))+'</button><button class="btn tool" data-act="manage" data-fk="mg" aria-pressed="'+manage+'">'+(manage?ICON.check+tt('เสร็จสิ้นการแก้ไข','กลับไปติ๊กตามปกติ'):ICON.pen+tt('แก้ไขรายการ','เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด'))+'</button>';
+  h+='<button class="btn tool" data-act="backup">'+ICON.swap+tt('สำรอง/ย้ายข้อมูล','ย้ายเครื่องหรือส่งรายการให้เพื่อน')+'</button></div>';
+  if(S.view==='all') h+=overview();
+  else{
+    const st=stats(c.id);
+    h+='<div class="toolbar charcard"><button class="hero" data-act="edit-char" aria-label="แก้ไขตัวละคร '+esc(c.name)+'">'+avatar(c,'lg')+'<span class="herotxt"><span class="char-title">'+esc(c.name)+'</span><span class="jobpill">'+(c.job?esc(c.job):'กดเพื่อใส่ Job / Class')+'</span><small>เคลียร์แล้ว '+st.done+'/'+st.total+'</small></span></button><div><button class="btn edit" data-act="edit-char">'+ICON.user+tt('แก้ไขตัวละคร','ชื่อ, Job, รูป')+'</button><button class="btn warn" data-act="clear-char">'+ICON.warn+tt('ล้างการติ๊ก','รีเป็น 0 เฉพาะตัวนี้')+'</button></div></div>';
+    const q=S.groups.filter(g=>g.kind==='quest'),d=S.groups.filter(g=>g.kind==='dungeon');
+    h+=manage?'<p class="guide editing"><b>กำลังแก้ไขรายการ</b> คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก ปุ่ม − + ใช้นับจำนวน</p>';
+    if(q.length) h+='<div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('');
+    h+='<div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('');
+    if(manage) h+='<div><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button></div>';
+  }
+  h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer>';
+  $('#app').innerHTML=tr(h);
+  if($('.tabs')) $('.tabs').scrollLeft=scrollX;
+  if(fk){const el=$('[data-fk="'+fk+'"]');if(el) el.focus({preventScroll:true})}
+}
+let toastT;
+function toast(m){const t=$('#toast');(dlg.open?dlg:document.body).appendChild(t);t.textContent=tr(m);t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
+
+const dlg=$('#dlg');
+function modal(title,inner,submitLabel,onSubmit,danger){
+  document.body.appendChild($('#toast'));
+  dlg.innerHTML=tr('<h2>'+escPlain(title)+'</h2><form novalidate>'+inner+'<p class="err" id="fErr" hidden></p><div class="actions"><button type="button" class="btn" id="fCancel">ยกเลิก</button>'+(submitLabel?'<button class="btn '+(danger?'danger':'primary')+'" id="fOk">'+escPlain(submitLabel)+'</button>':'')+'</div></form>');
+  $('#fCancel',dlg).onclick=()=>dlg.close();
+  $('form',dlg).onsubmit=e=>{e.preventDefault();
+    const msg=onSubmit&&onSubmit(new FormData(e.target));
+    if(msg){const er=$('#fErr',dlg);er.textContent=tr(msg);er.hidden=false;return}
+    dlg.close();render()};
+  dlg.onpaste=null;dlg.ondragover=null;dlg.ondrop=null;
+  if(!dlg.open) dlg.showModal();
+  const f=$('input:not([type=file]),textarea',dlg);if(f) f.focus();
+}
+function confirmDel(title,text,fn){modal(title,'<p class="note">'+escPlain(text)+'</p>','ลบ',()=>{fn();save()},true)}
+function itemForm(i,onSave){
+  i=i||{name:'',clear:1,fail:0,tier:'normal',reset:'weekly'};
+  modal(i.id?'แก้ไขรายการ':'เพิ่มรายการ',
+   '<label class="field">ชื่อ<input id="fName" name="name" maxlength="80" value="'+keep(i.name)+'" placeholder="เช่น Wonderful Theme Park"></label>'+
+   '<div class="two"><label class="field">ผ่านได้ (ครั้ง)<input id="fClear" name="clear" type="number" min="1" max="9999" inputmode="numeric" value="'+i.clear+'"></label>'+
+   '<label class="field">พลาดได้ (0 = ไม่นับ)<input id="fFail" name="fail" type="number" min="0" max="9999" inputmode="numeric" value="'+i.fail+'"></label></div>'+
+   '<div class="two"><label class="field">ระดับ<select id="fTier" name="tier"><option value="normal"'+(i.tier==='normal'?' selected':'')+'>ปกติ</option><option value="hard"'+(i.tier==='hard'?' selected':'')+'>ยาก</option></select></label>'+
+   '<label class="field">รีเซ็ต<select id="fReset" name="reset"><option value="weekly"'+(i.reset==='weekly'?' selected':'')+'>รายสัปดาห์</option><option value="daily"'+(i.reset==='daily'?' selected':'')+'>รายวัน</option></select></label></div>',
+   'บันทึก',fd=>{
+    const name=String(fd.get('name')).trim(),clear=Number(fd.get('clear')),fail=Number(fd.get('fail'));
+    if(!name) return 'กรุณาใส่ชื่อรายการ';
+    if(!Number.isInteger(clear)||clear<1||clear>9999) return 'จำนวนผ่านต้องเป็นเลข 1 ถึง 9999';
+    if(!Number.isInteger(fail)||fail<0||fail>9999) return 'จำนวนพลาดต้องเป็นเลข 0 ถึง 9999';
+    onSave({name,clear,fail,tier:fd.get('tier')==='hard'?'hard':'normal',reset:fd.get('reset')==='daily'?'daily':'weekly'});save();
+   });
+}
+function charForm(c,onSave){
+  let img=c?c.img||'':'';
+  modal(c?'แก้ไขตัวละคร':'เพิ่มตัวละคร',
+   '<div class="imgdrop" id="cDrop"><span id="cPrev"></span><div><b>รูปตัวละคร</b><small>กด Ctrl+V เพื่อวาง หรือลากรูปมาที่นี่</small><div class="btns"><button type="button" class="btn small" id="cPick">เลือกรูป</button><button type="button" class="btn small" id="cRm">ลบรูป</button></div></div><input id="cFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden></div>'+
+   '<label class="field">ชื่อตัวละคร<input id="cName" name="name" maxlength="40" value="'+keep(c?c.name:'')+'"></label><label class="field">Job / Class<input id="cJob" name="job" maxlength="40" list="cJobs" placeholder="พิมพ์หรือเลือก เช่น Warrior" value="'+esc(c?c.job:'')+'"><datalist id="cJobs">'+['Warrior','Archer','Sorceress','Cleric','Academic','Kali','Assassin','Lancea','Machina'].map(x=>'<option value="'+x+'"></option>').join('')+'</datalist></label>'+
+   (c&&S.chars.length>1?'<div><button type="button" class="btn small danger" id="cDel">ลบตัวละครนี้</button></div>':''),
+   'บันทึก',fd=>{const name=String(fd.get('name')).trim();if(!name) return 'กรุณาใส่ชื่อตัวละคร';onSave(name,String(fd.get('job')).trim(),img);save()});
+  const drop=$('#cDrop',dlg),file=$('#cFile',dlg),er=$('#fErr',dlg);
+  const show=()=>{$('#cPrev',dlg).innerHTML=tr(avatar({img,name:$('#cName',dlg).value||'?'},'xl'));$('#cRm',dlg).hidden=!img};
+  const take=async f=>{
+    er.hidden=true;
+    if(!f||!/^image\/(png|jpeg|webp|gif|bmp)$/.test(f.type)){er.textContent=tr('ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP');er.hidden=false;return}
+    try{img=await toAvatar(f);show()}catch(e){er.textContent=tr(e.message==='big'?'รูปใหญ่เกิน 15 MB':'เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น');er.hidden=false}
+  };
+  show();
+  $('#cName',dlg).addEventListener('input',show);
+  $('#cPick',dlg).onclick=()=>file.click();
+  $('#cRm',dlg).onclick=()=>{img='';show()};
+  file.onchange=()=>{if(file.files[0]) take(file.files[0]);file.value=''};
+  dlg.onpaste=e=>{const f=Array.from((e.clipboardData&&e.clipboardData.files)||[]).find(x=>x.type.startsWith('image/'));if(f){e.preventDefault();take(f)}};
+  dlg.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
+  dlg.ondrop=e=>{e.preventDefault();drop.classList.remove('over');take(e.dataTransfer.files[0])};
+  const del=$('#cDel',dlg);
+  if(del) del.onclick=()=>{dlg.close();confirmDel('ลบ '+mark(c.name)+'?','ความคืบหน้าของตัวละครนี้จะหายถาวร',()=>{S.chars=S.chars.filter(x=>x.id!==c.id);delete S.progress[c.id];S.active=S.chars[0].id})};
+}
+// Soft key-press sounds, synthesised so the page needs no audio files.
+const SOUND_LEVELS=[['ปิด',0],['เบา',.07],['กลาง',.14],['ดัง',.26]];
+let soundLevel=2,ac=null,noiseBuf=null;
+try{const v=localStorage.getItem('dn-sound');if(v!==null&&SOUND_LEVELS[Number(v)]) soundLevel=Number(v)}catch(e){}
+function tok(freq,len){
+  const peak=SOUND_LEVELS[soundLevel][1];
+  if(!peak) return;
+  len=len||.055;
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    if(ac.state==='suspended') ac.resume();
+    const t=ac.currentTime+.002,g=ac.createGain(),o=ac.createOscillator();
+    o.type='triangle';
+    o.frequency.setValueAtTime(freq,t);
+    o.frequency.exponentialRampToValueAtTime(freq*.55,t+len);
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.exponentialRampToValueAtTime(peak,t+.003);
+    g.gain.exponentialRampToValueAtTime(.0001,t+len);
+    o.connect(g);g.connect(ac.destination);
+    o.start(t);o.stop(t+len+.01);
+    if(!noiseBuf){
+      noiseBuf=ac.createBuffer(1,Math.floor(ac.sampleRate*.025),ac.sampleRate);
+      const d=noiseBuf.getChannelData(0);
+      for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+    }
+    const n=ac.createBufferSource(),f=ac.createBiquadFilter(),ng=ac.createGain();
+    n.buffer=noiseBuf;f.type='bandpass';f.frequency.value=2600;f.Q.value=.8;
+    ng.gain.setValueAtTime(peak*.35,t);
+    ng.gain.exponentialRampToValueAtTime(.0001,t+.018);
+    n.connect(f);f.connect(ng);ng.connect(ac.destination);
+    n.start(t);n.stop(t+.025);
+  }catch(e){}
+}
+const SND={up:1320,down:820,soft:1040,danger:360};
+// Runs in the capture phase, before the click handler re-renders the button.
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');
+  if(!b||b.disabled||b.dataset.act==='sound') return;
+  if(b.dataset.act==='pip'){
+    const cur=b.parentNode.querySelectorAll('.pip.on').length;
+    tok(Number(b.dataset.n)>cur?SND.up:SND.down);
+  }else if(b.dataset.act==='step'){
+    tok(Number(b.dataset.d)>0?SND.up:SND.down);
+  }else if(b.classList.contains('danger')||b.classList.contains('warn')){
+    tok(SND.danger,.09);
+  }else tok(SND.soft,.045);
+},true);
+// The background stays on this device and is left out of backup codes, which would otherwise become huge.
+const BG_KEY='dn-bg',BG_DIM='dn-bg-dim';
+let bg={img:'',dim:40};
+try{
+  const v=localStorage.getItem(BG_KEY);
+  if(typeof v==='string'&&/^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v)) bg.img=v;
+  const n=Number(localStorage.getItem(BG_DIM));
+  if(localStorage.getItem(BG_DIM)!==null&&Number.isFinite(n)) bg.dim=clampInt(n,0,85);
+}catch(e){}
+function applyBg(){
+  const el=$('#bgImg');
+  el.hidden=!bg.img;
+  el.style.backgroundImage=bg.img?'url("'+bg.img+'")':'none';
+  el.style.setProperty('--dim',bg.dim/100);
+  document.documentElement.classList.toggle('has-bg',!!bg.img);
+}
+function saveBg(){
+  try{
+    if(bg.img) localStorage.setItem(BG_KEY,bg.img);else localStorage.removeItem(BG_KEY);
+    localStorage.setItem(BG_DIM,String(bg.dim));
+    return true;
+  }catch(e){return false}
+}
+function toBackground(file){return new Promise((ok,no)=>{
+  if(file.size>25e6) return no(new Error('big'));
+  const u=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{
+    const make=(max,q)=>{
+      const r=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)),cv=document.createElement('canvas');
+      cv.width=Math.max(1,Math.round(im.naturalWidth*r));cv.height=Math.max(1,Math.round(im.naturalHeight*r));
+      const x=cv.getContext('2d');x.fillStyle='#11141d';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);
+      return cv.toDataURL('image/jpeg',q);
+    };
+    let d=make(1920,.8);
+    if(d.length>1500000) d=make(1600,.7);
+    if(d.length>1500000) d=make(1280,.62);
+    URL.revokeObjectURL(u);ok(d);
+  };
+  im.onerror=()=>{URL.revokeObjectURL(u);no(new Error('bad'))};
+  im.src=u;
+})}
+function bgForm(){
+  let d=bg.img,dim=bg.dim;
+  modal('รูปพื้นหลังเว็บ',
+   '<div class="bgdrop" id="bgDrop"><div class="bgprev" id="bgPrev"><i id="bgShade"></i><span id="bgSample"></span></div><small>กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่</small><div class="btns"><button type="button" class="btn small" id="bgPick">เลือกรูป</button><button type="button" class="btn small danger" id="bgRm">ลบรูป</button></div><input id="bgFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden></div>'+
+   '<label class="field"><span>ความเข้มของฉากบังรูป: <b id="bgDimText"></b></span><input id="bgDim" type="range" min="0" max="85" step="5" value="'+dim+'"></label><p class="note">ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น</p>',
+   'บันทึก',()=>{
+    const old=bg;bg={img:d,dim};
+    if(!saveBg()){bg=old;saveBg();return 'พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง'}
+    applyBg();toast(d?'ใช้รูปพื้นหลังแล้ว':'ลบรูปพื้นหลังแล้ว');
+   });
+  const prev=$('#bgPrev',dlg),shade=$('#bgShade',dlg),sample=$('#bgSample',dlg),drop=$('#bgDrop',dlg),file=$('#bgFile',dlg),er=$('#fErr',dlg),range=$('#bgDim',dlg);
+  const show=()=>{
+    prev.style.backgroundImage=d?'url("'+d+'")':'none';
+    shade.style.opacity=d?dim/100:0;
+    sample.textContent=tr(d?'ตัวอย่างการ์ด':'ยังไม่ได้ใส่รูป');
+    $('#bgDimText',dlg).textContent=dim+'%';
+    $('#bgRm',dlg).hidden=!d;
+  };
+  const take=async f=>{
+    er.hidden=true;
+    if(!f||!/^image\/(png|jpeg|webp|gif|bmp)$/.test(f.type)){er.textContent=tr('ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP');er.hidden=false;return}
+    try{d=await toBackground(f);show()}catch(e){er.textContent=tr(e.message==='big'?'รูปใหญ่เกิน 25 MB':'เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น');er.hidden=false}
+  };
+  show();
+  range.oninput=()=>{dim=clampInt(range.value,0,85);show()};
+  $('#bgPick',dlg).onclick=()=>file.click();
+  $('#bgRm',dlg).onclick=()=>{d='';show()};
+  file.onchange=()=>{if(file.files[0]) take(file.files[0]);file.value=''};
+  dlg.onpaste=e=>{const f=Array.from((e.clipboardData&&e.clipboardData.files)||[]).find(x=>x.type.startsWith('image/'));if(f){e.preventDefault();take(f)}};
+  dlg.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
+  dlg.ondrop=e=>{e.preventDefault();drop.classList.remove('over');take(e.dataTransfer.files[0])};
+}
+function encode(){const b=new TextEncoder().encode(JSON.stringify(S));let s='';b.forEach(x=>s+=String.fromCharCode(x));return 'DNT1:'+btoa(s)}
+function decode(t){t=t.trim();if(!t.startsWith('DNT1:')) throw 0;const s=atob(t.slice(5)),b=Uint8Array.from(s,c=>c.charCodeAt(0));return clean(JSON.parse(new TextDecoder().decode(b)))}
+function backup(){
+  modal('สำรอง/ย้ายข้อมูล','<p class="note">คัดลอกรหัสนี้ไปวางในอุปกรณ์อื่น หรือส่งให้เพื่อนเพื่อใช้รายการเดียวกัน</p><label class="field">รหัสของคุณ<textarea id="bOut" readonly>'+esc(encode())+'</textarea></label><div><button type="button" class="btn small" id="bCopy">คัดลอกรหัส</button></div><label class="field">วางรหัสเพื่อนำเข้า<textarea id="bIn" name="code" placeholder="DNT1:..."></textarea></label><p class="note">การนำเข้าจะแทนที่ข้อมูลทั้งหมดในเครื่องนี้</p>','นำเข้าและแทนที่',fd=>{
+    try{S=decode(String(fd.get('code')));applyResets();save();toast('นำเข้าข้อมูลแล้ว')}catch(e){return 'รหัสไม่ถูกต้อง ตรวจสอบว่าคัดลอกมาครบ'}
+  },true);
+  $('#bCopy',dlg).onclick=()=>{const o=$('#bOut',dlg);
+    const fb=()=>{o.focus();o.select();toast('เลือกข้อความแล้ว กด Ctrl+C เพื่อคัดลอก')};
+    try{navigator.clipboard.writeText(o.value).then(()=>toast('คัดลอกรหัสแล้ว'),fb)}catch(e){fb()}};
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||dlg.contains(b)) return;
+  const a=b.dataset.act,iid=b.dataset.item,gid=b.dataset.group,c=S.chars.find(x=>x.id===S.active),g=S.groups.find(x=>x.id===gid);
+  if(a==='pip'){const n=+b.dataset.n,p=prog(c.id,iid);setProg(c.id,iid,{c:p.c===n?n-1:n})}
+  else if(a==='step'){const i=findItem(iid),f=b.dataset.field,p=prog(c.id,iid),max=f==='c'?i.clear:i.fail;setProg(c.id,iid,{[f]:Math.min(max,Math.max(0,p[f]+ +b.dataset.d))})}
+  else if(a==='toggle'){S.collapsed[gid]=!S.collapsed[gid];save();render()}
+  else if(a==='open-char'){S.active=b.dataset.char;S.view='char';save();render()}
+  else if(a==='view-all'){S.view=S.view==='all'?'char':'all';save();render()}
+  else if(a==='hide'){S.hideDone=!S.hideDone;save();render()}
+  else if(a==='manage'){manage=!manage;render()}
+  else if(a==='backup') backup();
+  else if(a==='bg') bgForm();
+  else if(a==='sync') syncForm();
+  else if(a==='lang'){lang=b.dataset.lang;try{localStorage.setItem('dn-lang',lang)}catch(err){}document.documentElement.lang=lang==='en'?'en':'th';render()}
+  else if(a==='sound'){soundLevel=(soundLevel+1)%SOUND_LEVELS.length;try{localStorage.setItem('dn-sound',String(soundLevel))}catch(err){}tok(SND.up);render()}
+  else if(a==='skin'){skin=b.dataset.skin;try{localStorage.setItem('dn-skin',skin)}catch(err){}applySkin();render()}
+  else if(a==='add-char') charForm(null,(name,job,img)=>{const n={id:uid(),name,job,img};S.chars.push(n);S.active=n.id;S.view='char'});
+  else if(a==='edit-char') charForm(c,(name,job,img)=>{c.name=name;c.job=job;c.img=img});
+  else if(a==='clear-char') modal('ล้างการติ๊กของ '+mark(c.name)+'?','<p class="note">ตัวเลขผ่านและพลาดของตัวละครนี้จะกลับเป็น 0</p>','ล้าง',()=>{delete S.progress[c.id];save()},true);
+  else if(a==='add-group') modal('เพิ่มหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="name" maxlength="60" placeholder="เช่น Dark Lair"></label>','เพิ่ม',fd=>{const n=String(fd.get('name')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';S.groups.push({id:uid(),kind:'dungeon',name:n,items:[]});save()});
+  else if(a==='edit-group') modal('เปลี่ยนชื่อหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="name" maxlength="60" value="'+keep(g.name)+'"></label>','บันทึก',fd=>{const n=String(fd.get('name')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';g.name=n;save()});
+  else if(a==='del-group') confirmDel('ลบหมวด '+mark(g.name)+'?','รายการทั้ง '+g.items.length+' รายการและความคืบหน้าในหมวดนี้จะหายถาวร',()=>{const ids=g.items.map(i=>i.id);S.groups=S.groups.filter(x=>x.id!==g.id);Object.values(S.progress).forEach(p=>ids.forEach(id=>delete p[id]))});
+  else if(a==='add-item') itemForm(null,v=>{
+    const n={id:uid(),...v};
+    if(n.reset==='daily'){let at=0;g.items.forEach((x,k)=>{if(x.reset==='daily') at=k+1});g.items.splice(at,0,n)}
+    else g.items.push(n);
+  });
+  else if(a==='edit-item'){const i=findItem(iid);itemForm(i,v=>{Object.assign(i,v);Object.values(S.progress).forEach(p=>{if(p[i.id]){p[i.id].c=Math.min(p[i.id].c,i.clear);p[i.id].f=Math.min(p[i.id].f,i.fail)}})})}
+  else if(a==='del-item'){const i=findItem(iid);confirmDel('ลบ '+mark(i.name)+'?','รายการนี้และความคืบหน้าของทุกตัวละครจะหายถาวร',()=>{S.groups.forEach(x=>x.items=x.items.filter(y=>y.id!==i.id));Object.values(S.progress).forEach(p=>delete p[i.id])})}
+});
+
+// Press and hold, lift the whole bar, and drop it into the dashed slot.
+// Mouse can grab anywhere on a row. Touch uses the ≡ handle so the page can still scroll.
+let drag=null;
+const dragPeers=d=>d.type==='row'
+  ?Array.from(d.parent.children).filter(x=>x.classList.contains('row'))
+  :Array.from(d.parent.children).filter(x=>x.classList.contains('group')&&x.dataset.kind===d.el.dataset.kind);
+const dragId=(d,x)=>d.type==='row'?x.dataset.row:x.dataset.groupId;
+const calm=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+function beginDrag(d){
+  const el=d.el;
+  d.parent=el.parentNode;
+  d.before=dragPeers(d).map(x=>dragId(d,x)).join();
+  if(d.type==='group') el.classList.add('lifted');
+  const r=el.getBoundingClientRect();
+  d.offY=Math.min(d.y-r.top,r.height-4);
+  const slot=document.createElement('div');
+  slot.className='drop-slot';slot.style.height=r.height+'px';
+  d.parent.insertBefore(slot,el);d.slot=slot;
+  Object.assign(el.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',zIndex:'30',pointerEvents:'none',margin:'0'});
+  el.classList.add('dragging');
+  document.body.classList.add('is-dragging');
+  d.active=true;
+  tok(SND.soft,.035);
+}
+function placeSlot(d,y){
+  const others=dragPeers(d).filter(x=>x!==d.el);
+  if(!others.length) return;
+  const base=$('#app').getBoundingClientRect().top;
+  const next=others.find(o=>y<base+o.offsetTop+o.offsetHeight/2);
+  const last=others[others.length-1];
+  const same=next?(d.slot.nextElementSibling===next||(d.slot.nextElementSibling===d.el&&d.el.nextElementSibling===next)):(last.nextElementSibling===d.slot||(last.nextElementSibling===d.el&&d.el.nextElementSibling===d.slot));
+  if(same) return;
+  const tops=new Map(others.map(o=>[o,o.offsetTop]));
+  if(next) d.parent.insertBefore(d.slot,next);else last.after(d.slot);
+  if(calm()) return;
+  others.forEach(o=>{const dy=tops.get(o)-o.offsetTop;if(dy&&o.animate) o.animate([{transform:'translateY('+dy+'px)'},{transform:'none'}],{duration:130,easing:'ease-out'})});
+}
+function finishDrag(commit){
+  const d=drag;drag=null;
+  if(!d||!d.active) return;
+  document.body.classList.remove('is-dragging');
+  if(commit&&d.el.isConnected){
+    d.parent.insertBefore(d.el,d.slot);d.slot.remove();
+    const ids=dragPeers(d).map(x=>dragId(d,x));
+    if(ids.join()!==d.before){
+      if(d.type==='row'){
+        const g=S.groups.find(x=>x.items.some(y=>y.id===d.el.dataset.row));
+        if(g&&ids.length===g.items.length) g.items=ids.map(id=>g.items.find(y=>y.id===id));
+      }else{
+        const ordered=ids.map(id=>S.groups.find(x=>x.id===id));let k=0;
+        S.groups=S.groups.map(x=>x.kind===d.el.dataset.kind?ordered[k++]:x);
+      }
+      save();
+    }
+    tok(SND.up);
+  }
+  render();
+}
+document.addEventListener('pointerdown',e=>{
+  if(!manage||drag||e.button!==0||dlg.open) return;
+  const h=e.target.closest('.drag');
+  let el,type;
+  if(h){
+    if(h.dataset.moveGroup){el=h.closest('.group');type='group'}else{el=h.closest('.row');type='row'}
+  }else{
+    if(e.pointerType!=='mouse'||e.target.closest('button,input,select,textarea,a,label')) return;
+    el=e.target.closest('.row[data-grab]');type='row';
+  }
+  if(!el) return;
+  e.preventDefault();
+  drag={el,type,id:e.pointerId,x:e.clientX,y:e.clientY,active:false};
+  try{e.target.setPointerCapture(e.pointerId)}catch(err){}
+});
+document.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id) return;
+  if(!drag.active){
+    if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<4) return;
+    beginDrag(drag);
+  }
+  e.preventDefault();
+  drag.el.style.top=(e.clientY-drag.offY)+'px';
+  if(e.clientY<70) window.scrollBy(0,-12);else if(e.clientY>window.innerHeight-70) window.scrollBy(0,12);
+  placeSlot(drag,e.clientY);
+});
+document.addEventListener('pointerup',e=>{if(drag&&e.pointerId===drag.id) finishDrag(true)});
+document.addEventListener('pointercancel',e=>{if(drag&&e.pointerId===drag.id) finishDrag(false)});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&drag&&drag.active){e.preventDefault();finishDrag(false);return}
+  const h=e.target.closest&&e.target.closest('.drag');
+  if(!h||(e.key!=='ArrowUp'&&e.key!=='ArrowDown')) return;
+  e.preventDefault();
+  const step=e.key==='ArrowUp'?-1:1;
+  if(h.dataset.moveItem){
+    const owner=S.groups.find(x=>x.items.some(y=>y.id===h.dataset.moveItem)),k=owner.items.findIndex(y=>y.id===h.dataset.moveItem),to=k+step;
+    if(to<0||to>=owner.items.length) return;
+    [owner.items[k],owner.items[to]]=[owner.items[to],owner.items[k]];
+  }else{
+    const g=S.groups.find(x=>x.id===h.dataset.moveGroup),same=S.groups.filter(x=>x.kind===g.kind),other=same[same.indexOf(g)+step];
+    if(!other) return;
+    const p=S.groups.indexOf(g),r=S.groups.indexOf(other);S.groups[p]=other;S.groups[r]=g;
+  }
+  save();tok(SND.soft,.045);render();
+});
+
+// Device sync. Only the standalone build has a config, so the Claude-hosted copy stays local.
+// Each person's data lives in one Firestore document whose id is their private 160-bit code.
+const SYNC_CFG=window.DN_SYNC_CONFIG||null;
+const SYNC_KEYS={code:'dn-sync-code',at:'dn-sync-at',client:'dn-sync-client'};
+const SYNC_TEXT={off:'ยังไม่เชื่อม',connecting:'กำลังเชื่อม',saving:'กำลังซิงก์',ok:'ซิงก์แล้ว',offline:'ออฟไลน์',error:'ซิงก์ไม่สำเร็จ'};
+const CODE_CHARS='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const FB_VER='10.14.1';
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{if(v===null) localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}};
+const sync={code:'',client:'',db:null,unsub:null,ready:false,seen:false,state:'off',last:'',localAt:0,remoteAt:0,timer:null,pending:null};
+if(SYNC_CFG){
+  const saved=normalizeCode(lsGet(SYNC_KEYS.code)||'');
+  if(saved){sync.code=saved;sync.state='connecting';sync.localAt=Number(lsGet(SYNC_KEYS.at))||0}
+  sync.client=lsGet(SYNC_KEYS.client)||randomChars(16);
+  lsSet(SYNC_KEYS.client,sync.client);
+}
+function randomChars(n){
+  const b=new Uint8Array(n);crypto.getRandomValues(b);
+  return Array.from(b,x=>CODE_CHARS[x&31]).join('');
+}
+function normalizeCode(s){
+  const c=String(s).toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(c.length!==32||[...c].some(x=>!CODE_CHARS.includes(x))) return '';
+  return c.match(/.{4}/g).join('-');
+}
+const syncJson=()=>JSON.stringify({v:S.v,chars:S.chars,groups:S.groups,progress:S.progress,stamps:S.stamps});
+const syncUrl=()=>location.origin+location.pathname+'#link='+sync.code;
+function syncPill(){
+  if(!SYNC_CFG) return '';
+  return '<button class="skin snd syncp" data-act="sync" data-fk="sync" data-state="'+sync.state+'">'+svg('<rect x="2" y="5" width="13" height="10" rx="1.5"/><path d="M6 19h5"/><rect x="17" y="8" width="5" height="11" rx="1"/>')+'อุปกรณ์: <span data-sync-label>'+SYNC_TEXT[sync.state]+'</span></button>';
+}
+function setSyncState(s){
+  sync.state=s;
+  const p=$('.syncp');if(!p) return;
+  p.dataset.state=s;
+  const l=p.querySelector('[data-sync-label]');if(l) l.textContent=tr(SYNC_TEXT[s]);
+}
+function afterSave(){
+  if(!SYNC_CFG||!sync.code) return;
+  const j=syncJson();
+  if(syncQuiet){sync.last=j;return}
+  if(j===sync.last) return;
+  sync.last=j;
+  sync.localAt=Math.max(Date.now(),sync.remoteAt+1,sync.localAt+1);
+  lsSet(SYNC_KEYS.at,String(sync.localAt));
+  schedulePush();
+}
+function schedulePush(){
+  clearTimeout(sync.timer);
+  if(!sync.ready) return;
+  setSyncState(navigator.onLine===false?'offline':'saving');
+  sync.timer=setTimeout(pushSync,500);
+}
+async function pushSync(){
+  clearTimeout(sync.timer);
+  if(!sync.ready||!sync.code) return;
+  const code=sync.code,payload=sync.last,at=sync.localAt;
+  if(payload.length>700000){setSyncState('error');toast('ข้อมูลใหญ่เกินกว่าจะซิงก์ ลองลดจำนวนรูปตัวละคร');return}
+  try{
+    await sync.db.collection('trackers').doc(code).set({payload,updatedAt:at,client:sync.client});
+    if(code===sync.code&&at===sync.localAt){sync.remoteAt=Math.max(sync.remoteAt,at);setSyncState('ok')}
+  }catch(e){if(code===sync.code) setSyncState('error')}
+}
+function loadScript(src){return new Promise((ok,no)=>{
+  const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=()=>no(new Error('load'));document.head.appendChild(s);
+})}
+async function firebaseDb(){
+  if(sync.db) return sync.db;
+  if(!window.firebase||!window.firebase.firestore){
+    await loadScript('https://www.gstatic.com/firebasejs/'+FB_VER+'/firebase-app-compat.js');
+    await loadScript('https://www.gstatic.com/firebasejs/'+FB_VER+'/firebase-firestore-compat.js');
+  }
+  const app=firebase.apps.length?firebase.app():firebase.initializeApp(SYNC_CFG);
+  sync.db=firebase.firestore(app);
+  return sync.db;
+}
+function stopSync(){
+  if(sync.unsub) sync.unsub();
+  clearTimeout(sync.timer);
+  sync.unsub=null;sync.ready=false;sync.seen=false;sync.pending=null;sync.remoteAt=0;
+}
+async function connectSync(code){
+  stopSync();
+  sync.code=code;lsSet(SYNC_KEYS.code,code);
+  sync.last=syncJson();
+  setSyncState('connecting');
+  try{await firebaseDb()}catch(e){if(sync.code===code) setSyncState('error');return}
+  if(sync.code!==code) return;
+  sync.unsub=sync.db.collection('trackers').doc(code).onSnapshot(onSyncSnap,()=>{if(sync.code===code) setSyncState('error')});
+}
+function onSyncSnap(snap){
+  if(snap.metadata.hasPendingWrites) return;
+  if(!snap.exists){
+    if(snap.metadata.fromCache) return;
+    if(sync.seen){unlinkSync();toast('รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุดซิงก์');return}
+    sync.ready=true;sync.seen=true;
+    if(!sync.localAt){sync.localAt=Date.now();lsSet(SYNC_KEYS.at,String(sync.localAt))}
+    sync.last=syncJson();
+    pushSync();
+    return;
+  }
+  sync.ready=true;sync.seen=true;
+  const d=snap.data();
+  if(dlg.open||drag){sync.pending=d;return}
+  applyRemote(d);
+}
+function applyRemote(d){
+  sync.pending=null;
+  sync.remoteAt=Math.max(sync.remoteAt,Number(d.updatedAt)||0);
+  if(d.payload===sync.last){
+    if(sync.localAt<d.updatedAt){sync.localAt=d.updatedAt;lsSet(SYNC_KEYS.at,String(d.updatedAt))}
+    setSyncState('ok');return;
+  }
+  if(sync.localAt>d.updatedAt){schedulePush();return}
+  let next;
+  try{next=clean({...S,...JSON.parse(d.payload),active:S.active,view:S.view,hideDone:S.hideDone,collapsed:S.collapsed})}
+  catch(e){setSyncState('error');return}
+  S=next;
+  syncQuiet=true;applyResets();save();syncQuiet=false;
+  sync.last=syncJson();
+  sync.localAt=d.updatedAt;lsSet(SYNC_KEYS.at,String(d.updatedAt));
+  setSyncState('ok');
+  render();
+}
+function unlinkSync(){
+  stopSync();
+  sync.code='';sync.localAt=0;sync.last='';
+  lsSet(SYNC_KEYS.code,null);lsSet(SYNC_KEYS.at,null);
+  setSyncState('off');
+  render();
+}
+function createSync(){
+  sync.localAt=Date.now();lsSet(SYNC_KEYS.at,String(sync.localAt));
+  return connectSync(normalizeCode(randomChars(32)));
+}
+async function joinSync(code){
+  try{
+    const db=await firebaseDb();
+    const snap=await db.collection('trackers').doc(code).get({source:'server'});
+    if(!snap.exists){toast('ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง');return}
+  }catch(e){toast('เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่');return}
+  sync.localAt=0;lsSet(SYNC_KEYS.at,'0');
+  await connectSync(code);
+  toast('เชื่อมอุปกรณ์แล้ว');
+}
+async function rotateSync(){
+  const old=sync.code;
+  stopSync();
+  sync.localAt=Date.now();lsSet(SYNC_KEYS.at,String(sync.localAt));
+  await connectSync(normalizeCode(randomChars(32)));
+  try{await sync.db.collection('trackers').doc(old).delete()}catch(e){}
+  render();
+  toast('เปลี่ยนรหัสแล้ว');
+  syncForm();
+}
+function copyText(text,done,input){
+  const fallback=()=>{if(input){input.focus();input.select()}toast('เลือกข้อความแล้ว กด Ctrl+C เพื่อคัดลอก')};
+  try{navigator.clipboard.writeText(text).then(()=>toast(done),fallback)}catch(e){fallback()}
+}
+async function drawQr(el){
+  try{
+    if(!window.QRCode) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
+    if(!el.isConnected) return;
+    el.innerHTML='';
+    new QRCode(el,{text:syncUrl(),width:184,height:184,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  }catch(e){el.textContent=tr('สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน')}
+}
+function syncForm(){
+  if(!sync.code){
+    modal('เชื่อมอุปกรณ์',
+      '<p class="note">สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง</p><button type="button" class="btn primary" id="sNew">สร้างรหัสสำหรับเครื่องนี้</button><div class="sync-or"></div><label class="field">มีรหัสจากเครื่องอื่นแล้ว<input id="sCode" name="code" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label><p class="note">การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น</p>',
+      'เชื่อมด้วยรหัสนี้',fd=>{
+        const code=normalizeCode(fd.get('code'));
+        if(!code) return 'รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ';
+        joinSync(code);
+      });
+    $('#sNew',dlg).onclick=async()=>{await createSync();syncForm()};
+    return;
+  }
+  modal('เชื่อมอุปกรณ์',
+    '<div class="qrwrap" id="sQr"></div><p class="note">สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้</p><label class="field">รหัสเชื่อมต่อ<input id="sShow" readonly value="'+keep(sync.code)+'"></label><div class="btnrow"><button type="button" class="btn small" id="sCopyLink">คัดลอกลิงก์</button><button type="button" class="btn small" id="sCopyCode">คัดลอกรหัส</button></div><div class="sync-or"></div><div class="btnrow"><button type="button" class="btn small danger" id="sRotate">เปลี่ยนรหัส</button><button type="button" class="btn small danger" id="sUnlink">เลิกเชื่อมเครื่องนี้</button></div>',
+    null,null);
+  drawQr($('#sQr',dlg));
+  $('#sCopyLink',dlg).onclick=()=>copyText(syncUrl(),'คัดลอกลิงก์แล้ว',$('#sShow',dlg));
+  $('#sCopyCode',dlg).onclick=()=>copyText(sync.code,'คัดลอกรหัสแล้ว',$('#sShow',dlg));
+  $('#sRotate',dlg).onclick=()=>modal('เปลี่ยนรหัสเชื่อมต่อ?','<p class="note">เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่</p>','เปลี่ยนรหัส',()=>{rotateSync()},true);
+  $('#sUnlink',dlg).onclick=()=>modal('เลิกเชื่อมเครื่องนี้?','<p class="note">ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ซิงก์กับเครื่องอื่นอีก</p>','เลิกเชื่อม',()=>{unlinkSync();toast('เลิกเชื่อมแล้ว')},true);
+}
+function bootSync(){
+  if(!SYNC_CFG) return;
+  window.addEventListener('online',()=>{if(sync.code&&sync.ready) sync.localAt>sync.remoteAt?pushSync():setSyncState('ok')});
+  window.addEventListener('offline',()=>{if(sync.code) setSyncState('offline')});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&sync.timer&&sync.ready&&sync.localAt>sync.remoteAt) pushSync()});
+  const h=location.hash.match(/^#link=([A-Za-z0-9-]{32,64})$/);
+  const linked=h?normalizeCode(h[1]):'';
+  if(h) history.replaceState(null,'',location.pathname+location.search);
+  if(sync.code) connectSync(sync.code);
+  if(linked&&linked!==sync.code){
+    modal('เชื่อมอุปกรณ์นี้?','<p class="note">ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR</p>','เชื่อมเลย',()=>{joinSync(linked)});
+  }
+}
+
+function tick(){
+  if(sync.pending&&!dlg.open&&!drag) applyRemote(sync.pending);
+  const r=applyResets();
+  if(r&&!dlg.open){render();toast(r.includes('weekly')?'รีเซ็ตรายสัปดาห์แล้ว':'รีเซ็ตรายวันแล้ว')}
+  const now=Date.now(),a=$('#cdD'),b=$('#cdW');
+  if(a) a.textContent=cd(dayStart(now)+D-now);
+  if(b) b.textContent=cd(weekStart(now)+W-now);
+}
+applyBg();syncQuiet=true;applyResets();save();syncQuiet=false;render();setInterval(tick,1000);bootSync();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden) tick()});
+})();
+</script>
+</body>
+</html>
