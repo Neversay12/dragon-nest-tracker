@@ -189,6 +189,12 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .tab.dragging{background:var(--surface);opacity:.97;box-shadow:0 12px 30px rgba(8,10,18,.45),0 0 0 2px var(--accent)}
 .tab-grip{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:34px;margin-left:-4px;color:var(--muted);cursor:grab;touch-action:none}
 .tab-grip svg{width:17px;height:17px}
+.linkbanner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;padding:10px 12px;background:var(--surface);border:1.5px solid var(--accent);border-radius:7px}
+.linkbanner b{display:block;font-weight:600}
+.linkbanner small{display:block;font-size:12px;color:var(--muted)}
+.scanbox{position:relative;width:100%;aspect-ratio:1;max-height:60vh;overflow:hidden;background:#000;border-radius:6px}
+.scanbox video{display:block;width:100%;height:100%;object-fit:cover}
+.scanbox i{position:absolute;inset:15%;border:2px solid #fff;border-radius:8px;box-shadow:0 0 0 999px rgba(0,0,0,.28)}
 .homesteps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink)}
 .homesteps b{font-weight:600}
 .btnrow{display:flex;flex-wrap:wrap;gap:6px}
@@ -275,7 +281,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="34e93f75dee5";</script>
+<script>window.DN_BUILD="ebf3a7922fea";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -327,7 +333,8 @@ const DICT=[
 ['เชื่อมอุปกรณ์แล้ว','Device linked','Link อุปกรณ์แล้ว'],['เชื่อมอุปกรณ์นี้?','Link this device?','Link อุปกรณ์นี้?'],['เชื่อมอุปกรณ์','Link devices','Link อุปกรณ์'],['สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง','Create a code on your first device, then scan the QR on your phone or iPad. Every device stays in sync.','สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะ Sync ทุกเครื่อง'],['สร้างรหัสสำหรับเครื่องนี้','Create a code for this device','สร้างรหัสสำหรับเครื่องนี้'],['มีรหัสจากเครื่องอื่นแล้ว','Have a code from another device','มีรหัสจากเครื่องอื่นแล้ว'],['การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น','Linking replaces the data on this device with the data from that code.','การ Link จะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น'],['เชื่อมด้วยรหัสนี้','Link with this code','Link ด้วยรหัสนี้'],['รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ','The code must have 32 characters. Check that you copied all of it.','รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ'],['ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง','Code not found. Check it and try again.','ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง'],['เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่','Can’t connect. Check your internet and try again.','เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่'],['สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้','Scan this QR on your phone or iPad. Keep it private, because anyone with the code can edit your data.','สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อ Link อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้'],['เปลี่ยนรหัสเชื่อมต่อ?','Change the link code?','เปลี่ยนรหัส Link?'],['รหัสเชื่อมต่อ','Link code','รหัส Link'],['คัดลอกลิงก์แล้ว','Link copied','คัดลอกลิงก์แล้ว'],['คัดลอกลิงก์','Copy link','คัดลอกลิงก์'],['เปลี่ยนรหัสแล้ว','Code changed','เปลี่ยนรหัสแล้ว'],['เปลี่ยนรหัส','Change code','เปลี่ยนรหัส'],['เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่','Other linked devices will disconnect and must scan the new QR.','เครื่องอื่นที่ Link อยู่จะหลุด และต้องสแกน QR ใหม่'],['เลิกเชื่อมเครื่องนี้?','Unlink this device?','เลิก Link เครื่องนี้?'],['เลิกเชื่อมเครื่องนี้','Unlink this device','เลิก Link เครื่องนี้'],['ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ซิงก์กับเครื่องอื่นอีก','Your data stays on this device but stops syncing.','ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ Sync กับเครื่องอื่นอีก'],['เลิกเชื่อมแล้ว','Device unlinked','เลิก Link แล้ว'],['>เลิกเชื่อม<','>Unlink<','>เลิก Link<'],['ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR','The data on this device will be replaced by the data from the device that made the QR.','ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR'],['>เชื่อมเลย<','>Link now<','>Link เลย<'],['รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุดซิงก์','This code was cancelled, so this device stopped syncing.','รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุด Sync'],['ข้อมูลใหญ่เกินกว่าจะซิงก์ ลองลดจำนวนรูปตัวละคร','Too much data to sync. Try using fewer character images.','ข้อมูลใหญ่เกินกว่าจะ Sync ลองลดจำนวนรูป Character'],['สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน','Couldn’t make the QR. Use the code below.','สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน'],
 ['QR ถูกซ่อนไว้','QR is hidden','QR ถูกซ่อนไว้'],['กดเมื่อไม่ได้สตรีมหรือแชร์จอ','Reveal only when you are not streaming or sharing your screen','กดเมื่อไม่ได้ Stream หรือแชร์จอ'],['แสดง QR','Show QR','แสดง QR'],['ซ่อน QR','Hide QR','ซ่อน QR'],['ย้อนข้อมูลล่าสุด','Restore recent data','ย้อนข้อมูลล่าสุด'],['ย้อนข้อมูลแล้ว','Data restored','ย้อนข้อมูลแล้ว'],['ย้อนข้อมูลไม่สำเร็จ','Couldn’t restore that data','ย้อนข้อมูลไม่สำเร็จ'],['ย้อนไปข้อมูลนี้?','Restore this data?','ย้อนไปข้อมูลนี้?'],['เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้','Pick a time to go back to. Your current data is kept so you can undo this.','เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้'],['ข้อมูลบนทุกเครื่องที่เชื่อมอยู่จะกลับไปเป็นชุดนี้','Every linked device will go back to this data.','ข้อมูลบนทุกเครื่องที่ Link อยู่จะกลับไปเป็นชุดนี้'],['<h2>ย้อนข้อมูล','<h2>Restore data','<h2>ย้อนข้อมูล'],['>ย้อนข้อมูล<','>Restore<','>ย้อนข้อมูล<'],
 ['มีเวอร์ชันใหม่ กดปุ่มอัปเดตด้านบน','A new version is ready. Press Update at the top.','มี Update ใหม่ กดปุ่มด้านบน'],['มีเวอร์ชันใหม่ กดอัปเดต','Update available','มี Update ใหม่ กดเลย'],['กำลังรีเฟรช','Refreshing','กำลัง Refresh'],['ดึงลงเพื่อรีเฟรช','Pull to refresh','ดึงลงเพื่อ Refresh'],['ปล่อยเพื่อรีเฟรช','Release to refresh','ปล่อยเพื่อ Refresh'],
-['เพิ่มหน้าโฮมหรือบุ๊กมาร์กแบบเชื่อมแล้ว','Add linked Home Screen icon or bookmark','เพิ่มหน้าโฮมหรือ Bookmark แบบ Link แล้ว'],['ไอคอนหรือบุ๊กมาร์กที่สร้างจะเชื่อมอุปกรณ์ให้เอง ขั้นตอนนี้จะแสดงรหัสในแถบที่อยู่ชั่วคราว จึงไม่ควรทำตอนสตรีมหรือแชร์จอ','The icon or bookmark links the device by itself. This briefly shows your code in the address bar, so do not do it while streaming or sharing your screen.','ไอคอนหรือ Bookmark จะ Link อุปกรณ์ให้เอง ขั้นตอนนี้จะแสดงรหัสในแถบที่อยู่ชั่วคราว จึงไม่ควรทำตอน Stream หรือแชร์จอ'],['เริ่มเลย','Start','เริ่มเลย'],['กดปุ่ม <b>แชร์</b> ของ Safari','Tap <b>Share</b> in Safari','กดปุ่ม <b>Share</b> ของ Safari'],['เลือก <b>เพิ่มไปยังหน้าจอโฮม</b> หรือ <b>เพิ่มที่คั่นหน้า</b>','Choose <b>Add to Home Screen</b> or <b>Add Bookmark</b>','เลือก <b>เพิ่มไปยังหน้าจอโฮม</b> หรือ <b>เพิ่มที่คั่นหน้า</b>'],['กลับมากด <b>เสร็จแล้ว</b> เพื่อเอารหัสออกจากแถบที่อยู่','Come back and press <b>Done</b> to remove the code from the address bar','กลับมากด <b>เสร็จแล้ว</b> เพื่อเอารหัสออกจากแถบที่อยู่'],['>เสร็จแล้ว<','>Done<','>เสร็จแล้ว<'],
+['สร้างบุ๊กมาร์กแบบเชื่อมแล้ว','Create a linked bookmark','สร้าง Bookmark แบบ Link แล้ว'],['บุ๊กมาร์กนี้จะเชื่อมอุปกรณ์ให้เองเมื่อเปิด ขั้นตอนนี้จะแสดงรหัสในแถบที่อยู่ชั่วคราว จึงไม่ควรทำตอนสตรีมหรือแชร์จอ','This bookmark links the device when opened.This briefly shows your code in the address bar, so do not do it while streaming or sharing your screen.','Bookmark นี้จะ Link อุปกรณ์ให้เองเมื่อเปิด ขั้นตอนนี้จะแสดงรหัสในแถบที่อยู่ชั่วคราว จึงไม่ควรทำตอน Stream หรือแชร์จอ'],['เริ่มเลย','Start','เริ่มเลย'],['กดปุ่ม <b>แชร์</b> ของ Safari','Tap <b>Share</b> in Safari','กดปุ่ม <b>Share</b> ของ Safari'],['เลือก <b>เพิ่มที่คั่นหน้า</b>','Choose <b>Add Bookmark</b>','เลือก <b>เพิ่มที่คั่นหน้า</b>'],['กลับมากด <b>เสร็จแล้ว</b> เพื่อเอารหัสออกจากแถบที่อยู่','Come back and press <b>Done</b> to remove the code from the address bar','กลับมากด <b>เสร็จแล้ว</b> เพื่อเอารหัสออกจากแถบที่อยู่'],['>เสร็จแล้ว<','>Done<','>เสร็จแล้ว<'],
+['ไอคอนนี้ยังไม่เชื่อม Device','This icon is not linked yet','ไอคอนนี้ยังไม่ Link Device'],['สแกน QR จากคอมหรือเครื่องที่เชื่อมอยู่ เพื่อดึงข้อมูลมาใช้','Scan the QR from a linked device to bring your data here.','สแกน QR จากเครื่องที่ Link อยู่ เพื่อดึงข้อมูลมาใช้'],['>เชื่อมเลย<','>Link now<','>Link เลย<'],['>ซ่อน<','>Hide<','>ซ่อน<'],['ซ่อนข้อความนี้','Hide this message','ซ่อนข้อความนี้'],['สแกน QR จากเครื่องอื่น','Scan QR from another device','สแกน QR จากเครื่องอื่น'],['>วางรหัส<','>Paste code<','>วางรหัส<'],['<h2>สแกน QR','<h2>Scan QR','<h2>สแกน QR'],['ส่องกล้องไปที่ QR บนเครื่องที่เชื่อมอยู่','Point the camera at the QR on your linked device.','ส่องกล้องไปที่ QR บนเครื่องที่ Link อยู่'],['ไม่พบรหัสในคลิปบอร์ด คัดลอกรหัสจากเครื่องแรกก่อน','No code on the clipboard. Copy it from your first device.','ไม่พบรหัสในคลิปบอร์ด คัดลอกรหัสจากเครื่องแรกก่อน'],['แตะค้างในช่องรหัส แล้วเลือกวาง','Touch and hold the code box, then choose Paste.','แตะค้างในช่องรหัส แล้วเลือกวาง'],['อุปกรณ์นี้เปิดกล้องในเว็บไม่ได้ ใช้ปุ่มวางรหัสแทน','This device can’t open the camera here. Use Paste code instead.','อุปกรณ์นี้เปิดกล้องในเว็บไม่ได้ ใช้ปุ่มวางรหัสแทน'],['กล้องถูกปิดสิทธิ์ อนุญาตกล้องในการตั้งค่า หรือใช้ปุ่มวางรหัสแทน','Camera access is off. Allow it in Settings or use Paste code.','กล้องถูกปิดสิทธิ์ อนุญาตกล้องในการตั้งค่า หรือใช้ปุ่มวางรหัสแทน'],['เปิดกล้องไม่ได้ ใช้ปุ่มวางรหัสแทน','Can’t open the camera. Use Paste code instead.','เปิดกล้องไม่ได้ ใช้ปุ่มวางรหัสแทน'],['QR นี้ไม่ใช่รหัสของ Dragon Nest Tracker','This QR is not a Dragon Nest Tracker code.','QR นี้ไม่ใช่รหัสของ Dragon Nest Tracker'],
 ['<h2>เสียงกด','<h2>Click sound','<h2>Sound'],['กดเพื่อฟังเสียง แล้วเลือกแบบที่ชอบ','Tap to hear each sound, then keep the one you like.','กดเพื่อฟัง Sound แล้วเลือกแบบที่ชอบ'],['ระดับเสียง<','Volume<','Volume<'],['>เสร็จ<','>Done<','>เสร็จ<'],['ทุ้มกลม ฟังสบาย','Low and round, easy on the ears','ทุ้มกลม ฟังสบาย'],['ต็อกสั้นแบบเคาะไม้','A short wooden tap','ต็อกสั้นแบบเคาะไม้'],['ป๊อปเบาแบบฟองน้ำ','A light bubble pop','ป๊อปเบาแบบฟองน้ำ'],['ทุ้มนุ่มแนวคีย์บอร์ดลูบสวิตช์','Deep and muted, like a lubed keyboard','ทุ้มนุ่มแนวคีย์บอร์ดลูบสวิตช์'],
 ['เสียงกด: ','Click sound: ','Sound: '],['ระดับเสียงกด ตอนนี้ ','Click sound level, now ','ระดับ Sound ตอนนี้ '],[' กดเพื่อเปลี่ยน',', press to change',' กดเพื่อเปลี่ยน'],[' วัน ','d ','d ',' วัน ']
 ];
@@ -523,6 +530,7 @@ function render(){
   const now=Date.now();
   let h='<header><div><h1>Dragon Nest Tracker</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
   if(!storageOk) h+='<p class="err">เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้</p>';
+  h+=linkBanner();
   h+=skinRow();
   h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+(manage&&S.chars.length>1?'<span class="tab-grip" title="ลากเพื่อจัดลำดับ" aria-hidden="true">'+ICON.grip+'</span>':'')+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
   h+='<div class="toolgrid"><button class="btn tool" data-act="view-all" data-fk="va" aria-pressed="'+(S.view==='all')+'">'+ICON.grid+(S.view==='all'?tt('กลับหน้าตัวละคร','ออกจากตารางภาพรวม'):tt('ภาพรวมทุกตัว','ตารางเทียบทุกตัวละคร'))+'</button>';
@@ -811,6 +819,7 @@ document.addEventListener('click',e=>{
   else if(a==='backup') backup();
   else if(a==='bg') bgForm();
   else if(a==='sync') syncForm();
+  else if(a==='hide-link'){lsSet('dn-link-banner-off','1');render()}
   else if(a==='refresh') refreshPage(b);
   else if(a==='lang'){lang=b.dataset.lang;try{localStorage.setItem('dn-lang',lang)}catch(err){}document.documentElement.lang=lang==='en'?'en':'th';render()}
   else if(a==='sound'){tok(SND.soft);soundForm()}
@@ -1151,6 +1160,7 @@ async function joinSync(code){
   sync.localAt=0;lsSet(SYNC_KEYS.at,'0');
   lsSet(HOME_SKIP,null);
   await connectSync(code);
+  render();
   toast('เชื่อมอุปกรณ์แล้ว');
 }
 async function rotateSync(){
@@ -1218,11 +1228,73 @@ function undoForm(){
     modal('ย้อนไปข้อมูลนี้?','<p class="note">ข้อมูลบนทุกเครื่องที่เชื่อมอยู่จะกลับไปเป็นชุดนี้</p>','ย้อนข้อมูล',()=>{restoreSnapshot(entry)},true);
   });
 }
+function parseLinkCode(s){
+  const t=String(s||'').trim(),m=t.match(/#(?:link|home)=([A-Za-z0-9-]{32,64})/);
+  return normalizeCode(m?m[1]:t);
+}
+const isStandalone=()=>{
+  try{return navigator.standalone===true||matchMedia('(display-mode: standalone)').matches}catch(e){return false}
+};
+function linkBanner(){
+  if(!SYNC_CFG||sync.code||!isStandalone()||lsGet('dn-link-banner-off')) return '';
+  return '<div class="linkbanner"><div><b>ไอคอนนี้ยังไม่เชื่อม Device</b><small>สแกน QR จากคอมหรือเครื่องที่เชื่อมอยู่ เพื่อดึงข้อมูลมาใช้</small></div><div class="btnrow"><button class="btn primary small" data-act="sync">เชื่อมเลย</button><button class="btn small" data-act="hide-link" aria-label="ซ่อนข้อความนี้">ซ่อน</button></div></div>';
+}
+function askJoin(code){
+  if(code===sync.code){if(dlg.open) dlg.close();toast('เชื่อมอุปกรณ์แล้ว');return}
+  const fresh=S.chars.length===1&&!Object.values(S.progress).some(p=>Object.keys(p).length);
+  if(fresh){if(dlg.open) dlg.close();joinSync(code);return}
+  modal('เชื่อมอุปกรณ์นี้?','<p class="note">ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR</p>','เชื่อมเลย',()=>{joinSync(code)});
+}
+// Scan inside the page, because the iPhone camera app always opens QR links in Safari, not the home screen app.
+async function scanForm(){
+  modal('สแกน QR','<div class="scanbox"><video id="qVideo" playsinline muted autoplay></video><i aria-hidden="true"></i></div><p class="note" id="qNote">ส่องกล้องไปที่ QR บนเครื่องที่เชื่อมอยู่</p>',null,null);
+  const video=$('#qVideo',dlg),note=$('#qNote',dlg),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
+  let stream=null,alive=true,frame=0;
+  const stop=()=>{
+    alive=false;cancelAnimationFrame(frame);
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    stream=null;video.srcObject=null;
+  };
+  const fail=msg=>{stop();note.textContent=tr(msg);note.className='err'};
+  dlg.addEventListener('close',stop,{once:true});
+  dlg.oncancel=stop;
+  $('#fCancel',dlg).onclick=()=>{stop();dlg.close()};
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){fail('อุปกรณ์นี้เปิดกล้องในเว็บไม่ได้ ใช้ปุ่มวางรหัสแทน');return}
+  try{
+    if(!window.jsQR) await loadScript('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js');
+    if(!alive) return;
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+    if(!alive){stream.getTracks().forEach(t=>t.stop());return}
+    video.srcObject=stream;
+    await video.play();
+  }catch(e){
+    fail(e&&e.name==='NotAllowedError'?'กล้องถูกปิดสิทธิ์ อนุญาตกล้องในการตั้งค่า หรือใช้ปุ่มวางรหัสแทน':'เปิดกล้องไม่ได้ ใช้ปุ่มวางรหัสแทน');
+    return;
+  }
+  const read=()=>{
+    if(!alive) return;
+    if(video.readyState>=2&&video.videoWidth){
+      const scale=Math.min(1,640/Math.max(video.videoWidth,video.videoHeight));
+      canvas.width=Math.round(video.videoWidth*scale);canvas.height=Math.round(video.videoHeight*scale);
+      ctx.drawImage(video,0,0,canvas.width,canvas.height);
+      const img=ctx.getImageData(0,0,canvas.width,canvas.height),hit=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+      if(hit&&hit.data){
+        let same=true;
+        try{if(/^https?:/i.test(hit.data)) same=new URL(hit.data).origin===location.origin}catch(e){same=false}
+        const code=same?parseLinkCode(hit.data):'';
+        if(code){stop();tok(SND.up);askJoin(code);return}
+        note.textContent=tr('QR นี้ไม่ใช่รหัสของ Dragon Nest Tracker');
+      }
+    }
+    frame=requestAnimationFrame(read);
+  };
+  read();
+}
 // iPhone home screen apps have storage separate from Safari, and iCloud syncs only a bookmark's URL.
 // This briefly puts the code in the URL so a saved icon or bookmark can link itself when opened.
 function homeLinkForm(){
-  modal('เพิ่มหน้าโฮมหรือบุ๊กมาร์กแบบเชื่อมแล้ว',
-    '<p class="note">ไอคอนหรือบุ๊กมาร์กที่สร้างจะเชื่อมอุปกรณ์ให้เอง ขั้นตอนนี้จะแสดงรหัสในแถบที่อยู่ชั่วคราว จึงไม่ควรทำตอนสตรีมหรือแชร์จอ</p><div id="hIntro"><button type="button" class="btn primary" id="hStart">เริ่มเลย</button></div><ol class="homesteps" id="hSteps" hidden><li>กดปุ่ม <b>แชร์</b> ของ Safari</li><li>เลือก <b>เพิ่มไปยังหน้าจอโฮม</b> หรือ <b>เพิ่มที่คั่นหน้า</b></li><li>กลับมากด <b>เสร็จแล้ว</b> เพื่อเอารหัสออกจากแถบที่อยู่</li></ol>',
+  modal('สร้างบุ๊กมาร์กแบบเชื่อมแล้ว',
+    '<p class="note">บุ๊กมาร์กนี้จะเชื่อมอุปกรณ์ให้เองเมื่อเปิด ขั้นตอนนี้จะแสดงรหัสในแถบที่อยู่ชั่วคราว จึงไม่ควรทำตอนสตรีมหรือแชร์จอ</p><div id="hIntro"><button type="button" class="btn primary" id="hStart">เริ่มเลย</button></div><ol class="homesteps" id="hSteps" hidden><li>กดปุ่ม <b>แชร์</b> ของ Safari</li><li>เลือก <b>เพิ่มที่คั่นหน้า</b></li><li>กลับมากด <b>เสร็จแล้ว</b> เพื่อเอารหัสออกจากแถบที่อยู่</li></ol>',
     'เสร็จแล้ว',()=>{});
   const manifest=$('link[rel="manifest"]');
   let timer=null,on=false;
@@ -1249,18 +1321,31 @@ function homeLinkForm(){
 function syncForm(){
   if(!sync.code){
     modal('เชื่อมอุปกรณ์',
-      '<p class="note">สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง</p><button type="button" class="btn primary" id="sNew">สร้างรหัสสำหรับเครื่องนี้</button><div class="sync-or"></div><label class="field">มีรหัสจากเครื่องอื่นแล้ว<input id="sCode" name="code" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label><p class="note">การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น</p>'+undoButton(),
+      '<p class="note">สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง</p><button type="button" class="btn primary" id="sNew">สร้างรหัสสำหรับเครื่องนี้</button><div class="sync-or"></div><div class="btnrow"><button type="button" class="btn primary" id="sScan">สแกน QR จากเครื่องอื่น</button><button type="button" class="btn" id="sPaste">วางรหัส</button></div><label class="field">มีรหัสจากเครื่องอื่นแล้ว<input id="sCode" name="code" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label><p class="note">การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น</p>'+undoButton(),
       'เชื่อมด้วยรหัสนี้',fd=>{
-        const code=normalizeCode(fd.get('code'));
+        const code=parseLinkCode(fd.get('code'));
         if(!code) return 'รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ';
         joinSync(code);
       });
     $('#sNew',dlg).onclick=async()=>{await createSync();syncForm()};
     bindUndo();
+    $('#sScan',dlg).onclick=scanForm;
+    $('#sPaste',dlg).onclick=async()=>{
+      const input=$('#sCode',dlg),er=$('#fErr',dlg);
+      er.hidden=true;
+      try{
+        const c=parseLinkCode(await navigator.clipboard.readText());
+        if(c) input.value=c;
+        else{er.textContent=tr('ไม่พบรหัสในคลิปบอร์ด คัดลอกรหัสจากเครื่องแรกก่อน');er.hidden=false}
+      }catch(e){
+        input.focus();
+        er.textContent=tr('แตะค้างในช่องรหัส แล้วเลือกวาง');er.hidden=false;
+      }
+    };
     return;
   }
   modal('เชื่อมอุปกรณ์',
-    '<div class="qrguard"><div class="qrwrap" id="sQr" hidden></div><div class="qrcover" id="sCover">'+svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>')+'<b>QR ถูกซ่อนไว้</b><small>กดเมื่อไม่ได้สตรีมหรือแชร์จอ</small><button type="button" class="btn primary small" id="sReveal">แสดง QR</button></div></div><button type="button" class="btn small" id="sHide" hidden>ซ่อน QR</button><p class="note">สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้</p><label class="field">รหัสเชื่อมต่อ<input id="sShow" readonly value="'+CODE_MASK+'"></label><div class="btnrow"><button type="button" class="btn small" id="sCopyLink" disabled>คัดลอกลิงก์</button><button type="button" class="btn small" id="sCopyCode" disabled>คัดลอกรหัส</button></div><button type="button" class="btn small" id="sHome">เพิ่มหน้าโฮมหรือบุ๊กมาร์กแบบเชื่อมแล้ว</button><div class="sync-or"></div><div class="btnrow"><button type="button" class="btn small danger" id="sRotate">เปลี่ยนรหัส</button><button type="button" class="btn small danger" id="sUnlink">เลิกเชื่อมเครื่องนี้</button></div>'+undoButton(),
+    '<div class="qrguard"><div class="qrwrap" id="sQr" hidden></div><div class="qrcover" id="sCover">'+svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>')+'<b>QR ถูกซ่อนไว้</b><small>กดเมื่อไม่ได้สตรีมหรือแชร์จอ</small><button type="button" class="btn primary small" id="sReveal">แสดง QR</button></div></div><button type="button" class="btn small" id="sHide" hidden>ซ่อน QR</button><p class="note">สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้</p><label class="field">รหัสเชื่อมต่อ<input id="sShow" readonly value="'+CODE_MASK+'"></label><div class="btnrow"><button type="button" class="btn small" id="sCopyLink" disabled>คัดลอกลิงก์</button><button type="button" class="btn small" id="sCopyCode" disabled>คัดลอกรหัส</button></div><button type="button" class="btn small" id="sHome">สร้างบุ๊กมาร์กแบบเชื่อมแล้ว</button><div class="sync-or"></div><div class="btnrow"><button type="button" class="btn small danger" id="sRotate">เปลี่ยนรหัส</button><button type="button" class="btn small danger" id="sUnlink">เลิกเชื่อมเครื่องนี้</button></div>'+undoButton(),
     null,null);
   bindUndo();
   $('#sHome',dlg).onclick=homeLinkForm;
