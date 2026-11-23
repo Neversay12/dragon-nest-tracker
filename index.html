@@ -185,6 +185,10 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 #ptr svg.spin{animation:ptr-spin .8s linear infinite}
 @keyframes ptr-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){#ptr svg.spin{animation:none}}
+.tab[data-char]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.tab.dragging{background:var(--surface);opacity:.97;box-shadow:0 12px 30px rgba(8,10,18,.45),0 0 0 2px var(--accent)}
+.tab-grip{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:34px;margin-left:-4px;color:var(--muted);cursor:grab;touch-action:none}
+.tab-grip svg{width:17px;height:17px}
 .homesteps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink)}
 .homesteps b{font-weight:600}
 .btnrow{display:flex;flex-wrap:wrap;gap:6px}
@@ -271,7 +275,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="c2b5defd1939";</script>
+<script>window.DN_BUILD="34e93f75dee5";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -520,7 +524,7 @@ function render(){
   let h='<header><div><h1>Dragon Nest Tracker</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
   if(!storageOk) h+='<p class="err">เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้</p>';
   h+=skinRow();
-  h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
+  h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+(manage&&S.chars.length>1?'<span class="tab-grip" title="ลากเพื่อจัดลำดับ" aria-hidden="true">'+ICON.grip+'</span>':'')+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
   h+='<div class="toolgrid"><button class="btn tool" data-act="view-all" data-fk="va" aria-pressed="'+(S.view==='all')+'">'+ICON.grid+(S.view==='all'?tt('กลับหน้าตัวละคร','ออกจากตารางภาพรวม'):tt('ภาพรวมทุกตัว','ตารางเทียบทุกตัวละคร'))+'</button>';
   if(S.view==='char') h+='<button class="btn tool" data-act="hide" data-fk="hd" aria-pressed="'+S.hideDone+'">'+(S.hideDone?ICON.eyeOff+tt('แสดงที่ครบแล้ว','ตอนนี้ซ่อนรายการที่ครบอยู่'):ICON.eye+tt('ซ่อนที่ครบแล้ว','เหลือเฉพาะที่ยังไม่เคลียร์'))+'</button><button class="btn tool" data-act="manage" data-fk="mg" aria-pressed="'+manage+'">'+(manage?ICON.check+tt('เสร็จสิ้นการแก้ไข','กลับไปติ๊กตามปกติ'):ICON.pen+tt('แก้ไขรายการ','เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด'))+'</button>';
   h+='<button class="btn tool" data-act="backup">'+ICON.swap+tt('สำรอง/ย้ายข้อมูล','ย้ายเครื่องหรือส่งรายการให้เพื่อน')+'</button></div>';
@@ -700,7 +704,7 @@ function soundForm(){
 // Runs in the capture phase, before the click handler re-renders the button.
 document.addEventListener('click',e=>{
   const b=e.target.closest('button');
-  if(!b||b.disabled||b.dataset.act==='sound'||b.hasAttribute('data-nosnd')) return;
+  if(!b||b.disabled||b.dataset.act==='sound'||b.hasAttribute('data-nosnd')||Date.now()-dragClickGuard<350) return;
   if(b.dataset.act==='pip'){
     const cur=b.parentNode.querySelectorAll('.pip.on').length;
     tok(Number(b.dataset.n)>cur?SND.up:SND.down);
@@ -795,7 +799,7 @@ function backup(){
 }
 
 document.addEventListener('click',e=>{
-  const b=e.target.closest('[data-act]');if(!b||dlg.contains(b)) return;
+  const b=e.target.closest('[data-act]');if(!b||dlg.contains(b)||Date.now()-dragClickGuard<350) return;
   const a=b.dataset.act,iid=b.dataset.item,gid=b.dataset.group,c=S.chars.find(x=>x.id===S.active),g=S.groups.find(x=>x.id===gid);
   if(a==='pip'){const n=+b.dataset.n,p=prog(c.id,iid);setProg(c.id,iid,{c:p.c===n?n-1:n})}
   else if(a==='step'){const i=findItem(iid),f=b.dataset.field,p=prog(c.id,iid),max=f==='c'?i.clear:i.fail;setProg(c.id,iid,{[f]:Math.min(max,Math.max(0,p[f]+ +b.dataset.d))})}
@@ -829,10 +833,11 @@ document.addEventListener('click',e=>{
 // Press and hold, lift the whole bar, and drop it into the dashed slot.
 // Mouse can grab anywhere on a row. Touch uses the ≡ handle so the page can still scroll.
 let drag=null;
-const dragPeers=d=>d.type==='row'
+let dragClickGuard=0,charPress=null;
+const dragPeers=d=>d.type==='char'?Array.from(d.parent.children).filter(x=>x.dataset.char):d.type==='row'
   ?Array.from(d.parent.children).filter(x=>x.classList.contains('row'))
   :Array.from(d.parent.children).filter(x=>x.classList.contains('group')&&x.dataset.kind===d.el.dataset.kind);
-const dragId=(d,x)=>d.type==='row'?x.dataset.row:x.dataset.groupId;
+const dragId=(d,x)=>d.type==='char'?x.dataset.char:d.type==='row'?x.dataset.row:x.dataset.groupId;
 const calm=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 function beginDrag(d){
   const el=d.el;
@@ -841,8 +846,10 @@ function beginDrag(d){
   if(d.type==='group') el.classList.add('lifted');
   const r=el.getBoundingClientRect();
   d.offY=Math.min(d.y-r.top,r.height-4);
+  d.offX=d.x-r.left;
   const slot=document.createElement('div');
   slot.className='drop-slot';slot.style.height=r.height+'px';
+  if(d.type==='char') slot.style.width=r.width+'px';
   d.parent.insertBefore(slot,el);d.slot=slot;
   Object.assign(el.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',zIndex:'30',pointerEvents:'none',margin:'0'});
   el.classList.add('dragging');
@@ -863,15 +870,32 @@ function placeSlot(d,y){
   if(calm()) return;
   others.forEach(o=>{const dy=tops.get(o)-o.offsetTop;if(dy&&o.animate) o.animate([{transform:'translateY('+dy+'px)'},{transform:'none'}],{duration:130,easing:'ease-out'})});
 }
+function placeCharSlot(d,x){
+  const others=dragPeers(d).filter(o=>o!==d.el);
+  if(!others.length) return;
+  const base=$('#app').getBoundingClientRect().left,scroll=d.parent.scrollLeft;
+  const next=others.find(o=>x<base+o.offsetLeft-scroll+o.offsetWidth/2);
+  const last=others[others.length-1];
+  const same=next?(d.slot.nextElementSibling===next||(d.slot.nextElementSibling===d.el&&d.el.nextElementSibling===next)):(last.nextElementSibling===d.slot||(last.nextElementSibling===d.el&&d.el.nextElementSibling===d.slot));
+  if(same) return;
+  const lefts=new Map(others.map(o=>[o,o.offsetLeft]));
+  if(next) d.parent.insertBefore(d.slot,next);else last.after(d.slot);
+  if(calm()) return;
+  others.forEach(o=>{const dx=lefts.get(o)-o.offsetLeft;if(dx&&o.animate) o.animate([{transform:'translateX('+dx+'px)'},{transform:'none'}],{duration:130,easing:'ease-out'})});
+}
 function finishDrag(commit){
   const d=drag;drag=null;
   if(!d||!d.active) return;
+  dragClickGuard=Date.now();
   document.body.classList.remove('is-dragging');
   if(commit&&d.el.isConnected){
     d.parent.insertBefore(d.el,d.slot);d.slot.remove();
     const ids=dragPeers(d).map(x=>dragId(d,x));
     if(ids.join()!==d.before){
-      if(d.type==='row'){
+      if(d.type==='char'){
+        const ordered=ids.map(id=>S.chars.find(c=>c.id===id));
+        if(ordered.length===S.chars.length&&ordered.every(Boolean)) S.chars=ordered;
+      }else if(d.type==='row'){
         const g=S.groups.find(x=>x.items.some(y=>y.id===d.el.dataset.row));
         if(g&&ids.length===g.items.length) g.items=ids.map(id=>g.items.find(y=>y.id===id));
       }else{
@@ -906,14 +930,63 @@ document.addEventListener('pointermove',e=>{
     beginDrag(drag);
   }
   e.preventDefault();
+  if(drag.type==='char'){
+    drag.el.style.left=(e.clientX-drag.offX)+'px';
+    const b=drag.parent.getBoundingClientRect();
+    if(e.clientX<b.left+36) drag.parent.scrollLeft-=10;else if(e.clientX>b.right-36) drag.parent.scrollLeft+=10;
+    placeCharSlot(drag,e.clientX);
+    return;
+  }
   drag.el.style.top=(e.clientY-drag.offY)+'px';
   if(e.clientY<70) window.scrollBy(0,-12);else if(e.clientY>window.innerHeight-70) window.scrollBy(0,12);
   placeSlot(drag,e.clientY);
 });
+// Character tabs: drag with a mouse, the ≡ handle, or a touch-and-hold so the strip can still be swiped.
+const cancelCharPress=()=>{if(charPress){clearTimeout(charPress.timer);charPress=null}};
+document.addEventListener('pointerdown',e=>{
+  if(drag||e.button!==0||dlg.open) return;
+  const tab=e.target.closest('.tab[data-char]');
+  if(!tab||S.chars.length<2) return;
+  const grip=e.target.closest('.tab-grip');
+  if(e.pointerType==='mouse'||grip){
+    if(grip) e.preventDefault();
+    drag={el:tab,type:'char',id:e.pointerId,x:e.clientX,y:e.clientY,active:false};
+    return;
+  }
+  cancelCharPress();
+  const p={id:e.pointerId,x:e.clientX,y:e.clientY,el:tab};
+  p.timer=setTimeout(()=>{
+    if(charPress!==p||!p.el.isConnected) return;
+    charPress=null;
+    drag={el:p.el,type:'char',id:p.id,x:p.x,y:p.y,active:false};
+    beginDrag(drag);
+    if(navigator.vibrate) navigator.vibrate(12);
+  },380);
+  charPress=p;
+});
+document.addEventListener('pointermove',e=>{
+  if(charPress&&e.pointerId===charPress.id&&Math.hypot(e.clientX-charPress.x,e.clientY-charPress.y)>8) cancelCharPress();
+});
+document.addEventListener('touchmove',e=>{
+  if(drag&&drag.type==='char'&&drag.active&&e.cancelable) e.preventDefault();
+},{passive:false});
+document.addEventListener('contextmenu',e=>{
+  if((charPress||(drag&&drag.type==='char'))&&e.target.closest('.tab')) e.preventDefault();
+});
+['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,e=>{if(charPress&&e.pointerId===charPress.id) cancelCharPress()}));
 document.addEventListener('pointerup',e=>{if(drag&&e.pointerId===drag.id) finishDrag(true)});
 document.addEventListener('pointercancel',e=>{if(drag&&e.pointerId===drag.id) finishDrag(false)});
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&drag&&drag.active){e.preventDefault();finishDrag(false);return}
+  const focusedTab=e.target.closest&&e.target.closest('.tab[data-char]');
+  if(focusedTab&&e.altKey&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){
+    e.preventDefault();
+    const k=S.chars.findIndex(c=>c.id===focusedTab.dataset.char),to=k+(e.key==='ArrowLeft'?-1:1);
+    if(k<0||to<0||to>=S.chars.length) return;
+    [S.chars[k],S.chars[to]]=[S.chars[to],S.chars[k]];
+    save();tok(SND.soft);render();
+    return;
+  }
   const h=e.target.closest&&e.target.closest('.drag');
   if(!h||(e.key!=='ArrowUp'&&e.key!=='ArrowDown')) return;
   e.preventDefault();
@@ -1292,7 +1365,7 @@ function setupPullRefresh(){
     text.textContent=tr(dist>=READY?'ปล่อยเพื่อรีเฟรช':'ดึงลงเพื่อรีเฟรช');
   };
   document.addEventListener('touchstart',e=>{
-    if(busy||e.touches.length!==1||window.scrollY>0||dlg.open||drag||e.target.closest('.drag,input,textarea,select')){start=null;return}
+    if(busy||e.touches.length!==1||window.scrollY>0||dlg.open||drag||e.target.closest('.drag,.tab,input,textarea,select')){start=null;return}
     start={x:e.touches[0].clientX,y:e.touches[0].clientY};pulling=false;dist=0;
   },{passive:true});
   document.addEventListener('touchmove',e=>{
