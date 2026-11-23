@@ -271,7 +271,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="b23fd23f5149";</script>
+<script>window.DN_BUILD="c2b5defd1939";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -1159,14 +1159,18 @@ function homeLinkForm(){
     history.replaceState(null,'',location.pathname+location.search);
     if(manifest&&!manifest.isConnected) document.head.appendChild(manifest);
   };
+  // Clear the code in the same tick as every way of closing. The close event can be delayed.
   dlg.addEventListener('close',finish,{once:true});
+  $('#fCancel',dlg).onclick=()=>{finish();dlg.close()};
+  $('form',dlg).addEventListener('submit',finish,true);
+  dlg.oncancel=finish;
   $('#hStart',dlg).onclick=()=>{
     on=true;
     // Without a manifest start_url, the saved icon keeps this exact URL.
     if(manifest) manifest.remove();
     history.replaceState(null,'',location.pathname+'#home='+sync.code);
     $('#hIntro',dlg).hidden=true;$('#hSteps',dlg).hidden=false;
-    timer=setTimeout(()=>{if(dlg.open) dlg.close()},180000);
+    timer=setTimeout(()=>{finish();if(dlg.open) dlg.close()},180000);
   };
 }
 function syncForm(){
