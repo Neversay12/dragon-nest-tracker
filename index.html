@@ -281,7 +281,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="66ed9e127294";</script>
+<script>window.DN_BUILD="712ba3b6f013";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -314,7 +314,7 @@ const DICT=[
 ['สำรอง/ย้ายข้อมูล','Backup / Transfer','Backup / ย้ายข้อมูล'],['ย้ายเครื่องหรือส่งรายการให้เพื่อน','Move device or share your list','ย้ายเครื่องหรือส่งรายการให้เพื่อน'],
 ['แก้ไขตัวละคร','Edit character','แก้ไข Character'],['ชื่อ, Job, รูป','Name, Job, image','ชื่อ, Job, รูป','ชื่อ, อาชีพ, รูป'],['<h2>ล้างการติ๊กของ ','<h2>Reset ticks for ','<h2>Reset การติ๊กของ '],['ล้างการติ๊ก','Reset ticks','Reset การติ๊ก'],['รีเป็น 0 เฉพาะตัวนี้','Back to 0, this character only','Reset เป็น 0 เฉพาะตัวนี้','กลับเป็น 0 เฉพาะตัวนี้'],
 ['กดเพื่อใส่ Job / Class','Tap to add Job / Class','กดเพื่อใส่ Job / Class','กดเพื่อใส่อาชีพ'],['ยังไม่ใส่ Job','No Job yet','ยังไม่ใส่ Job','ยังไม่ใส่อาชีพ'],['Job / Class','Job / Class','Job / Class','อาชีพ'],['พิมพ์หรือเลือก เช่น Warrior','Type or pick, e.g. Warrior','พิมพ์หรือเลือก เช่น Warrior'],
-['เคลียร์แล้ว ','Cleared ','Clear แล้ว '],['+ เพิ่มตัวละคร','+ Add character','+ เพิ่ม Character'],['วิธีติ๊ก','How to tick','วิธีติ๊ก'],['กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก ปุ่ม − + ใช้นับจำนวน','Tap a box for each clear. Tap the same box again to undo. Use − + to count.','กดช่องตามจำนวนครั้งที่ Clear กดช่องเดิมซ้ำเพื่อเอาออก ปุ่ม − + ใช้นับจำนวน'],
+['เคลียร์แล้ว ','Cleared ','Clear แล้ว '],['+ เพิ่มตัวละคร','+ Add character','+ เพิ่ม Character'],['วิธีติ๊ก','How to tick','วิธีติ๊ก'],['กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด','Tap a box for each clear. Tap it again to undo. For large counts like 0/999, use + to add and − to subtract.','กดช่องตามจำนวนครั้งที่ Clear กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด'],
 ['กำลังแก้ไขรายการ','Editing the list','กำลังแก้ไขรายการ'],['คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”','Hold ≡ and drag a row to where you want it. Use Edit, Delete and Add in each category, then press Done editing.','คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”'],
 ['>ภารกิจ<','>Quests<','>Quest<'],['>ดันเจี้ยน<','>Dungeons<','>Dungeon<'],['>รายการ<','>Item<','>รายการ<'],['เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย','Fan-made tool, not affiliated with the game developer. Resets use Thailand time.','เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลา Reset อิงเวลาประเทศไทย'],
 ['>ยาก<','>Hard<','>Hard<'],['>ปกติ<','>Normal<','>Normal<'],['>ครบแล้ว<','>Cleared<','>Clear แล้ว<'],['>รายสัปดาห์<','>Weekly<','>Weekly<'],['>รายวัน<','>Daily<','>Daily<'],
@@ -541,7 +541,7 @@ function render(){
     const st=stats(c.id);
     h+='<div class="toolbar charcard"><button class="hero" data-act="edit-char" aria-label="แก้ไขตัวละคร '+esc(c.name)+'">'+avatar(c,'lg')+'<span class="herotxt"><span class="char-title">'+esc(c.name)+'</span><span class="jobpill">'+(c.job?esc(c.job):'กดเพื่อใส่ Job / Class')+'</span><small>เคลียร์แล้ว '+st.done+'/'+st.total+'</small></span></button><div><button class="btn edit" data-act="edit-char">'+ICON.user+tt('แก้ไขตัวละคร','ชื่อ, Job, รูป')+'</button><button class="btn warn" data-act="clear-char">'+ICON.warn+tt('ล้างการติ๊ก','รีเป็น 0 เฉพาะตัวนี้')+'</button></div></div>';
     const q=S.groups.filter(g=>g.kind==='quest'),d=S.groups.filter(g=>g.kind==='dungeon');
-    h+=manage?'<p class="guide editing"><b>กำลังแก้ไขรายการ</b> คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก ปุ่ม − + ใช้นับจำนวน</p>';
+    h+=manage?'<p class="guide editing"><b>กำลังแก้ไขรายการ</b> คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด</p>';
     if(q.length) h+='<div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('');
     h+='<div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('');
     if(manage) h+='<div><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button></div>';
@@ -571,13 +571,13 @@ function confirmDel(title,text,fn){modal(title,'<p class="note">'+escPlain(text)
 function itemForm(i,onSave){
   i=i||{name:'',clear:1,fail:0,tier:'normal',reset:'weekly'};
   modal(i.id?'แก้ไขรายการ':'เพิ่มรายการ',
-   '<label class="field">ชื่อ<input id="fName" name="name" maxlength="80" value="'+keep(i.name)+'" placeholder="เช่น Wonderful Theme Park"></label>'+
-   '<div class="two"><label class="field">ผ่านได้ (ครั้ง)<input id="fClear" name="clear" type="number" min="1" max="9999" inputmode="numeric" value="'+i.clear+'"></label>'+
-   '<label class="field">พลาดได้ (0 = ไม่นับ)<input id="fFail" name="fail" type="number" min="0" max="9999" inputmode="numeric" value="'+i.fail+'"></label></div>'+
+   '<label class="field">ชื่อ<input id="fName" name="dn_label" type="text" maxlength="80" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" data-lpignore="true" data-1p-ignore data-form-type="other" value="'+keep(i.name)+'" placeholder="เช่น Wonderful Theme Park"></label>'+
+   '<div class="two"><label class="field">ผ่านได้ (ครั้ง)<input id="fClear" name="clear" type="number" autocomplete="off" min="1" max="9999" inputmode="numeric" value="'+i.clear+'"></label>'+
+   '<label class="field">พลาดได้ (0 = ไม่นับ)<input id="fFail" name="fail" type="number" autocomplete="off" min="0" max="9999" inputmode="numeric" value="'+i.fail+'"></label></div>'+
    '<div class="two"><label class="field">ระดับ<select id="fTier" name="tier"><option value="normal"'+(i.tier==='normal'?' selected':'')+'>ปกติ</option><option value="hard"'+(i.tier==='hard'?' selected':'')+'>ยาก</option></select></label>'+
    '<label class="field">รีเซ็ต<select id="fReset" name="reset"><option value="weekly"'+(i.reset==='weekly'?' selected':'')+'>รายสัปดาห์</option><option value="daily"'+(i.reset==='daily'?' selected':'')+'>รายวัน</option></select></label></div>',
    'บันทึก',fd=>{
-    const name=String(fd.get('name')).trim(),clear=Number(fd.get('clear')),fail=Number(fd.get('fail'));
+    const name=String(fd.get('dn_label')).trim(),clear=Number(fd.get('clear')),fail=Number(fd.get('fail'));
     if(!name) return 'กรุณาใส่ชื่อรายการ';
     if(!Number.isInteger(clear)||clear<1||clear>9999) return 'จำนวนผ่านต้องเป็นเลข 1 ถึง 9999';
     if(!Number.isInteger(fail)||fail<0||fail>9999) return 'จำนวนพลาดต้องเป็นเลข 0 ถึง 9999';
@@ -827,8 +827,8 @@ document.addEventListener('click',e=>{
   else if(a==='add-char') charForm(null,(name,job,img)=>{const n={id:uid(),name,job,img};S.chars.push(n);S.active=n.id;S.view='char'});
   else if(a==='edit-char') charForm(c,(name,job,img)=>{c.name=name;c.job=job;c.img=img});
   else if(a==='clear-char') modal('ล้างการติ๊กของ '+mark(c.name)+'?','<p class="note">ตัวเลขผ่านและพลาดของตัวละครนี้จะกลับเป็น 0</p>','ล้าง',()=>{delete S.progress[c.id];save()},true);
-  else if(a==='add-group') modal('เพิ่มหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="name" maxlength="60" placeholder="เช่น Dark Lair"></label>','เพิ่ม',fd=>{const n=String(fd.get('name')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';S.groups.push({id:uid(),kind:'dungeon',name:n,items:[]});save()});
-  else if(a==='edit-group') modal('เปลี่ยนชื่อหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="name" maxlength="60" value="'+keep(g.name)+'"></label>','บันทึก',fd=>{const n=String(fd.get('name')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';g.name=n;save()});
+  else if(a==='add-group') modal('เพิ่มหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="dn_label" type="text" maxlength="60" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" data-lpignore="true" data-1p-ignore data-form-type="other" placeholder="เช่น Dark Lair"></label>','เพิ่ม',fd=>{const n=String(fd.get('dn_label')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';S.groups.push({id:uid(),kind:'dungeon',name:n,items:[]});save()});
+  else if(a==='edit-group') modal('เปลี่ยนชื่อหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="dn_label" type="text" maxlength="60" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" data-lpignore="true" data-1p-ignore data-form-type="other" value="'+keep(g.name)+'"></label>','บันทึก',fd=>{const n=String(fd.get('dn_label')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';g.name=n;save()});
   else if(a==='del-group') confirmDel('ลบหมวด '+mark(g.name)+'?','รายการทั้ง '+g.items.length+' รายการและความคืบหน้าในหมวดนี้จะหายถาวร',()=>{const ids=g.items.map(i=>i.id);S.groups=S.groups.filter(x=>x.id!==g.id);Object.values(S.progress).forEach(p=>ids.forEach(id=>delete p[id]))});
   else if(a==='add-item') itemForm(null,v=>{
     const n={id:uid(),...v};
