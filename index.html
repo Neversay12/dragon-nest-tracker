@@ -171,6 +171,13 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .qrwrap img,.qrwrap canvas{display:block;max-width:100%}
 .btnrow{display:flex;flex-wrap:wrap;gap:6px}
 .sync-or{border-top:1px solid var(--line);margin:2px 0}
+.sndgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.sndopt{display:flex;flex-direction:column;gap:1px;min-width:0;text-align:left;padding:8px 10px;background:var(--raised);border:1.5px solid var(--line);border-radius:6px}
+.sndopt b{font-weight:600;color:var(--ink)}
+.sndopt small{font-size:12px;line-height:1.3;color:var(--muted)}
+.sndopt:hover{border-color:var(--accent)}
+.sndopt[aria-checked="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+#dlg .langs{align-self:flex-start;max-width:100%}
 .charcard{background:var(--surface);border:1.5px solid var(--line);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:8px;padding:12px 14px}
 .guide{margin:0;padding:8px 12px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px}
 .guide b{color:var(--ink);font-weight:600}
@@ -289,9 +296,10 @@ const DICT=[
 ['รูปพื้นหลังเว็บ','Background image','รูป Background'],['กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่','Press Ctrl+V to paste, or drag an image here','กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่'],['ความเข้มของฉากบังรูป: ','Image dimming: ','ความเข้มของฉากบังรูป: '],['ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น','More dimming makes text easier to read. The image stays on this device.','ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น'],['พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง','Not enough storage. Try a smaller image.','พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง'],['ใช้รูปพื้นหลังแล้ว','Background applied','ใช้รูป Background แล้ว'],['ลบรูปพื้นหลังแล้ว','Background removed','ลบรูป Background แล้ว'],['ตัวอย่างการ์ด','Sample card','ตัวอย่างการ์ด'],['ยังไม่ได้ใส่รูป','No image yet','ยังไม่ได้ใส่รูป'],['ใส่รูปพื้นหลัง','Add background','ใส่รูป Background'],['เปลี่ยนรูปพื้นหลัง','Change background','เปลี่ยนรูป Background'],['ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP','Use a PNG, JPG, WEBP, GIF or BMP file','ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP'],['รูปใหญ่เกิน 15 MB','Image is over 15 MB','รูปใหญ่เกิน 15 MB'],['รูปใหญ่เกิน 25 MB','Image is over 25 MB','รูปใหญ่เกิน 25 MB'],['เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น','Can’t open this image. Try another one.','เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น'],
 ['อุปกรณ์: ','Devices: ','Device: '],['ยังไม่เชื่อม','Not linked','ยังไม่ Link'],['กำลังเชื่อม','Connecting','กำลัง Connect'],['กำลังซิงก์','Syncing','กำลัง Sync'],['ซิงก์แล้ว','Synced','Sync แล้ว'],['ออฟไลน์','Offline','Offline'],['ซิงก์ไม่สำเร็จ','Sync failed','Sync ไม่สำเร็จ'],
 ['เชื่อมอุปกรณ์แล้ว','Device linked','Link อุปกรณ์แล้ว'],['เชื่อมอุปกรณ์นี้?','Link this device?','Link อุปกรณ์นี้?'],['เชื่อมอุปกรณ์','Link devices','Link อุปกรณ์'],['สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง','Create a code on your first device, then scan the QR on your phone or iPad. Every device stays in sync.','สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะ Sync ทุกเครื่อง'],['สร้างรหัสสำหรับเครื่องนี้','Create a code for this device','สร้างรหัสสำหรับเครื่องนี้'],['มีรหัสจากเครื่องอื่นแล้ว','Have a code from another device','มีรหัสจากเครื่องอื่นแล้ว'],['การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น','Linking replaces the data on this device with the data from that code.','การ Link จะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น'],['เชื่อมด้วยรหัสนี้','Link with this code','Link ด้วยรหัสนี้'],['รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ','The code must have 32 characters. Check that you copied all of it.','รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ'],['ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง','Code not found. Check it and try again.','ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง'],['เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่','Can’t connect. Check your internet and try again.','เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่'],['สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้','Scan this QR on your phone or iPad. Keep it private, because anyone with the code can edit your data.','สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อ Link อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้'],['เปลี่ยนรหัสเชื่อมต่อ?','Change the link code?','เปลี่ยนรหัส Link?'],['รหัสเชื่อมต่อ','Link code','รหัส Link'],['คัดลอกลิงก์แล้ว','Link copied','คัดลอกลิงก์แล้ว'],['คัดลอกลิงก์','Copy link','คัดลอกลิงก์'],['เปลี่ยนรหัสแล้ว','Code changed','เปลี่ยนรหัสแล้ว'],['เปลี่ยนรหัส','Change code','เปลี่ยนรหัส'],['เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่','Other linked devices will disconnect and must scan the new QR.','เครื่องอื่นที่ Link อยู่จะหลุด และต้องสแกน QR ใหม่'],['เลิกเชื่อมเครื่องนี้?','Unlink this device?','เลิก Link เครื่องนี้?'],['เลิกเชื่อมเครื่องนี้','Unlink this device','เลิก Link เครื่องนี้'],['ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ซิงก์กับเครื่องอื่นอีก','Your data stays on this device but stops syncing.','ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ Sync กับเครื่องอื่นอีก'],['เลิกเชื่อมแล้ว','Device unlinked','เลิก Link แล้ว'],['>เลิกเชื่อม<','>Unlink<','>เลิก Link<'],['ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR','The data on this device will be replaced by the data from the device that made the QR.','ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR'],['>เชื่อมเลย<','>Link now<','>Link เลย<'],['รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุดซิงก์','This code was cancelled, so this device stopped syncing.','รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุด Sync'],['ข้อมูลใหญ่เกินกว่าจะซิงก์ ลองลดจำนวนรูปตัวละคร','Too much data to sync. Try using fewer character images.','ข้อมูลใหญ่เกินกว่าจะ Sync ลองลดจำนวนรูป Character'],['สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน','Couldn’t make the QR. Use the code below.','สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน'],
+['<h2>เสียงกด','<h2>Click sound','<h2>Sound'],['กดเพื่อฟังเสียง แล้วเลือกแบบที่ชอบ','Tap to hear each sound, then keep the one you like.','กดเพื่อฟัง Sound แล้วเลือกแบบที่ชอบ'],['ระดับเสียง<','Volume<','Volume<'],['>เสร็จ<','>Done<','>เสร็จ<'],['ทุ้มกลม ฟังสบาย','Low and round, easy on the ears','ทุ้มกลม ฟังสบาย'],['ต็อกสั้นแบบเคาะไม้','A short wooden tap','ต็อกสั้นแบบเคาะไม้'],['ป๊อปเบาแบบฟองน้ำ','A light bubble pop','ป๊อปเบาแบบฟองน้ำ'],['คลิกทุ้มแบบปุ่มกด','A deep key click','คลิกทุ้มแบบปุ่มกด'],
 ['เสียงกด: ','Click sound: ','Sound: '],['ระดับเสียงกด ตอนนี้ ','Click sound level, now ','ระดับ Sound ตอนนี้ '],[' กดเพื่อเปลี่ยน',', press to change',' กดเพื่อเปลี่ยน'],[' วัน ','d ','d ',' วัน ']
 ];
-const WORDS={'มืด':['Dark','Dark'],'สว่าง':['Light','Light'],'ลาวา':['Lava','Lava'],'ทะเล':['Ocean','Ocean'],'ป่า':['Forest','Forest'],'ซากุระ':['Sakura','Sakura'],'ปิด':['Off','Off'],'เบา':['Low','Low'],'กลาง':['Medium','Medium'],'ดัง':['High','High']};
+const WORDS={'นุ่ม':['Soft','Soft'],'ไม้':['Wood','Wood'],'ฟอง':['Bubble','Bubble'],'คีย์บอร์ด':['Keyboard','Keyboard'],'มืด':['Dark','Dark'],'สว่าง':['Light','Light'],'ลาวา':['Lava','Lava'],'ทะเล':['Ocean','Ocean'],'ป่า':['Forest','Forest'],'ซากุระ':['Sakura','Sakura'],'ปิด':['Off','Off'],'เบา':['Low','Low'],'กลาง':['Medium','Medium'],'ดัง':['High','High']};
 const SEED_NAMES=new Set(['ตัวละคร 1','เควสและกิลด์','เควสภารกิจรายวัน','เควสรายสัปดาห์','เควสบอร์ด','เช็คชื่อกิลด์','ส่งของกิลด์','Sea Dragon Nest (ยาก)']);
 const LANGS=[['th','ไทย'],['en','EN'],['mix','ไทย+EN']];
 let lang='mix';
@@ -376,7 +384,7 @@ function currentSkin(){
 }
 function skinRow(){
   const cur=currentSkin();
-  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(bg.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
+  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+(soundLevel?L(SOUND_STYLES[soundStyle].name)+' · ':'')+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(bg.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
 }
 applySkin();
 function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?Math.min(max,Math.max(min,v)):min}
@@ -565,40 +573,68 @@ function charForm(c,onSave){
 const SOUND_LEVELS=[['ปิด',0],['เบา',.07],['กลาง',.14],['ดัง',.26]];
 let soundLevel=2,ac=null,noiseBuf=null;
 try{const v=localStorage.getItem('dn-sound');if(v!==null&&SOUND_LEVELS[Number(v)]) soundLevel=Number(v)}catch(e){}
-function tok(freq,len){
-  const peak=SOUND_LEVELS[soundLevel][1];
-  if(!peak) return;
-  len=len||.055;
+const SOUND_STYLES={
+  soft:{name:'นุ่ม',desc:'ทุ้มกลม ฟังสบาย',wave:'sine',f:{up:560,down:420,ui:480,danger:240},dur:.11,attack:.006,cut:1500,gain:.95},
+  wood:{name:'ไม้',desc:'ต็อกสั้นแบบเคาะไม้',wave:'triangle',f:{up:360,down:280,ui:320,danger:180},dur:.06,attack:.002,cut:950,gain:1},
+  bubble:{name:'ฟอง',desc:'ป๊อปเบาแบบฟองน้ำ',wave:'sine',f:{up:430,down:340,ui:380,danger:220},dur:.085,attack:.004,cut:2000,gain:.85,rise:1.45},
+  key:{name:'คีย์บอร์ด',desc:'คลิกทุ้มแบบปุ่มกด',wave:'sine',f:{up:210,down:170,ui:190,danger:120},dur:.045,attack:.001,cut:1200,gain:1.1,noise:.38}
+};
+let soundStyle='soft';
+try{const v=localStorage.getItem('dn-sound-style');if(SOUND_STYLES[v]) soundStyle=v}catch(e){}
+function tok(kind){
+  const level=SOUND_LEVELS[soundLevel][1],s=SOUND_STYLES[soundStyle];
+  if(!level) return;
+  const peak=level*s.gain,freq=s.f[kind]||s.f.ui;
   try{
     ac=ac||new (window.AudioContext||window.webkitAudioContext)();
     if(ac.state==='suspended') ac.resume();
-    const t=ac.currentTime+.002,g=ac.createGain(),o=ac.createOscillator();
-    o.type='triangle';
+    const t=ac.currentTime+.002,g=ac.createGain(),o=ac.createOscillator(),lp=ac.createBiquadFilter();
+    o.type=s.wave;
     o.frequency.setValueAtTime(freq,t);
-    o.frequency.exponentialRampToValueAtTime(freq*.55,t+len);
+    o.frequency.exponentialRampToValueAtTime(freq*(s.rise||.82),t+s.dur);
+    lp.type='lowpass';lp.frequency.value=s.cut;lp.Q.value=.3;
     g.gain.setValueAtTime(.0001,t);
-    g.gain.exponentialRampToValueAtTime(peak,t+.003);
-    g.gain.exponentialRampToValueAtTime(.0001,t+len);
-    o.connect(g);g.connect(ac.destination);
-    o.start(t);o.stop(t+len+.01);
-    if(!noiseBuf){
-      noiseBuf=ac.createBuffer(1,Math.floor(ac.sampleRate*.025),ac.sampleRate);
-      const d=noiseBuf.getChannelData(0);
-      for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+    g.gain.exponentialRampToValueAtTime(peak,t+s.attack);
+    g.gain.exponentialRampToValueAtTime(.0001,t+s.dur);
+    o.connect(lp);lp.connect(g);g.connect(ac.destination);
+    o.start(t);o.stop(t+s.dur+.01);
+    if(s.noise){
+      if(!noiseBuf){
+        noiseBuf=ac.createBuffer(1,Math.floor(ac.sampleRate*.025),ac.sampleRate);
+        const d=noiseBuf.getChannelData(0);
+        for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+      }
+      const n=ac.createBufferSource(),f=ac.createBiquadFilter(),ng=ac.createGain();
+      n.buffer=noiseBuf;f.type='lowpass';f.frequency.value=2200;
+      ng.gain.setValueAtTime(peak*s.noise,t);
+      ng.gain.exponentialRampToValueAtTime(.0001,t+.016);
+      n.connect(f);f.connect(ng);ng.connect(ac.destination);
+      n.start(t);n.stop(t+.025);
     }
-    const n=ac.createBufferSource(),f=ac.createBiquadFilter(),ng=ac.createGain();
-    n.buffer=noiseBuf;f.type='bandpass';f.frequency.value=2600;f.Q.value=.8;
-    ng.gain.setValueAtTime(peak*.35,t);
-    ng.gain.exponentialRampToValueAtTime(.0001,t+.018);
-    n.connect(f);f.connect(ng);ng.connect(ac.destination);
-    n.start(t);n.stop(t+.025);
   }catch(e){}
 }
-const SND={up:1320,down:820,soft:1040,danger:360};
+const SND={up:'up',down:'down',soft:'ui',danger:'danger'};
+function soundForm(){
+  modal('เสียงกด',
+    '<p class="note">กดเพื่อฟังเสียง แล้วเลือกแบบที่ชอบ</p><div class="sndgrid" role="radiogroup" aria-label="Sound">'+Object.keys(SOUND_STYLES).map(k=>'<button type="button" class="sndopt" role="radio" data-nosnd data-style="'+k+'"><b>'+L(SOUND_STYLES[k].name)+'</b><small>'+SOUND_STYLES[k].desc+'</small></button>').join('')+'</div><div class="field"><span>ระดับเสียง</span><div class="langs" role="radiogroup" aria-label="Volume">'+SOUND_LEVELS.map((x,i)=>'<button type="button" role="radio" data-nosnd data-lv="'+i+'">'+L(x[0])+'</button>').join('')+'</div></div>',
+    'เสร็จ',()=>{});
+  $('#fCancel',dlg).hidden=true;
+  const mark=()=>{
+    dlg.querySelectorAll('[data-style]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.style===soundStyle)));
+    dlg.querySelectorAll('[data-lv]').forEach(b=>b.setAttribute('aria-checked',String(Number(b.dataset.lv)===soundLevel)));
+  };
+  const keep=()=>{
+    try{localStorage.setItem('dn-sound',String(soundLevel));localStorage.setItem('dn-sound-style',soundStyle)}catch(e){}
+    mark();render();
+  };
+  dlg.querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{soundStyle=b.dataset.style;if(!soundLevel) soundLevel=2;keep();tok('up')});
+  dlg.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>{soundLevel=Number(b.dataset.lv);keep();tok('up')});
+  mark();
+}
 // Runs in the capture phase, before the click handler re-renders the button.
 document.addEventListener('click',e=>{
   const b=e.target.closest('button');
-  if(!b||b.disabled||b.dataset.act==='sound') return;
+  if(!b||b.disabled||b.dataset.act==='sound'||b.hasAttribute('data-nosnd')) return;
   if(b.dataset.act==='pip'){
     const cur=b.parentNode.querySelectorAll('.pip.on').length;
     tok(Number(b.dataset.n)>cur?SND.up:SND.down);
@@ -706,7 +742,7 @@ document.addEventListener('click',e=>{
   else if(a==='bg') bgForm();
   else if(a==='sync') syncForm();
   else if(a==='lang'){lang=b.dataset.lang;try{localStorage.setItem('dn-lang',lang)}catch(err){}document.documentElement.lang=lang==='en'?'en':'th';render()}
-  else if(a==='sound'){soundLevel=(soundLevel+1)%SOUND_LEVELS.length;try{localStorage.setItem('dn-sound',String(soundLevel))}catch(err){}tok(SND.up);render()}
+  else if(a==='sound'){tok(SND.soft);soundForm()}
   else if(a==='skin'){skin=b.dataset.skin;try{localStorage.setItem('dn-skin',skin)}catch(err){}applySkin();render()}
   else if(a==='add-char') charForm(null,(name,job,img)=>{const n={id:uid(),name,job,img};S.chars.push(n);S.active=n.id;S.view='char'});
   else if(a==='edit-char') charForm(c,(name,job,img)=>{c.name=name;c.job=job;c.img=img});
