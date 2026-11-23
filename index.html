@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>สมุดเคลียร์ Dragon Nest</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="DN Tracker">
+<meta name="application-name" content="DN Tracker">
+<meta name="theme-color" content="#11141d">
+<title>Dragon Nest Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
 <style>
@@ -272,7 +278,6 @@ const escPlain=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 // Language: Thai source strings are translated at render. Text the user typed is wrapped in
 // private-use markers so it is never translated. Columns: Thai key, English, Thai+English, optional pure-Thai override.
 const DICT=[
-['สมุดเคลียร์ Dragon Nest','Dragon Nest Clear Log','สมุด Clear Dragon Nest'],
 ['ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ','Track quests and dungeons per character. Data stays on your device.','ติ๊ก Quest และ Dungeon แยกตาม Character ข้อมูลเก็บในเครื่องของคุณ'],
 ['รีรายวัน 08:00','Daily reset 08:00','Daily Reset 08:00','รีเซ็ตรายวัน 08:00'],
 ['รีรายสัปดาห์ เสาร์ 08:00','Weekly reset Sat 08:00','Weekly Reset เสาร์ 08:00','รีเซ็ตรายสัปดาห์ เสาร์ 08:00'],
@@ -497,7 +502,7 @@ function render(){
   const scrollX=$('.tabs')?$('.tabs').scrollLeft:0;
   const c=S.chars.find(x=>x.id===S.active)||S.chars[0];S.active=c.id;
   const now=Date.now();
-  let h='<header><div><h1>สมุดเคลียร์ Dragon Nest</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
+  let h='<header><div><h1>Dragon Nest Tracker</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
   if(!storageOk) h+='<p class="err">เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้</p>';
   h+=skinRow();
   h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
@@ -588,11 +593,13 @@ const SOUND_STYLES={
   bubble:{name:'ฟอง',desc:'ป๊อปเบาแบบฟองน้ำ',wave:'sine',f:{up:430,down:340,ui:380,danger:220},dur:.085,attack:.004,cut:2000,gain:.85,rise:1.45}
 };
 let soundStyle='creamy';
+// Small phone speakers barely reproduce sound below about 400 Hz, so touch devices get extra mid layers.
+const isTouch=()=>{try{return matchMedia('(pointer: coarse)').matches}catch(e){return false}};
 // A muted key press in layers: low body, faint case resonance, soft contact, then a quiet return stroke.
 function playCreamy(base,peak){
-  const t=ac.currentTime+.002,f=base*(1+(Math.random()-.5)*.05);
+  const touch=isTouch(),t=ac.currentTime+.002,f=base*(touch?1.7:1)*(1+(Math.random()-.5)*.05);
   const out=ac.createGain(),lp=ac.createBiquadFilter();
-  out.gain.value=peak;lp.type='lowpass';lp.frequency.value=1250;lp.Q.value=.4;
+  out.gain.value=peak*(touch?1.7:1);lp.type='lowpass';lp.frequency.value=touch?2600:1250;lp.Q.value=.4;
   lp.connect(out);out.connect(ac.destination);
   const hit=(freq,start,attack,dur,amp,end)=>{
     const o=ac.createOscillator(),g=ac.createGain();
@@ -608,6 +615,7 @@ function playCreamy(base,peak){
   hit(f,t,.002,.075,1,.72);
   hit(f*2.35,t,.0015,.032,.34,.85);
   hit(f*1.3,t+.062,.002,.035,.2,.8);
+  if(touch){hit(f*2.9,t,.0015,.04,.6,.9);hit(f*4.1,t,.001,.018,.22,.9)}
   if(!noiseBuf){
     noiseBuf=ac.createBuffer(1,Math.floor(ac.sampleRate*.025),ac.sampleRate);
     const d=noiseBuf.getChannelData(0);
@@ -621,13 +629,17 @@ function playCreamy(base,peak){
   n.start(t);n.stop(t+.02);
 }
 try{const v=localStorage.getItem('dn-sound-style');if(SOUND_STYLES[v]) soundStyle=v}catch(e){}
-function tok(kind){
+function tok(kind,_len,resumed){
   const level=SOUND_LEVELS[soundLevel][1],s=SOUND_STYLES[soundStyle];
   if(!level) return;
   const peak=level*s.gain,freq=s.f[kind]||s.f.ui;
   try{
     ac=ac||new (window.AudioContext||window.webkitAudioContext)();
-    if(ac.state==='suspended') ac.resume();
+    // Phones suspend or interrupt audio. Wait for it to resume so the first tap is not silent.
+    if(ac.state!=='running'&&!resumed){
+      ac.resume().then(()=>tok(kind,0,true)).catch(()=>{});
+      return;
+    }
     if(s.creamy){playCreamy(freq,peak);return}
     const t=ac.currentTime+.002,g=ac.createGain(),o=ac.createOscillator(),lp=ac.createBiquadFilter();
     o.type=s.wave;
@@ -635,13 +647,24 @@ function tok(kind){
     o.frequency.exponentialRampToValueAtTime(freq*(s.rise||.82),t+s.dur);
     lp.type='lowpass';lp.frequency.value=s.cut;lp.Q.value=.3;
     g.gain.setValueAtTime(.0001,t);
-    g.gain.exponentialRampToValueAtTime(peak,t+s.attack);
+    g.gain.exponentialRampToValueAtTime(peak*(isTouch()?1.4:1),t+s.attack);
     g.gain.exponentialRampToValueAtTime(.0001,t+s.dur);
     o.connect(lp);lp.connect(g);g.connect(ac.destination);
     o.start(t);o.stop(t+s.dur+.01);
   }catch(e){}
 }
 const SND={up:'up',down:'down',soft:'ui',danger:'danger'};
+// Unlock audio on a real touch, because phones only allow it to start inside a user gesture.
+function unlockAudio(){
+  if(!SOUND_LEVELS[soundLevel][1]) return;
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    if(ac.state!=='running') ac.resume().catch(()=>{});
+    const b=ac.createBuffer(1,1,ac.sampleRate),n=ac.createBufferSource();
+    n.buffer=b;n.connect(ac.destination);n.start(0);
+  }catch(e){}
+}
+['touchend','pointerup'].forEach(type=>document.addEventListener(type,unlockAudio,{capture:true,passive:true}));
 function soundForm(){
   modal('เสียงกด',
     '<p class="note">กดเพื่อฟังเสียง แล้วเลือกแบบที่ชอบ</p><div class="sndgrid" role="radiogroup" aria-label="Sound">'+Object.keys(SOUND_STYLES).map(k=>'<button type="button" class="sndopt" role="radio" data-nosnd data-style="'+k+'"><b>'+L(SOUND_STYLES[k].name)+'</b><small>'+SOUND_STYLES[k].desc+'</small></button>').join('')+'</div><div class="field"><span>ระดับเสียง</span><div class="langs" role="radiogroup" aria-label="Volume">'+SOUND_LEVELS.map((x,i)=>'<button type="button" role="radio" data-nosnd data-lv="'+i+'">'+L(x[0])+'</button>').join('')+'</div></div>',
