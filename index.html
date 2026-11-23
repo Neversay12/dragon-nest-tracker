@@ -175,6 +175,10 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .skin.syncp[data-state="error"] svg{color:var(--hard)}
 .qrwrap{align-self:center;width:fit-content;background:#fff;padding:10px;border-radius:6px;min-width:204px;min-height:204px}
 .qrwrap img,.qrwrap canvas{display:block;max-width:100%}
+.skin.upd svg{color:var(--accent)}
+.skin.upd.ready{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.skin.upd.ready svg{color:inherit}
+.skin.upd:disabled{opacity:.7;cursor:default}
 .btnrow{display:flex;flex-wrap:wrap;gap:6px}
 .qrguard{display:flex;justify-content:center}
 .qrcover{width:204px;height:204px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center;background:var(--raised);border:1.5px dashed var(--line);border-radius:6px}
@@ -259,6 +263,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
+<script>window.DN_BUILD="ff5de76847c1";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -309,6 +314,7 @@ const DICT=[
 ['อุปกรณ์: ','Devices: ','Device: '],['ยังไม่เชื่อม','Not linked','ยังไม่ Link'],['กำลังเชื่อม','Connecting','กำลัง Connect'],['กำลังซิงก์','Syncing','กำลัง Sync'],['ซิงก์แล้ว','Synced','Sync แล้ว'],['ออฟไลน์','Offline','Offline'],['ซิงก์ไม่สำเร็จ','Sync failed','Sync ไม่สำเร็จ'],
 ['เชื่อมอุปกรณ์แล้ว','Device linked','Link อุปกรณ์แล้ว'],['เชื่อมอุปกรณ์นี้?','Link this device?','Link อุปกรณ์นี้?'],['เชื่อมอุปกรณ์','Link devices','Link อุปกรณ์'],['สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะตรงกันทุกเครื่อง','Create a code on your first device, then scan the QR on your phone or iPad. Every device stays in sync.','สร้างรหัสบนเครื่องแรก แล้วสแกน QR จากมือถือหรือ iPad ข้อมูลจะ Sync ทุกเครื่อง'],['สร้างรหัสสำหรับเครื่องนี้','Create a code for this device','สร้างรหัสสำหรับเครื่องนี้'],['มีรหัสจากเครื่องอื่นแล้ว','Have a code from another device','มีรหัสจากเครื่องอื่นแล้ว'],['การเชื่อมจะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น','Linking replaces the data on this device with the data from that code.','การ Link จะแทนที่ข้อมูลในเครื่องนี้ด้วยข้อมูลจากรหัสนั้น'],['เชื่อมด้วยรหัสนี้','Link with this code','Link ด้วยรหัสนี้'],['รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ','The code must have 32 characters. Check that you copied all of it.','รหัสต้องมี 32 ตัวอักษร ตรวจสอบว่าคัดลอกมาครบ'],['ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง','Code not found. Check it and try again.','ไม่พบรหัสนี้ ตรวจสอบรหัสอีกครั้ง'],['เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่','Can’t connect. Check your internet and try again.','เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่'],['สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อเชื่อม อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้','Scan this QR on your phone or iPad. Keep it private, because anyone with the code can edit your data.','สแกน QR นี้ด้วยมือถือหรือ iPad เพื่อ Link อย่าส่งให้คนอื่น เพราะใครมีรหัสจะแก้ข้อมูลได้'],['เปลี่ยนรหัสเชื่อมต่อ?','Change the link code?','เปลี่ยนรหัส Link?'],['รหัสเชื่อมต่อ','Link code','รหัส Link'],['คัดลอกลิงก์แล้ว','Link copied','คัดลอกลิงก์แล้ว'],['คัดลอกลิงก์','Copy link','คัดลอกลิงก์'],['เปลี่ยนรหัสแล้ว','Code changed','เปลี่ยนรหัสแล้ว'],['เปลี่ยนรหัส','Change code','เปลี่ยนรหัส'],['เครื่องอื่นที่เชื่อมอยู่จะหลุด และต้องสแกน QR ใหม่','Other linked devices will disconnect and must scan the new QR.','เครื่องอื่นที่ Link อยู่จะหลุด และต้องสแกน QR ใหม่'],['เลิกเชื่อมเครื่องนี้?','Unlink this device?','เลิก Link เครื่องนี้?'],['เลิกเชื่อมเครื่องนี้','Unlink this device','เลิก Link เครื่องนี้'],['ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ซิงก์กับเครื่องอื่นอีก','Your data stays on this device but stops syncing.','ข้อมูลยังอยู่ในเครื่องนี้ แต่จะไม่ Sync กับเครื่องอื่นอีก'],['เลิกเชื่อมแล้ว','Device unlinked','เลิก Link แล้ว'],['>เลิกเชื่อม<','>Unlink<','>เลิก Link<'],['ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR','The data on this device will be replaced by the data from the device that made the QR.','ข้อมูลในเครื่องนี้จะถูกแทนที่ด้วยข้อมูลจากเครื่องที่สร้าง QR'],['>เชื่อมเลย<','>Link now<','>Link เลย<'],['รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุดซิงก์','This code was cancelled, so this device stopped syncing.','รหัสนี้ถูกยกเลิกแล้ว เครื่องนี้หยุด Sync'],['ข้อมูลใหญ่เกินกว่าจะซิงก์ ลองลดจำนวนรูปตัวละคร','Too much data to sync. Try using fewer character images.','ข้อมูลใหญ่เกินกว่าจะ Sync ลองลดจำนวนรูป Character'],['สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน','Couldn’t make the QR. Use the code below.','สร้าง QR ไม่ได้ ใช้รหัสด้านล่างแทน'],
 ['QR ถูกซ่อนไว้','QR is hidden','QR ถูกซ่อนไว้'],['กดเมื่อไม่ได้สตรีมหรือแชร์จอ','Reveal only when you are not streaming or sharing your screen','กดเมื่อไม่ได้ Stream หรือแชร์จอ'],['แสดง QR','Show QR','แสดง QR'],['ซ่อน QR','Hide QR','ซ่อน QR'],['ย้อนข้อมูลล่าสุด','Restore recent data','ย้อนข้อมูลล่าสุด'],['ย้อนข้อมูลแล้ว','Data restored','ย้อนข้อมูลแล้ว'],['ย้อนข้อมูลไม่สำเร็จ','Couldn’t restore that data','ย้อนข้อมูลไม่สำเร็จ'],['ย้อนไปข้อมูลนี้?','Restore this data?','ย้อนไปข้อมูลนี้?'],['เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้','Pick a time to go back to. Your current data is kept so you can undo this.','เลือกเวลาที่ต้องการกลับไป ข้อมูลปัจจุบันจะถูกเก็บไว้ให้ย้อนกลับได้'],['ข้อมูลบนทุกเครื่องที่เชื่อมอยู่จะกลับไปเป็นชุดนี้','Every linked device will go back to this data.','ข้อมูลบนทุกเครื่องที่ Link อยู่จะกลับไปเป็นชุดนี้'],['<h2>ย้อนข้อมูล','<h2>Restore data','<h2>ย้อนข้อมูล'],['>ย้อนข้อมูล<','>Restore<','>ย้อนข้อมูล<'],
+['มีเวอร์ชันใหม่ กดปุ่มอัปเดตด้านบน','A new version is ready. Press Update at the top.','มี Update ใหม่ กดปุ่มด้านบน'],['มีเวอร์ชันใหม่ กดอัปเดต','Update available','มี Update ใหม่ กดเลย'],['กำลังรีเฟรช','Refreshing','กำลัง Refresh'],['รีเฟรช','Refresh','Refresh'],
 ['<h2>เสียงกด','<h2>Click sound','<h2>Sound'],['กดเพื่อฟังเสียง แล้วเลือกแบบที่ชอบ','Tap to hear each sound, then keep the one you like.','กดเพื่อฟัง Sound แล้วเลือกแบบที่ชอบ'],['ระดับเสียง<','Volume<','Volume<'],['>เสร็จ<','>Done<','>เสร็จ<'],['ทุ้มกลม ฟังสบาย','Low and round, easy on the ears','ทุ้มกลม ฟังสบาย'],['ต็อกสั้นแบบเคาะไม้','A short wooden tap','ต็อกสั้นแบบเคาะไม้'],['ป๊อปเบาแบบฟองน้ำ','A light bubble pop','ป๊อปเบาแบบฟองน้ำ'],['ทุ้มนุ่มแนวคีย์บอร์ดลูบสวิตช์','Deep and muted, like a lubed keyboard','ทุ้มนุ่มแนวคีย์บอร์ดลูบสวิตช์'],
 ['เสียงกด: ','Click sound: ','Sound: '],['ระดับเสียงกด ตอนนี้ ','Click sound level, now ','ระดับ Sound ตอนนี้ '],[' กดเพื่อเปลี่ยน',', press to change',' กดเพื่อเปลี่ยน'],[' วัน ','d ','d ',' วัน ']
 ];
@@ -397,7 +403,7 @@ function currentSkin(){
 }
 function skinRow(){
   const cur=currentSkin();
-  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+(soundLevel?L(SOUND_STYLES[soundStyle].name)+' · ':'')+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(bg.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
+  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+updatePill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+(soundLevel?L(SOUND_STYLES[soundStyle].name)+' · ':'')+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(bg.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
 }
 applySkin();
 function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?Math.min(max,Math.max(min,v)):min}
@@ -792,6 +798,7 @@ document.addEventListener('click',e=>{
   else if(a==='backup') backup();
   else if(a==='bg') bgForm();
   else if(a==='sync') syncForm();
+  else if(a==='refresh') refreshPage(b);
   else if(a==='lang'){lang=b.dataset.lang;try{localStorage.setItem('dn-lang',lang)}catch(err){}document.documentElement.lang=lang==='en'?'en':'th';render()}
   else if(a==='sound'){tok(SND.soft);soundForm()}
   else if(a==='skin'){skin=b.dataset.skin;try{localStorage.setItem('dn-skin',skin)}catch(err){}applySkin();render()}
@@ -1187,6 +1194,44 @@ function bootSync(){
   }
 }
 
+// Refresh button and new-version check. Only the standalone build has a build id.
+const BUILD=window.DN_BUILD||'';
+let updateReady=false,updateChecked=0;
+function updatePill(){
+  if(!BUILD) return '';
+  return '<button class="skin snd upd'+(updateReady?' ready':'')+'" data-act="refresh" data-fk="refresh">'+svg('<path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/>')+'<span data-upd-label>'+(updateReady?'มีเวอร์ชันใหม่ กดอัปเดต':'รีเฟรช')+'</span></button>';
+}
+async function checkUpdate(){
+  if(!BUILD||updateReady||document.hidden) return;
+  updateChecked=Date.now();
+  try{
+    const r=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'});
+    if(!r.ok) return;
+    const m=(await r.text()).match(/window\.DN_BUILD="([a-f0-9]{12})"/);
+    if(!m||m[1]===BUILD) return;
+    updateReady=true;
+    const p=$('.upd');
+    if(p){p.classList.add('ready');p.querySelector('[data-upd-label]').textContent=tr('มีเวอร์ชันใหม่ กดอัปเดต')}
+    toast('มีเวอร์ชันใหม่ กดปุ่มอัปเดตด้านบน');
+  }catch(e){}
+}
+async function refreshPage(btn){
+  btn.disabled=true;
+  const l=btn.querySelector('[data-upd-label]');if(l) l.textContent=tr('กำลังรีเฟรช');
+  // Progress is already saved locally. Give any waiting sync a moment to finish first.
+  try{
+    if(SYNC_CFG&&sync.ready&&sync.localAt>sync.remoteAt) await Promise.race([pushSync(),new Promise(r=>setTimeout(r,1500))]);
+  }catch(e){}
+  location.replace(location.pathname+'?u='+Date.now());
+}
+function bootUpdate(){
+  if(!BUILD) return;
+  if(/[?&]u=\d+/.test(location.search)) history.replaceState(null,'',location.pathname+location.hash);
+  setTimeout(checkUpdate,3000);
+  setInterval(checkUpdate,1800000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-updateChecked>600000) checkUpdate()});
+}
+
 function tick(){
   if(sync.pending&&!dlg.open&&!drag) applyRemote(sync.pending);
   const r=applyResets();
@@ -1195,7 +1240,7 @@ function tick(){
   if(a) a.textContent=cd(dayStart(now)+D-now);
   if(b) b.textContent=cd(weekStart(now)+W-now);
 }
-applyBg();syncQuiet=true;applyResets();save();syncQuiet=false;render();setInterval(tick,1000);bootSync();
+applyBg();syncQuiet=true;applyResets();save();syncQuiet=false;render();setInterval(tick,1000);bootUpdate();bootSync();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden) tick()});
 })();
 </script>
