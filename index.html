@@ -110,7 +110,7 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .btn.edit,.btn.warn{text-align:left}
 #app{position:relative;z-index:1}
 #toast{z-index:5}
-#bgImg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+#bgImg{position:fixed;inset:calc(var(--wblur,0px) * -2);z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;filter:blur(var(--wblur,0px))}
 #bgImg::after{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--dim,.4)}
 .skinbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px}
 .skin.bgbtn{padding:2px 12px 2px 8px;font-weight:600;border-style:dashed;border-color:var(--accent);color:var(--accent)}
@@ -127,13 +127,6 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .has-bg header,.has-bg .skinbar{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:10px 12px}
 .has-bg .section-label,.has-bg footer{width:fit-content;max-width:100%;background:var(--surface);color:var(--ink);border-radius:4px;padding:1px 8px}
 .has-bg .section-label{margin:4px 0 -6px}
-.bgprev{position:relative;aspect-ratio:16/9;max-width:100%;overflow:hidden;border-radius:6px;border:1px solid var(--line);background:var(--raised) center/cover no-repeat;display:flex;align-items:center;justify-content:center}
-.bgprev i{position:absolute;inset:0;background:var(--bg)}
-.bgprev span{position:relative;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:4px 12px;font-size:13px}
-.bgdrop{display:flex;flex-direction:column;gap:7px;padding:10px;border:1.5px dashed var(--line);border-radius:7px;background:var(--bg)}
-.bgdrop.over{border-color:var(--accent)}
-.bgdrop small{color:var(--muted);font-size:12px}
-.bgdrop .btns{display:flex;flex-wrap:wrap;gap:4px}
 .field input[type=range]{padding:0;border:0;background:none;accent-color:var(--accent)}
 .gtoggle .gcount{display:inline-flex;align-items:center;gap:5px}
 .gcount svg{width:16px;height:16px;flex:none;stroke-width:3}
@@ -290,14 +283,91 @@ dialog form{display:flex;flex-direction:column;gap:11px}
   .clocks{width:100%}
 }
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
+.has-bg .btn.warn:hover{color:#fff}
+.has-bg #app .btn:not(.primary):not(.warn):not([aria-pressed="true"]),.has-bg #app .skin,.has-bg #app .langs{background:var(--solid)}
+.has-bg #app .langs button[aria-checked="true"]{background:var(--accent)}
+.has-bg th:first-child,.has-bg td:first-child{background:var(--solid)}
+.has-bg .pip.on{color:var(--solid)}
+html.wall-open{overflow:hidden}
+html.wall-open #app{visibility:hidden}
+dialog.wall{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--ink);overflow:hidden}
+dialog.wall::backdrop{background:transparent}
+dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
+.wside{display:flex;flex-direction:column;gap:12px;padding:calc(18px + env(safe-area-inset-top,0px)) 14px 18px max(14px,env(safe-area-inset-left,0px));background:var(--wside);border-right:1px solid var(--wline);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.wback{display:inline-flex;align-items:center;gap:6px;width:fit-content;min-height:38px;padding:4px 10px;border:0;border-radius:8px;background:none;font-size:16px;font-weight:600}
+.wback:hover{background:var(--whover)}
+.wside small{color:var(--muted);font-size:13px;padding:6px 10px 0}
+.wnav{display:flex;flex-direction:column;gap:6px}
+.wnav button{display:flex;align-items:center;gap:11px;min-height:50px;padding:8px 12px;border:0;border-radius:10px;background:transparent;text-align:left;font-weight:500;transition:background .12s}
+.wnav button svg{width:19px;height:19px;flex:none}
+.wnav button:hover,.wnav button[aria-current="page"]{background:var(--whover)}
+.wmain{min-width:0;overflow-y:auto;padding:calc(26px + env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) 40px 28px}
+.wpage{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.whead h2{font-family:var(--display);font-size:28px;line-height:1.2;margin:0}
+.whead p{margin:3px 0 0;color:var(--muted);font-size:14px}
+.wpanel{background:var(--wpanel);border:1px solid var(--wline);border-radius:12px;padding:14px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.wcur{display:flex;align-items:center;gap:13px}
+.wcur img,.wcur .wnone{width:82px;height:52px;flex:none;border-radius:6px;object-fit:cover;background:var(--raised);border:1px solid var(--wline)}
+.wcur div{flex:1;min-width:0}
+.wcur small{display:block;color:var(--muted);font-size:12px}
+.wcur b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.wbar span{color:var(--muted);font-size:13px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.wcard{position:relative;min-width:0}
+.wpick{display:block;width:100%;padding:0;border:0;background:none;text-align:left;border-radius:10px}
+.wpick img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;border:2px solid var(--wline);transition:border-color .12s,transform .12s}
+.wpick:hover img{border-color:var(--accent);transform:translateY(-2px)}
+.wcard.on .wpick img{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.wname{display:block;margin-top:5px;padding:1px 7px;width:fit-content;max-width:100%;border-radius:4px;background:var(--wpanel);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcard em{position:absolute;left:8px;top:8px;padding:1px 8px;border-radius:4px;background:var(--accent);color:var(--on-accent);font-style:normal;font-size:12px;font-weight:600}
+.wdel{position:absolute;right:7px;top:7px;min-width:32px;height:32px;padding:0 8px;border:1px solid rgba(255,255,255,.3);border-radius:7px;background:rgba(10,12,20,.72);color:#fff;font-size:13px}
+.wdel:hover,.wdel.sure{background:#c23a28;border-color:#c23a28}
+.wadd{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:100%;aspect-ratio:16/10;border:2px dashed var(--accent);border-radius:10px;background:var(--wpanel);color:var(--ink);font-weight:600}
+.wadd:hover,dialog.wall.over .wadd{background:var(--whover)}
+.wadd svg{width:26px;height:26px;color:var(--accent)}
+.wadd small{color:var(--muted);font-size:12px;font-weight:400}
+.wlook{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,1fr);gap:16px;align-items:start}
+.wcol{display:flex;flex-direction:column;gap:14px;min-width:0}
+.wprev{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:10px;border:1px solid var(--wline);background:var(--bg);display:flex;align-items:center;justify-content:center}
+.wprev i{position:absolute;inset:-14px;background:center/cover no-repeat}
+.wprev i+i{inset:0;background:var(--bg)}
+.wmini{position:relative;width:min(62%,340px);padding:12px;border:1px solid var(--line);border-radius:8px}
+.wmini b{display:block;font-family:var(--display);margin-bottom:7px}
+.wmini span{display:flex;justify-content:space-between;padding:4px 7px;border-top:1px solid var(--line);font-size:13px}
+.wmini span::after{content:"";width:14px;height:14px;border:1.5px solid var(--accent);border-radius:3px}
+.wrange{display:block}
+.wrange+.wrange{margin-top:13px}
+.wrange span{display:flex;justify-content:space-between;font-size:14px;font-weight:500}
+.wrange input{width:100%;margin:6px 0 0;accent-color:var(--accent)}
+.wmodes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.wmodes button{min-height:36px;padding:3px 13px;border:1px solid var(--wline);border-radius:8px;background:none}
+.wmodes button:hover{background:var(--whover)}
+.wmodes button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.wtitle{font-weight:600}
+@media (max-width:760px){
+  dialog.wall[open]{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .wside{flex-direction:row;align-items:center;gap:6px;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 8px;border-right:0;border-bottom:1px solid var(--wline)}
+  .wside small{display:none}
+  .wback{padding:4px 7px;font-size:14px}
+  .wnav{flex:1;flex-direction:row;min-width:0}
+  .wnav button{flex:1;justify-content:center;gap:6px;min-height:40px;padding:4px 6px;font-size:13px}
+  .wnav button svg{display:none}
+  .wmain{padding:16px 16px calc(32px + env(safe-area-inset-bottom,0px))}
+  .whead h2{font-size:23px}
+  .wgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .wlook{grid-template-columns:minmax(0,1fr)}
+  .wdel{min-width:36px;height:36px}
+}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="7e0b561149f6";</script>
+<script>window.DN_BUILD="d364c3e85cad";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
 <div id="app"></div>
 <dialog id="dlg"></dialog>
+<dialog id="wallDlg" class="wall" aria-label="Background"></dialog>
 <div id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
@@ -312,6 +382,15 @@ const escPlain=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 // Language: Thai source strings are translated at render. Text the user typed is wrapped in
 // private-use markers so it is never translated. Columns: Thai key, English, Thai+English, optional pure-Thai override.
 const DICT=[
+['‹ กลับ','‹ Back','‹ Back'],['ปรับแต่งพื้นหลัง','Personalization','ปรับแต่ง Background'],['คลังรูปพื้นหลัง','Wallpaper library','คลัง Wallpaper'],['การแสดงผล','Appearance','Appearance'],
+['กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ซิงค์ไปเครื่องอื่น','Click a picture to use it. Pictures stay on this device and do not sync.','กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ Sync ไปเครื่องอื่น'],
+['พื้นหลังที่ใช้อยู่','Current background','Background ที่ใช้อยู่'],['ยังไม่ได้ใช้รูป','No picture','ยังไม่ได้ใช้รูป'],['ไม่ใช้รูป','Use no picture','ไม่ใช้รูป'],['รูปก่อนหน้า','Previous picture','รูปก่อนหน้า'],
+['เพิ่มรูป','Import image','เพิ่มรูป'],['เลือกไฟล์ ลากมาวาง หรือ Ctrl+V','Choose, drop, or Ctrl+V','เลือกไฟล์ ลากมาวาง หรือ Ctrl+V'],['ใช้อยู่','In use','ใช้อยู่'],['ลบรูป','Delete picture','ลบรูป'],['ยืนยันลบ','Confirm','ยืนยันลบ'],
+['เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า','This browser cannot store pictures. They disappear when the page closes.','เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า'],
+['ปรับความเบลอ ความชัด และความโปร่งของแผง','Adjust blur, picture strength, and panel transparency.','ปรับ Blur ความชัด และความโปร่งของ Panel'],['ตัวอย่างแผง','Panel preview','Panel Preview'],['เควสตัวอย่าง','Sample quest','Sample Quest'],['ดันเจี้ยนตัวอย่าง','Sample dungeon','Sample Dungeon'],
+['ความเบลอของรูป','Background blur','Background Blur'],['ความชัดของรูป','Picture strength','ความชัดของรูป'],['ความทึบของแผง','Panel opacity','ความทึบของ Panel'],['คืนค่าการแสดงผล','Reset appearance','Reset Appearance'],
+['โหมดสี','Theme mode','Theme Mode'],['โหมดสว่าง','Light','Light'],['โหมดมืด','Dark','Dark'],['ตามเครื่อง','Follow system','Follow System'],
+['เพิ่มรูปแล้ว','Picture added','เพิ่มรูปแล้ว'],['ลบรูปแล้ว','Picture deleted','ลบรูปแล้ว'],['คลังเต็มแล้ว ลบรูปเก่าก่อน','Library is full. Delete a picture first.','คลังเต็มแล้ว ลบรูปเก่าก่อน'],['พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า','Not enough storage. Delete an older picture.','พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า'],
 ['ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ','Track quests and dungeons per character. Data stays on your device.','ติ๊ก Quest และ Dungeon แยกตาม Character ข้อมูลเก็บในเครื่องของคุณ'],
 ['รีรายวัน 08:00','Daily reset 08:00','Daily Reset 08:00','รีเซ็ตรายวัน 08:00'],
 ['รีรายสัปดาห์ เสาร์ 08:00','Weekly reset Sat 08:00','Weekly Reset เสาร์ 08:00','รีเซ็ตรายสัปดาห์ เสาร์ 08:00'],
@@ -484,7 +563,7 @@ function toAvatar(file){return new Promise((ok,no)=>{
 const SKINS=[['dark','มืด','#11141d'],['light','สว่าง','#f3f5f9'],['lava','ลาวา','linear-gradient(135deg,#6d2413,#ffa45c)'],['ocean','ทะเล','linear-gradient(135deg,#0e3b55,#5fd4e8)'],['forest','ป่า','linear-gradient(135deg,#1e3d27,#a8dc6c)'],['sakura','ซากุระ','linear-gradient(135deg,#f8c9d9,#c23468)']];
 let skin=null;
 try{const v=localStorage.getItem('dn-skin');if(SKINS.some(x=>x[0]===v)) skin=v}catch(e){}
-function applySkin(){if(skin) document.documentElement.setAttribute('data-skin',skin);else document.documentElement.removeAttribute('data-skin')}
+function applySkin(){if(skin) document.documentElement.setAttribute('data-skin',skin);else document.documentElement.removeAttribute('data-skin');if(wall) paintWall()}
 function currentSkin(){
   if(skin) return skin;
   const t=document.documentElement.getAttribute('data-theme');
@@ -493,7 +572,7 @@ function currentSkin(){
 }
 function skinRow(){
   const cur=currentSkin();
-  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+updatePill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+(soundLevel?L(SOUND_STYLES[soundStyle].name)+' · ':'')+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(bg.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
+  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+updatePill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+(soundLevel?L(SOUND_STYLES[soundStyle].name)+' · ':'')+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(wall.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
 }
 applySkin();
 function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?Math.min(max,Math.max(min,v)):min}
@@ -631,7 +710,7 @@ function render(){
   if(fk){const el=$('[data-fk="'+fk+'"]');if(el) el.focus({preventScroll:true})}
 }
 let toastT;
-function toast(m){const t=$('#toast');(dlg.open?dlg:document.body).appendChild(t);t.textContent=tr(m);t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
+function toast(m){const t=$('#toast');(dlg.open?dlg:$('#wallDlg').open?$('#wallDlg'):document.body).appendChild(t);t.textContent=tr(m);t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
 
 const dlg=$('#dlg');
 function modal(title,inner,submitLabel,onSubmit,danger){
@@ -801,78 +880,250 @@ document.addEventListener('click',e=>{
     tok(SND.danger,.09);
   }else tok(SND.soft,.045);
 },true);
-// The background stays on this device and is left out of backup codes, which would otherwise become huge.
-const BG_KEY='dn-bg',BG_DIM='dn-bg-dim';
-let bg={img:'',dim:40};
+// Wallpapers stay on this device in IndexedDB, because localStorage is too small and Firestore documents are capped.
+const BG_KEY='dn-bg',BG_DIM='dn-bg-dim',WALL_KEY='dn-wall',WALL_MAX=24;
+const WALL_RE=/^data:image\/(jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/;
+// Dark themes let the picture lead. Light themes use a milky panel. Each tone remembers its own sliders.
+const WALL_TONES=()=>({d:{show:74,glass:62},l:{show:82,glass:84}});
+var wall={id:'',img:'',name:'',blur:0,tones:WALL_TONES(),list:[],view:'lib'};
+function wallTone(){
+  const h=getComputedStyle(document.documentElement).getPropertyValue('--surface').trim().replace('#','');
+  const x=h.length===3?h.split('').map(c=>c+c).join(''):h,n=parseInt(x,16);
+  if(!/^[0-9a-f]{6}$/i.test(x)) return 'd';
+  return (.2126*(n>>16)+.7152*((n>>8)&255)+.0722*(n&255))/255<.5?'d':'l';
+}
+['show','glass'].forEach(k=>Object.defineProperty(wall,k,{get(){return wall.tones[wallTone()][k]},set(v){wall.tones[wallTone()][k]=v}}));
 try{
-  const v=localStorage.getItem(BG_KEY);
-  if(typeof v==='string'&&/^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v)) bg.img=v;
-  const n=Number(localStorage.getItem(BG_DIM));
-  if(localStorage.getItem(BG_DIM)!==null&&Number.isFinite(n)) bg.dim=clampInt(n,0,85);
+  const v=JSON.parse(localStorage.getItem(WALL_KEY)||'null');
+  if(v&&typeof v==='object'){
+    if(typeof v.id==='string') wall.id=v.id;
+    wall.blur=clampInt(Number(v.blur)||0,0,24);
+    ['d','l'].forEach(t=>{
+      const x=v.tones&&v.tones[t];if(!x) return;
+      if(Number.isFinite(Number(x.show))) wall.tones[t].show=clampInt(Number(x.show),15,100);
+      if(Number.isFinite(Number(x.glass))) wall.tones[t].glass=clampInt(Number(x.glass),35,100);
+    });
+  }else if(localStorage.getItem(BG_DIM)!==null){
+    const old=clampInt(100-(Number(localStorage.getItem(BG_DIM))||0),15,100);wall.tones.d.show=old;wall.tones.l.show=old;
+  }
 }catch(e){}
-function applyBg(){
-  const el=$('#bgImg');
-  el.hidden=!bg.img;
-  el.style.backgroundImage=bg.img?'url("'+bg.img+'")':'none';
-  el.style.setProperty('--dim',bg.dim/100);
-  document.documentElement.classList.toggle('has-bg',!!bg.img);
+const wallSave=()=>{try{localStorage.setItem(WALL_KEY,JSON.stringify({id:wall.id,blur:wall.blur,tones:wall.tones}))}catch(e){}};
+function hexA(v,a){
+  let h=String(v).trim().replace('#','');
+  if(h.length===3) h=h.split('').map(c=>c+c).join('');
+  if(!/^[0-9a-f]{6}$/i.test(h)) return v;
+  const n=parseInt(h,16);
+  return 'rgba('+(n>>16)+','+((n>>8)&255)+','+(n&255)+','+a+')';
 }
-function saveBg(){
-  try{
-    if(bg.img) localStorage.setItem(BG_KEY,bg.img);else localStorage.removeItem(BG_KEY);
-    localStorage.setItem(BG_DIM,String(bg.dim));
-    return true;
-  }catch(e){return false}
+function paintWall(){
+  const el=$('#bgImg'),app=$('#app'),box=$('#wallDlg'),root=document.documentElement;
+  if(!el||!app) return;
+  const has=!!wall.img,css=getComputedStyle(root),surface=css.getPropertyValue('--surface'),raised=css.getPropertyValue('--raised'),ink=css.getPropertyValue('--ink');
+  el.hidden=!has;
+  el.style.backgroundImage=has?'url("'+wall.img+'")':'none';
+  el.style.setProperty('--dim',1-wall.show/100);
+  el.style.setProperty('--wblur',wall.blur+'px');
+  root.classList.toggle('has-bg',has);
+  if(has){app.style.setProperty('--surface',hexA(surface,wall.glass/100));app.style.setProperty('--raised',hexA(raised,wall.glass/100));app.style.setProperty('--solid',hexA(surface,.96))}
+  else{app.style.removeProperty('--surface');app.style.removeProperty('--raised');app.style.removeProperty('--solid')}
+  box.style.setProperty('--wside',hexA(surface,.62));
+  box.style.setProperty('--wpanel',hexA(surface,.72));
+  box.style.setProperty('--wline',hexA(ink,.16));
+  box.style.setProperty('--whover',hexA(ink,.13));
 }
-function toBackground(file){return new Promise((ok,no)=>{
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>paintWall());
+let wdbP=null,wallMem=false;
+const wmem={meta:new Map(),full:new Map()};
+function wdb(){
+  return wdbP||(wdbP=new Promise((ok,no)=>{
+    try{
+      const r=indexedDB.open('dn-wallpapers',1);
+      r.onupgradeneeded=()=>{r.result.createObjectStore('meta',{keyPath:'id'});r.result.createObjectStore('full',{keyPath:'id'})};
+      r.onsuccess=()=>ok(r.result);
+      r.onerror=()=>no(r.error);
+      r.onblocked=()=>no(new Error('blocked'));
+    }catch(e){no(e)}
+  }).catch(e=>{wallMem=true;return null}));
+}
+async function wallList(){
+  const db=await wdb();
+  if(!db) return Array.from(wmem.meta.values()).sort((a,b)=>b.at-a.at);
+  return new Promise((ok,no)=>{const q=db.transaction('meta').objectStore('meta').getAll();q.onsuccess=()=>ok(q.result.sort((a,b)=>b.at-a.at));q.onerror=()=>no(q.error)});
+}
+async function wallFull(id){
+  const db=await wdb();
+  if(!db) return wmem.full.get(id)||null;
+  return new Promise((ok,no)=>{const q=db.transaction('full').objectStore('full').get(id);q.onsuccess=()=>ok(q.result&&q.result.img||null);q.onerror=()=>no(q.error)});
+}
+async function wallPut(meta,img){
+  const db=await wdb();
+  if(!db){wmem.meta.set(meta.id,meta);wmem.full.set(meta.id,img);return}
+  return new Promise((ok,no)=>{const t=db.transaction(['meta','full'],'readwrite');t.objectStore('meta').put(meta);t.objectStore('full').put({id:meta.id,img});t.oncomplete=()=>ok();t.onerror=t.onabort=()=>no(t.error||new Error('store'))});
+}
+async function wallRemove(id){
+  const db=await wdb();
+  if(!db){wmem.meta.delete(id);wmem.full.delete(id);return}
+  return new Promise((ok,no)=>{const t=db.transaction(['meta','full'],'readwrite');t.objectStore('meta').delete(id);t.objectStore('full').delete(id);t.oncomplete=()=>ok();t.onerror=t.onabort=()=>no(t.error||new Error('store'))});
+}
+function wallThumb(im){
+  const cv=document.createElement('canvas');cv.width=480;cv.height=300;
+  const r=Math.max(480/im.naturalWidth,300/im.naturalHeight),w=im.naturalWidth*r,h=im.naturalHeight*r,x=cv.getContext('2d');
+  x.fillStyle='#11141d';x.fillRect(0,0,480,300);x.drawImage(im,(480-w)/2,(300-h)/2,w,h);
+  return cv.toDataURL('image/jpeg',.74);
+}
+const readData=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result));r.onerror=()=>no(new Error('bad'));r.readAsDataURL(f)});
+function wallMake(file){return new Promise((ok,no)=>{
   if(file.size>25e6) return no(new Error('big'));
   const u=URL.createObjectURL(file),im=new Image();
-  im.onload=()=>{
-    const make=(max,q)=>{
-      const r=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)),cv=document.createElement('canvas');
-      cv.width=Math.max(1,Math.round(im.naturalWidth*r));cv.height=Math.max(1,Math.round(im.naturalHeight*r));
-      const x=cv.getContext('2d');x.fillStyle='#11141d';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);
-      return cv.toDataURL('image/jpeg',q);
-    };
-    let d=make(1920,.8);
-    if(d.length>1500000) d=make(1600,.7);
-    if(d.length>1500000) d=make(1280,.62);
-    URL.revokeObjectURL(u);ok(d);
+  im.onload=async()=>{
+    try{
+      const make=(max,q)=>{
+        const r=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)),cv=document.createElement('canvas');
+        cv.width=Math.max(1,Math.round(im.naturalWidth*r));cv.height=Math.max(1,Math.round(im.naturalHeight*r));
+        const x=cv.getContext('2d');x.fillStyle='#11141d';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);
+        return cv.toDataURL('image/jpeg',q);
+      };
+      let img;
+      if(file.type==='image/gif'&&file.size<=6e6) img=await readData(file); // keeps the animation
+      else{img=make(2560,.86);if(img.length>4e6) img=make(1920,.8);if(img.length>4e6) img=make(1600,.72)}
+      ok({img,thumb:wallThumb(im)});
+    }catch(e){no(new Error('bad'))}
+    URL.revokeObjectURL(u);
   };
   im.onerror=()=>{URL.revokeObjectURL(u);no(new Error('bad'))};
   im.src=u;
 })}
-function bgForm(){
-  let d=bg.img,dim=bg.dim;
-  modal('รูปพื้นหลังเว็บ',
-   '<div class="bgdrop" id="bgDrop"><div class="bgprev" id="bgPrev"><i id="bgShade"></i><span id="bgSample"></span></div><small>กด Ctrl+V เพื่อวางรูป หรือลากรูปมาที่นี่</small><div class="btns"><button type="button" class="btn small" id="bgPick">เลือกรูป</button><button type="button" class="btn small danger" id="bgRm">ลบรูป</button></div><input id="bgFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden></div>'+
-   '<label class="field"><span>ความเข้มของฉากบังรูป: <b id="bgDimText"></b></span><input id="bgDim" type="range" min="0" max="85" step="5" value="'+dim+'"></label><p class="note">ยิ่งเข้มยิ่งอ่านตัวหนังสือง่าย รูปจะเก็บไว้ในเครื่องนี้เท่านั้น</p>',
-   'บันทึก',()=>{
-    const old=bg;bg={img:d,dim};
-    if(!saveBg()){bg=old;saveBg();return 'พื้นที่เก็บข้อมูลไม่พอ ลองใช้รูปที่เล็กลง'}
-    applyBg();toast(d?'ใช้รูปพื้นหลังแล้ว':'ลบรูปพื้นหลังแล้ว');
-   });
-  const prev=$('#bgPrev',dlg),shade=$('#bgShade',dlg),sample=$('#bgSample',dlg),drop=$('#bgDrop',dlg),file=$('#bgFile',dlg),er=$('#fErr',dlg),range=$('#bgDim',dlg);
-  const show=()=>{
-    prev.style.backgroundImage=d?'url("'+d+'")':'none';
-    shade.style.opacity=d?dim/100:0;
-    sample.textContent=tr(d?'ตัวอย่างการ์ด':'ยังไม่ได้ใส่รูป');
-    $('#bgDimText',dlg).textContent=dim+'%';
-    $('#bgRm',dlg).hidden=!d;
+async function wallBoot(){
+  let legacy='';
+  try{const v=localStorage.getItem(BG_KEY);if(typeof v==='string'&&WALL_RE.test(v)) legacy=v}catch(e){}
+  try{
+    if(legacy){
+      wall.img=legacy;paintWall();
+      const im=new Image();
+      await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src=legacy});
+      const meta={id:'w-'+uid(),name:'',at:Date.now(),thumb:wallThumb(im)};
+      await wallPut(meta,legacy);
+      wall.id=meta.id;wallSave();
+      if(!wallMem){localStorage.removeItem(BG_KEY);localStorage.removeItem(BG_DIM)}
+    }else if(wall.id){
+      const img=await wallFull(wall.id);
+      if(img&&WALL_RE.test(img)){wall.img=img;paintWall()}
+      else{wall.id='';wallSave()}
+    }
+  }catch(e){}
+}
+const WICON={lib:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5-4 3 2 4-4 4 4"/></svg>',look:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M18 7h2M4 17h2M11 17h9"/><circle cx="15.5" cy="7" r="2.5"/><circle cx="8.5" cy="17" r="2.5"/></svg>',add:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>'};
+const wallName=m=>m&&m.name?m.name:tr('รูปก่อนหน้า');
+function wallClose(){
+  const box=$('#wallDlg');
+  document.body.appendChild($('#toast'));
+  document.documentElement.classList.remove('wall-open');
+  if(box.open) box.close();
+  box.innerHTML='';
+  render();
+}
+async function wallOpen(){
+  const box=$('#wallDlg');
+  paintWall();
+  box.innerHTML=tr('<aside class="wside"><button type="button" class="wback" id="wBack">‹ กลับ</button><small>ปรับแต่งพื้นหลัง</small><nav class="wnav"><button type="button" data-wview="lib">'+WICON.lib+'<span>คลังรูปพื้นหลัง</span></button><button type="button" data-wview="look">'+WICON.look+'<span>การแสดงผล</span></button></nav></aside><main class="wmain" id="wMain"></main><input id="wFile" type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden>');
+  $('#wBack',box).onclick=wallClose;
+  box.oncancel=e=>{e.preventDefault();wallClose()};
+  box.querySelectorAll('[data-wview]').forEach(b=>b.onclick=()=>{wall.view=b.dataset.wview;wallRender()});
+  const file=$('#wFile',box);
+  file.onchange=()=>{wallAdd(Array.from(file.files));file.value=''};
+  box.onpaste=e=>{const f=Array.from((e.clipboardData&&e.clipboardData.files)||[]).filter(x=>x.type.startsWith('image/'));if(f.length){e.preventDefault();wallAdd(f)}};
+  box.ondragover=e=>{e.preventDefault();box.classList.add('over')};
+  box.ondragleave=e=>{if(e.target===box) box.classList.remove('over')};
+  box.ondrop=e=>{e.preventDefault();box.classList.remove('over');wallAdd(Array.from(e.dataTransfer.files))};
+  $('#wMain',box).onclick=wallClick;
+  document.documentElement.classList.add('wall-open');
+  if(!box.open) box.showModal();
+  try{wall.list=await wallList()}catch(e){wall.list=[]}
+  wallRender();
+}
+function wallRender(){
+  const box=$('#wallDlg'),main=$('#wMain',box);
+  if(!main) return;
+  box.querySelectorAll('[data-wview]').forEach(b=>{if(b.dataset.wview===wall.view) b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  main.scrollTop=0;
+  if(wall.view==='look') return wallLook(main);
+  const cur=wall.list.find(x=>x.id===wall.id);
+  main.innerHTML=tr('<div class="wpage"><div class="whead"><h2>คลังรูปพื้นหลัง</h2><p>กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ซิงค์ไปเครื่องอื่น</p></div>'+
+    (wallMem?'<p class="wpanel">เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า</p>':'')+
+    '<div class="wpanel wcur">'+(cur?'<img alt="" id="wCurImg">':'<span class="wnone"></span>')+'<div><small>พื้นหลังที่ใช้อยู่</small><b id="wCurName">ยังไม่ได้ใช้รูป</b></div>'+(wall.img?'<button type="button" class="btn" data-wact="none">ไม่ใช้รูป</button>':'')+'</div>'+
+    '<div class="wgrid"><button type="button" class="wadd" data-wact="add">'+WICON.add+'เพิ่มรูป<small>เลือกไฟล์ ลากมาวาง หรือ Ctrl+V</small></button>'+
+    wall.list.map(m=>'<div class="wcard'+(m.id===wall.id?' on':'')+'" data-id="'+escPlain(m.id)+'"><button type="button" class="wpick" data-wact="use"><img alt=""><span class="wname"></span></button>'+(m.id===wall.id?'<em>ใช้อยู่</em>':'')+'<button type="button" class="wdel" data-wact="del" aria-label="ลบรูป">×</button></div>').join('')+
+    '</div></div>');
+  if(cur){$('#wCurImg',main).src=cur.thumb;$('#wCurName',main).textContent=wallName(cur)}
+  main.querySelectorAll('.wcard').forEach(c=>{const m=wall.list.find(x=>x.id===c.dataset.id);$('img',c).src=m.thumb;$('.wname',c).textContent=wallName(m)});
+}
+function wallLook(main){
+  const range=(id,label,min,max,v,unit)=>'<label class="wrange"><span>'+label+'<b id="'+id+'V">'+v+unit+'</b></span><input id="'+id+'" type="range" min="'+min+'" max="'+max+'" value="'+v+'"></label>';
+  const mode=currentMode();
+  main.innerHTML=tr('<div class="wpage"><div class="whead"><h2>การแสดงผล</h2><p>ปรับความเบลอ ความชัด และความโปร่งของแผง</p></div><div class="wlook"><div class="wcol"><div class="wprev"><i id="wpImg"></i><i id="wpShade"></i><div class="wmini" id="wpMini"><b>ตัวอย่างแผง</b><span>เควสตัวอย่าง</span><span>ดันเจี้ยนตัวอย่าง</span></div></div></div><div class="wcol"><div class="wpanel">'+
+    range('wBlur','ความเบลอของรูป',0,24,wall.blur,'px')+range('wShow','ความชัดของรูป',15,100,wall.show,'%')+range('wGlass','ความทึบของแผง',35,100,wall.glass,'%')+
+    '</div><div class="wpanel"><div class="wtitle">โหมดสี</div><div class="wmodes">'+[['light','โหมดสว่าง'],['dark','โหมดมืด'],['','ตามเครื่อง']].map(x=>'<button type="button" data-wmode="'+x[0]+'" aria-pressed="'+(mode===x[0])+'">'+x[1]+'</button>').join('')+'</div></div><div><button type="button" class="btn" data-wact="reset-look">คืนค่าการแสดงผล</button></div></div></div></div>');
+  const sync=()=>{
+    const pi=$('#wpImg',main);
+    pi.style.backgroundImage=wall.img?'url("'+wall.img+'")':'none';
+    pi.style.filter='blur('+(wall.blur/2.5)+'px)';
+    $('#wpShade',main).style.opacity=wall.img?1-wall.show/100:1;
+    $('#wpMini',main).style.background=hexA(getComputedStyle(document.documentElement).getPropertyValue('--surface'),wall.img?wall.glass/100:1);
   };
-  const take=async f=>{
-    er.hidden=true;
-    if(!f||!/^image\/(png|jpeg|webp|gif|bmp)$/.test(f.type)){er.textContent=tr('ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP');er.hidden=false;return}
-    try{d=await toBackground(f);show()}catch(e){er.textContent=tr(e.message==='big'?'รูปใหญ่เกิน 25 MB':'เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น');er.hidden=false}
-  };
-  show();
-  range.oninput=()=>{dim=clampInt(range.value,0,85);show()};
-  $('#bgPick',dlg).onclick=()=>file.click();
-  $('#bgRm',dlg).onclick=()=>{d='';show()};
-  file.onchange=()=>{if(file.files[0]) take(file.files[0]);file.value=''};
-  dlg.onpaste=e=>{const f=Array.from((e.clipboardData&&e.clipboardData.files)||[]).find(x=>x.type.startsWith('image/'));if(f){e.preventDefault();take(f)}};
-  dlg.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
-  dlg.ondrop=e=>{e.preventDefault();drop.classList.remove('over');take(e.dataTransfer.files[0])};
+  [['wBlur','blur','px'],['wShow','show','%'],['wGlass','glass','%']].forEach(x=>{
+    const r=$('#'+x[0],main);
+    r.oninput=()=>{wall[x[1]]=clampInt(r.value,Number(r.min),Number(r.max));$('#'+x[0]+'V',main).textContent=wall[x[1]]+x[2];paintWall();sync();wallSave()};
+  });
+  sync();
+}
+const currentMode=()=>skin==='dark'||skin==='light'?skin:skin?'custom':'';
+async function wallUse(id){
+  try{
+    const img=await wallFull(id);
+    if(!img||!WALL_RE.test(img)) return;
+    wall.id=id;wall.img=img;wallSave();paintWall();wallRender();
+  }catch(e){toast('เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น')}
+}
+async function wallAdd(files){
+  const good=files.filter(f=>/^image\/(png|jpeg|webp|gif|bmp)$/.test(f.type));
+  if(!good.length){toast('ใช้ได้เฉพาะไฟล์ PNG, JPG, WEBP, GIF หรือ BMP');return}
+  let last='';
+  for(const f of good){
+    if(wall.list.length>=WALL_MAX){toast('คลังเต็มแล้ว ลบรูปเก่าก่อน');break}
+    try{
+      const made=await wallMake(f),meta={id:'w-'+uid(),name:String(f.name||'Wallpaper').replace(/\.[^.]+$/,'').slice(0,60)||'Wallpaper',at:Date.now(),thumb:made.thumb};
+      await wallPut(meta,made.img);
+      wall.list.unshift(meta);last=meta.id;
+    }catch(e){toast(e.message==='big'?'รูปใหญ่เกิน 25 MB':e.message==='bad'?'เปิดรูปนี้ไม่ได้ ลองใช้รูปอื่น':'พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า');break}
+  }
+  if(last){wall.view='lib';await wallUse(last);toast('เพิ่มรูปแล้ว')}
+}
+async function wallClick(e){
+  const mode=e.target.closest('[data-wmode]');
+  if(mode){
+    skin=mode.dataset.wmode||null;
+    try{if(skin) localStorage.setItem('dn-skin',skin);else localStorage.removeItem('dn-skin')}catch(err){}
+    applySkin();wallRender();return;
+  }
+  const b=e.target.closest('[data-wact]');if(!b) return;
+  const a=b.dataset.wact,card=b.closest('.wcard'),id=card&&card.dataset.id;
+  if(a==='add') $('#wFile').click();
+  else if(a==='none'){wall.id='';wall.img='';wallSave();paintWall();wallRender()}
+  else if(a==='use') wallUse(id);
+  else if(a==='reset-look'){wall.blur=0;wall.tones[wallTone()]=WALL_TONES()[wallTone()];wallSave();paintWall();wallRender()}
+  else if(a==='del'){
+    if(!b.classList.contains('sure')){
+      b.classList.add('sure');b.textContent=tr('ยืนยันลบ');
+      setTimeout(()=>{if(b.isConnected){b.classList.remove('sure');b.textContent='×'}},3000);
+      return;
+    }
+    try{
+      await wallRemove(id);
+      wall.list=wall.list.filter(x=>x.id!==id);
+      if(wall.id===id){wall.id='';wall.img='';wallSave();paintWall()}
+      wallRender();toast('ลบรูปแล้ว');
+    }catch(err){toast('พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า')}
+  }
 }
 function encode(){const b=new TextEncoder().encode(JSON.stringify(S));let s='';b.forEach(x=>s+=String.fromCharCode(x));return 'DNT1:'+btoa(s)}
 function decode(t){t=t.trim();if(!t.startsWith('DNT1:')) throw 0;const s=atob(t.slice(5)),b=Uint8Array.from(s,c=>c.charCodeAt(0));return clean(JSON.parse(new TextDecoder().decode(b)))}
@@ -896,7 +1147,7 @@ document.addEventListener('click',e=>{
   else if(a==='hide'){S.hideDone=!S.hideDone;save();render()}
   else if(a==='manage'){manage=!manage;render()}
   else if(a==='backup') backup();
-  else if(a==='bg') bgForm();
+  else if(a==='bg') wallOpen();
   else if(a==='sync') syncForm();
   else if(a==='hide-link'){lsSet('dn-link-banner-off','1');render()}
   else if(a==='refresh') refreshPage(b);
@@ -1577,7 +1828,7 @@ function tick(){
   if(a) a.textContent=cd(dayStart(now)+D-now);
   if(b) b.textContent=cd(weekStart(now)+W-now);
 }
-applyBg();syncQuiet=true;applyResets();save();syncQuiet=false;render();setInterval(tick,1000);bootUpdate();bootSync();
+paintWall();wallBoot();syncQuiet=true;applyResets();save();syncQuiet=false;render();setInterval(tick,1000);bootUpdate();bootSync();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden) tick()});
 })();
 </script>
