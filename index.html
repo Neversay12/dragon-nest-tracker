@@ -293,6 +293,8 @@ html.wall-light #bgImg::after{background:#fff}
 .has-bg.wall-light .row.dragging,.has-bg.wall-light .group.dragging,.has-bg.wall-light .tab.dragging{background:rgba(255,255,255,.97)}
 dialog.wall .btn{background:var(--wpanel);border-color:var(--wline);color:var(--ink)}
 dialog.wall .btn:hover{border-color:var(--accent)}
+.wcredit{display:inline-block;margin:3px 0 0 2px;font-size:12px;color:var(--muted)}
+.wcredit:hover{color:var(--accent)}
 .wsec{margin:6px 0 0;font-family:var(--display);font-size:17px}
 .wnote{font-size:12px;color:var(--muted);margin:7px 0 12px}
 .wrange input:disabled{opacity:.4}
@@ -439,7 +441,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="622a382fdbd0";</script>
+<script>window.DN_BUILD="6aaa38fde439";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -463,7 +465,7 @@ const DICT=[
 ['รูปพื้นหลัง','Background','Background'],['เชื่อม Device','Link devices','เชื่อม Device'],['เสียงกด','Key sound','Sound'],['title="ภาษา" aria-label="ภาษา"','title="Language" aria-label="Language"','title="Language" aria-label="Language"'],
 ['‹ กลับ','‹ Back','‹ Back'],['ปรับแต่งพื้นหลัง','Personalization','ปรับแต่ง Background'],['คลังรูปพื้นหลัง','Wallpaper library','คลัง Wallpaper'],['การแสดงผล','Appearance','Appearance'],
 ['กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ซิงค์ไปเครื่องอื่น','Click a picture to use it. Pictures stay on this device and do not sync.','กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ Sync ไปเครื่องอื่น'],
-['พื้นหลังที่ใช้อยู่','Current background','Background ที่ใช้อยู่'],['ยังไม่ได้ใช้รูป','No picture','ยังไม่ได้ใช้รูป'],['ไม่ใช้รูป','Use no picture','ไม่ใช้รูป'],['รูปก่อนหน้า','Previous picture','รูปก่อนหน้า'],['รูปแนะนำ','Featured','รูปแนะนำ'],
+['พื้นหลังที่ใช้อยู่','Current background','Background ที่ใช้อยู่'],['ยังไม่ได้ใช้รูป','No picture','ยังไม่ได้ใช้รูป'],['ไม่ใช้รูป','Use no picture','ไม่ใช้รูป'],['รูปก่อนหน้า','Previous picture','รูปก่อนหน้า'],['รูปแนะนำ','Featured','รูปแนะนำ'],['ที่มา: ','Source: ','ที่มา: '],
 ['เพิ่มรูป','Import image','เพิ่มรูป'],['เลือกไฟล์ ลากมาวาง หรือ Ctrl+V','Choose, drop, or Ctrl+V','เลือกไฟล์ ลากมาวาง หรือ Ctrl+V'],['ใช้อยู่','In use','ใช้อยู่'],['ลบรูป','Delete picture','ลบรูป'],['ยืนยันลบ','Confirm','ยืนยันลบ'],
 ['เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า','This browser cannot store pictures. They disappear when the page closes.','เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า'],
 ['ปรับความเบลอ ความชัด และความโปร่งของแผง','Adjust blur, picture strength, and panel transparency.','ปรับ Blur ความชัด และความโปร่งของ Panel'],['ตัวอย่างแผง','Panel preview','Panel Preview'],['เควสตัวอย่าง','Sample quest','Sample Quest'],['ดันเจี้ยนตัวอย่าง','Sample dungeon','Sample Dungeon'],
@@ -986,7 +988,10 @@ const WALL_RE=/^data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/;
 // Dark themes let the picture lead. Light themes use a milky panel. Each tone remembers its own sliders.
 const WALL_TONES=()=>({d:{show:62,glass:20},l:{show:66,glass:46}});
 // Built-in pictures ship next to the page, so picking one stores only its id.
-const WALL_PRESETS=[{id:'p-cake',name:'Cake Shop',src:'wallpapers/cake-3840.webp',thumb:'wallpapers/cake-thumb.webp'}];
+const WALL_PRESETS=[
+  {id:'p-katana',name:'Autumn Katana',src:'wallpapers/katana-3840.webp',thumb:'wallpapers/katana-thumb.webp',credit:'uhdpaper.com',link:'https://www.uhdpaper.com/'},
+  {id:'p-cake',name:'Cake Shop',src:'wallpapers/cake-3840.webp',thumb:'wallpapers/cake-thumb.webp'}
+];
 var wall={id:'',img:'',name:'',blur:0,pblur:0,posY:50,pan:false,tones:WALL_TONES(),list:[],view:'lib'};
 function wallTone(){
   const h=getComputedStyle(document.documentElement).getPropertyValue('--surface').trim().replace('#','');
@@ -1189,7 +1194,7 @@ function wallRender(){
     '<div class="wpanel wcur">'+(cur?'<img alt="" id="wCurImg">':'<span class="wnone"></span>')+'<div><small>พื้นหลังที่ใช้อยู่</small><b id="wCurName">ยังไม่ได้ใช้รูป</b></div>'+(wall.img?'<button type="button" class="btn" data-wact="none">ไม่ใช้รูป</button>':'')+'</div>'+
     '<div class="wgrid"><button type="button" class="wadd" data-wact="add">'+WICON.add+'เพิ่มรูป<small>เลือกไฟล์ ลากมาวาง หรือ Ctrl+V</small></button>'+
     wall.list.map(m=>'<div class="wcard'+(m.id===wall.id?' on':'')+'" data-id="'+escPlain(m.id)+'"><button type="button" class="wpick" data-wact="use"><img alt=""><span class="wname"></span></button>'+(m.id===wall.id?'<em>ใช้อยู่</em>':'')+'<button type="button" class="wdel" data-wact="del" aria-label="ลบรูป">×</button></div>').join('')+
-    '</div><h3 class="wsec">รูปแนะนำ</h3><div class="wgrid">'+WALL_PRESETS.map(m=>'<div class="wcard'+(m.id===wall.id?' on':'')+'"><button type="button" class="wpick" data-wact="preset" data-pid="'+m.id+'"><img alt="" loading="lazy" src="'+m.thumb+'"><span class="wname">'+m.name+'</span></button>'+(m.id===wall.id?'<em>ใช้อยู่</em>':'')+'</div>').join('')+'</div></div>');
+    '</div><h3 class="wsec">รูปแนะนำ</h3><div class="wgrid">'+WALL_PRESETS.map(m=>'<div class="wcard'+(m.id===wall.id?' on':'')+'"><button type="button" class="wpick" data-wact="preset" data-pid="'+m.id+'"><img alt="" loading="lazy" src="'+m.thumb+'"><span class="wname">'+m.name+'</span></button>'+(m.credit?'<a class="wcredit" href="'+m.link+'" target="_blank" rel="noopener noreferrer">ที่มา: '+m.credit+'</a>':'')+(m.id===wall.id?'<em>ใช้อยู่</em>':'')+'</div>').join('')+'</div></div>');
   if(cur){$('#wCurImg',main).src=cur.thumb;$('#wCurName',main).textContent=wallName(cur)}
   main.querySelectorAll('.wcard[data-id]').forEach(c=>{const m=wall.list.find(x=>x.id===c.dataset.id);$('img',c).src=m.thumb;$('.wname',c).textContent=wallName(m)});
 }
