@@ -302,6 +302,11 @@ html.has-bg #app{text-shadow:0 1px 2px rgba(0,0,0,.8),0 0 9px rgba(0,0,0,.38)}
 .wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner)::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;-webkit-backdrop-filter:blur(var(--wpblur,0px));backdrop-filter:blur(var(--wpblur,0px))}
 /* Phones and tablets keep one column. A mouse-driven desktop gets a left rail and a right board, leaving the middle for the picture. */
 .rail,.board{display:contents}
+.ghide{flex:none;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.ghide svg{width:15px;height:15px;flex:none}
+.toolgrid .btn.tool:last-child:nth-child(odd){grid-column:1/-1}
+.gbtns{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+@media (max-width:760px){.ghead .gbtns{margin:0 12px 8px auto;justify-content:flex-end}}
 @media (min-width:1100px) and (hover:hover) and (pointer:fine){
   #app{max-width:none;display:grid;grid-template-columns:clamp(310px,19vw,360px) minmax(0,1fr) clamp(500px,33vw,640px);gap:20px;align-items:start;padding:16px 20px 32px}
   .rail,.board{display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -405,7 +410,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="700d5a90883d";</script>
+<script>window.DN_BUILD="33f41dd4beb5";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -443,7 +448,7 @@ const DICT=[
 ['aria-label="ตัวละคร"','aria-label="Characters"','aria-label="Characters"'],
 ['ตัวละคร 1','Character 1','Character 1'],['เควสและกิลด์','Quests & Guild','Quest & Guild'],['เควสทั่วไป','Quests','Quest'],['เควสกิลด์','Guild Quests','Guild Quest'],['โจมตี/ปราบปราม (เคลียร์ Nest 1 ครั้ง)','Guild Attack (Clear 1 Nest)','Guild Attack (Clear Nest 1 ครั้ง)'],['คืนค่าเริ่มต้นแล้ว','Defaults restored','คืนค่า Default แล้ว'],['คืนค่าเริ่มต้น','Restore defaults','คืนค่า Default'],['เควสและหมวดหมู่ ตัวละครไม่หาย','Quests and categories. Characters stay.','Quest และหมวดหมู่ Character ไม่หาย'],['เควส ดันเจี้ยน และหมวดหมู่จะกลับเป็นค่าเริ่มต้น รายการที่เพิ่มเองจะถูกลบ แต่ตัวละครและการติ๊กของรายการเดิมยังอยู่','Quests, dungeons, and categories go back to the defaults. Items you added are removed. Characters and ticks on default items stay.','Quest, Dungeon และหมวดหมู่จะกลับเป็น Default รายการที่เพิ่มเองจะถูกลบ แต่ Character และการติ๊กของรายการเดิมยังอยู่'],['ย้อนการคืนค่าแล้ว','Previous list restored','ย้อนการคืนค่าแล้ว'],['ย้อนการคืนค่า','Undo restore','ย้อนการคืนค่า'],['กลับไปรายการก่อนคืนค่า','Back to your previous list','กลับไปรายการก่อนคืนค่า'],['รายการและหมวดหมู่จะกลับเป็นแบบก่อนกดคืนค่าเริ่มต้น','Your items and categories go back to how they were before the restore.','รายการและหมวดหมู่จะกลับเป็นแบบก่อนกดคืนค่า Default'],['เควสภารกิจรายวัน','Daily Quest','Daily Quest'],['เควสรายสัปดาห์','Weekly Quest','Weekly Quest'],['เควสบอร์ด','Board Quest','Board Quest'],['เช็คชื่อกิลด์','Guild Check-in','Guild Check-in'],['ส่งของกิลด์','Guild Delivery','Guild Delivery'],['Sea Dragon Nest (ยาก)','Sea Dragon Nest (Hard)','Sea Dragon Nest (Hard)'],
 ['ภาพรวมทุกตัว','Overview','Overview'],['ตารางเทียบทุกตัวละคร','All characters side by side','ตารางเทียบทุก Character'],['กลับหน้าตัวละคร','Back to character','กลับหน้า Character'],['ออกจากตารางภาพรวม','Leave the overview','ออกจากตาราง Overview'],
-['แสดงที่ครบแล้ว','Show cleared','แสดงที่ Clear แล้ว'],['ตอนนี้ซ่อนรายการที่ครบอยู่','Cleared items are hidden','ตอนนี้ซ่อนรายการที่ Clear แล้ว'],['ซ่อนที่ครบแล้ว','Hide cleared','ซ่อนที่ Clear แล้ว'],['เหลือเฉพาะที่ยังไม่เคลียร์','Show only what is left','เหลือเฉพาะที่ยังไม่ Clear'],
+['แสดงที่ครบแล้ว','Show cleared','แสดงที่ Clear แล้ว'],['ตอนนี้ซ่อนรายการที่ครบอยู่','Cleared items are hidden','ตอนนี้ซ่อนรายการที่ Clear แล้ว'],['ซ่อนที่ครบแล้ว','Hide cleared','ซ่อนที่ Clear แล้ว'],['แสดงที่ซ่อน','Show hidden','แสดงที่ซ่อน'],['>เสร็จ<','>Done<','>เสร็จ<'],['เสร็จสิ้นการจัดหมวด','Done arranging','เสร็จสิ้นการจัดหมวด'],['จัดหมวดหมู่','Arrange categories','จัดหมวดหมู่'],['เพิ่ม ย้าย หรือคืนค่าหมวด','Add, move, or restore','เพิ่ม ย้าย หรือคืนค่าหมวด'],['กำลังจัดหมวดหมู่','Arranging categories','กำลังจัดหมวดหมู่'],['คลิกค้างที่ ≡ บนหัวหมวดเพื่อย้ายลำดับ แก้ไขรายการได้จากปุ่มแก้ไขของแต่ละหมวด','Hold ≡ on a category to move it. Use each category’s Edit button to change its items.','คลิกค้างที่ ≡ บนหัวหมวดเพื่อย้ายลำดับ แก้ไขรายการได้จากปุ่ม Edit ของแต่ละหมวด'],['ยังไม่มีรายการ กด “แก้ไข” ที่หัวหมวดเพื่อเพิ่ม','No items yet. Press Edit on this category to add one.','ยังไม่มีรายการ กด “Edit” ที่หัวหมวดเพื่อเพิ่ม'],['เหลือเฉพาะที่ยังไม่เคลียร์','Show only what is left','เหลือเฉพาะที่ยังไม่ Clear'],
 ['เสร็จสิ้นการแก้ไข','Done editing','เสร็จสิ้นการแก้ไข'],['กลับไปติ๊กตามปกติ','Back to ticking','กลับไปติ๊กตามปกติ'],['แก้ไขรายการ','Edit list','แก้ไขรายการ'],['เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด','Add, remove, rename dungeons','เพิ่ม ลบ เปลี่ยนชื่อ Dungeon และหมวด'],
 ['สำรอง/ย้ายข้อมูล','Backup / Transfer','Backup / ย้ายข้อมูล'],['ย้ายเครื่องหรือส่งรายการให้เพื่อน','Move device or share your list','ย้ายเครื่องหรือส่งรายการให้เพื่อน'],
 ['แก้ไขตัวละคร','Edit character','แก้ไข Character'],['ชื่อ, Job, รูป','Name, Job, image','ชื่อ, Job, รูป','ชื่อ, อาชีพ, รูป'],['<h2>ล้างการติ๊กของ ','<h2>Reset ticks for ','<h2>Reset การติ๊กของ '],['ล้างการติ๊ก','Reset ticks','Reset การติ๊ก'],['รีเป็น 0 เฉพาะตัวนี้','Back to 0, this character only','Reset เป็น 0 เฉพาะตัวนี้','กลับเป็น 0 เฉพาะตัวนี้'],
@@ -499,7 +504,7 @@ const item=(name,clear,fail=0,tier='normal',reset='weekly')=>({id:uid(),name,cle
 
 function seed(){
   const now=Date.now(),c={id:uid(),name:'ตัวละคร 1',job:''};
-  return {v:5,active:c.id,view:'char',hideDone:false,chars:[c],progress:{},collapsed:{},
+  return {v:5,active:c.id,view:'char',hideIn:{},chars:[c],progress:{},collapsed:{},
     stamps:{daily:dayStart(now),weekly:weekStart(now)},
     groups:defaultGroups()};
 }
@@ -566,7 +571,7 @@ function resetLayout(){
       if(i) progress[cid][id]={c:Math.min(p.c,i.clear),f:Math.min(p.f,i.fail)};
     });
   });
-  S.groups=next;S.progress=progress;S.collapsed={};
+  S.groups=next;S.progress=progress;S.collapsed={};S.hideIn={};
   save();
   toast('คืนค่าเริ่มต้นแล้ว');
 }
@@ -623,7 +628,7 @@ function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?M
 function clean(x){
   if(!x||!Array.isArray(x.chars)||!Array.isArray(x.groups)||!x.chars.length) throw new Error('bad');
   const now=Date.now();
-  const s={v:5,view:x.view==='all'?'all':'char',hideDone:!!x.hideDone,collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
+  const s={v:5,view:x.view==='all'?'all':'char',hideIn:{},collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
     stamps:{daily:Number(x.stamps&&x.stamps.daily)||dayStart(now),weekly:Number(x.stamps&&x.stamps.weekly)||weekStart(now)},
     chars:x.chars.map(c=>({id:String(c.id||uid()),name:String(c.name||'ตัวละคร').slice(0,40),job:String(c.job||'').slice(0,40),img:safeImg(c.img)})),
     groups:x.groups.map(g=>({id:String(g.id||uid()),kind:g.kind==='quest'?'quest':'dungeon',name:String(g.name||'หมวดหมู่').slice(0,60),
@@ -636,6 +641,9 @@ function clean(x){
   // Version 4 raises the default Weekly Quest from 6 to 7 once. A count the user sets later is kept.
   if(fromV<4) s.groups.forEach(g=>g.items.forEach(i=>{if(i.name==='เควสรายสัปดาห์'&&i.clear===6) i.clear=7}));
   if(fromV<5) migrateGuild(s);
+  // The old single switch becomes "hidden" on every category, so nothing jumps back open after this update.
+  const hid=x.hideIn&&typeof x.hideIn==='object'?x.hideIn:null;
+  s.groups.forEach(g=>{if(hid?hid[g.id]===true:x.hideDone===true) s.hideIn[g.id]=true});
   const p=x.progress&&typeof x.progress==='object'?x.progress:{};
   s.chars.forEach(c=>{const o=p[c.id];if(!o||typeof o!=='object')return;s.progress[c.id]={};
     for(const k in o){s.progress[c.id][k]={c:clampInt(o[k]&&o[k].c,0,9999),f:clampInt(o[k]&&o[k].f,0,9999)}}});
@@ -668,9 +676,9 @@ function stats(cid,items){
 function cd(ms){const s=Math.max(0,Math.floor(ms/1000)),d=Math.floor(s/86400),p=n=>String(n).padStart(2,'0');
   return (d?d+tr(' วัน '):'')+p(Math.floor(s/3600)%24)+':'+p(Math.floor(s/60)%60)+':'+p(s%60)}
 
-function rowHtml(i,cid,manage){
+function rowHtml(i,cid,manage,hide){
   const p=prog(cid,i.id),done=counts(i)&&p.c>=i.clear;
-  if(S.hideDone&&done&&!manage) return '';
+  if(hide&&done&&!manage) return '';
   let ctl='';
   if(i.clear<=12){
     ctl+='<div class="passrow"><em>ผ่าน '+p.c+'/'+i.clear+'</em><div class="pips" role="group" aria-label="ผ่านแล้ว '+p.c+' จาก '+i.clear+'">';
@@ -685,15 +693,18 @@ function rowHtml(i,cid,manage){
     (i.tier==='hard'?'<span class="tag hard">ยาก</span>':'')+'<span class="tag '+i.reset+'">'+(i.reset==='daily'?'รายวัน':'รายสัปดาห์')+'</span>'+(done?'<span class="tag ok">ครบแล้ว</span>':'')+'<span class="leader" aria-hidden="true"></span></div><div class="ctrls">'+ctl+'</div></div>';
 }
 function groupHtml(g,cid,manage){
-  const open=!S.collapsed[g.id],st=stats(cid,g.items),complete=st.total>0&&st.done>=st.total;
+  const open=!S.collapsed[g.id],st=stats(cid,g.items),complete=st.total>0&&st.done>=st.total,hidden=!!S.hideIn[g.id],edit=!!editIn[g.id];
+  const hiddenN=hidden?g.items.filter(i=>!rowHtml(i,cid,false,true)).length:0;
+  const hideBtn=open&&!edit&&g.items.length?'<button class="btn small ghide" data-act="hide-group" data-group="'+g.id+'" data-fk="gh-'+g.id+'" aria-pressed="'+hidden+'">'+(hidden?ICON.eyeOff+'แสดงที่ซ่อน'+(hiddenN?' ('+hiddenN+')':''):ICON.eye+'ซ่อนที่ครบแล้ว')+'</button>':'';
   let body='';
   if(open){
-    const rows=g.items.map(i=>rowHtml(i,cid,manage)).join('');
-    body=rows||('<div class="empty">'+(g.items.length?'เคลียร์ครบทุกรายการในหมวดนี้แล้ว':'ยังไม่มีรายการ กด “แก้ไขรายการ” เพื่อเพิ่ม')+'</div>');
-    if(manage) body+='<div class="gadd"><button class="btn small" data-act="add-item" data-group="'+g.id+'">+ เพิ่มรายการใน '+esc(g.name)+'</button></div>';
+    const rows=g.items.map(i=>rowHtml(i,cid,edit,hidden)).join('');
+    body=rows||('<div class="empty">'+(g.items.length?'เคลียร์ครบทุกรายการในหมวดนี้แล้ว':'ยังไม่มีรายการ กด “แก้ไข” ที่หัวหมวดเพื่อเพิ่ม')+'</div>');
+    if(edit) body+='<div class="gadd"><button class="btn small" data-act="add-item" data-group="'+g.id+'">+ เพิ่มรายการใน '+esc(g.name)+'</button></div>';
   }
-  return '<section class="group'+(complete?' complete':'')+'" data-group-id="'+g.id+'" data-kind="'+g.kind+'"><div class="ghead">'+(manage?'<span class="drag" role="button" tabindex="0" title="ลากเพื่อจัดลำดับ" aria-label="ลากเพื่อจัดลำดับ '+esc(g.name)+'" data-move-group="'+g.id+'" data-fk="gdrag-'+g.id+'">'+ICON.grip+'</span>':'')+'<button class="gtoggle" data-act="toggle" data-group="'+g.id+'" data-fk="g-'+g.id+'" aria-expanded="'+open+'"><span class="sign" aria-hidden="true">'+(open?'−':'+')+'</span><span class="gname">'+esc(g.name)+'</span><span class="gcount">'+(complete?ICON.check:'')+'เคลียร์แล้ว '+st.done+'/'+st.total+'</span></button>'+
-    (manage?'<div class="manage"><button class="btn small" data-act="edit-group" data-group="'+g.id+'">เปลี่ยนชื่อ</button><button class="btn small danger" data-act="del-group" data-group="'+g.id+'">ลบ</button></div>':'')+'</div>'+body+'</section>';
+  return '<section class="group'+(complete?' complete':'')+'" data-group-id="'+g.id+'" data-kind="'+g.kind+'"><div class="ghead">'+(manage?'<span class="drag" role="button" tabindex="0" title="ลากเพื่อจัดลำดับ" aria-label="ลากเพื่อจัดลำดับ '+esc(g.name)+'" data-move-group="'+g.id+'" data-fk="gdrag-'+g.id+'">'+ICON.grip+'</span>':'')+'<button class="gtoggle" data-act="toggle" data-group="'+g.id+'" data-fk="g-'+g.id+'" aria-expanded="'+open+'"><span class="sign" aria-hidden="true">'+(open?'−':'+')+'</span><span class="gname">'+esc(g.name)+'</span><span class="gcount">'+(complete?ICON.check:'')+'เคลียร์แล้ว '+st.done+'/'+st.total+'</span></button><div class="gbtns">'+hideBtn+
+    (edit?'<button class="btn small" data-act="edit-group" data-group="'+g.id+'">เปลี่ยนชื่อ</button><button class="btn small danger" data-act="del-group" data-group="'+g.id+'">ลบ</button>':'')+
+    '<button class="btn small ghide" data-act="edit-one" data-group="'+g.id+'" data-fk="ge-'+g.id+'" aria-pressed="'+edit+'">'+(edit?ICON.check+'เสร็จ':ICON.pen+'แก้ไข')+'</button></div></div>'+body+'</section>';
 }
 const svg=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
 const ICON={
@@ -709,6 +720,7 @@ const ICON={
 };
 const tt=(title,hint)=>'<span class="tt"><b>'+title+'</b><small>'+hint+'</small></span>';
 let manage=false,pickedRow='';
+const editIn={};
 // Touch screens have no hover, so a tap marks the row the eye should follow.
 document.addEventListener('pointerdown',e=>{
   if(e.pointerType==='mouse') return;
@@ -736,18 +748,18 @@ function render(){
   h+=skinRow();
   h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+(manage&&S.chars.length>1?'<span class="tab-grip" title="ลากเพื่อจัดลำดับ" aria-hidden="true">'+ICON.grip+'</span>':'')+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
   h+='<div class="toolgrid"><button class="btn tool" data-act="view-all" data-fk="va" aria-pressed="'+(S.view==='all')+'">'+ICON.grid+(S.view==='all'?tt('กลับหน้าตัวละคร','ออกจากตารางภาพรวม'):tt('ภาพรวมทุกตัว','ตารางเทียบทุกตัวละคร'))+'</button>';
-  if(S.view==='char') h+='<button class="btn tool" data-act="hide" data-fk="hd" aria-pressed="'+S.hideDone+'">'+(S.hideDone?ICON.eyeOff+tt('แสดงที่ครบแล้ว','ตอนนี้ซ่อนรายการที่ครบอยู่'):ICON.eye+tt('ซ่อนที่ครบแล้ว','เหลือเฉพาะที่ยังไม่เคลียร์'))+'</button><button class="btn tool" data-act="manage" data-fk="mg" aria-pressed="'+manage+'">'+(manage?ICON.check+tt('เสร็จสิ้นการแก้ไข','กลับไปติ๊กตามปกติ'):ICON.pen+tt('แก้ไขรายการ','เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด'))+'</button>';
+  if(S.view==='char') h+='<button class="btn tool" data-act="manage" data-fk="mg" aria-pressed="'+manage+'">'+(manage?ICON.check+tt('เสร็จสิ้นการจัดหมวด','กลับไปติ๊กตามปกติ'):ICON.pen+tt('จัดหมวดหมู่','เพิ่ม ย้าย หรือคืนค่าหมวด'))+'</button>';
   h+='<button class="btn tool" data-act="backup">'+ICON.swap+tt('สำรอง/ย้ายข้อมูล','ย้ายเครื่องหรือส่งรายการให้เพื่อน')+'</button></div>';
   if(S.view==='all') h+='</aside><main class="board wide">'+overview();
   else{
     const st=stats(c.id);
     h+='<div class="toolbar charcard"><button class="hero" data-act="edit-char" aria-label="แก้ไขตัวละคร '+esc(c.name)+'">'+avatar(c,'lg')+'<span class="herotxt"><span class="char-title">'+esc(c.name)+'</span><span class="jobpill">'+(c.job?esc(c.job):'กดเพื่อใส่ Job / Class')+'</span><small>เคลียร์แล้ว '+st.done+'/'+st.total+'</small></span></button><div><button class="btn edit" data-act="edit-char">'+ICON.user+tt('แก้ไขตัวละคร','ชื่อ, Job, รูป')+'</button><button class="btn warn" data-act="clear-char">'+ICON.warn+tt('ล้างการติ๊ก','รีเป็น 0 เฉพาะตัวนี้')+'</button></div></div>';
     const q=S.groups.filter(g=>g.kind==='quest'),d=S.groups.filter(g=>g.kind==='dungeon');
-    h+=manage?'<p class="guide editing"><b>กำลังแก้ไขรายการ</b> คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด</p>';
+    h+=manage?'<p class="guide editing"><b>กำลังจัดหมวดหมู่</b> คลิกค้างที่ ≡ บนหัวหมวดเพื่อย้ายลำดับ แก้ไขรายการได้จากปุ่มแก้ไขของแต่ละหมวด</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด</p>';
     h+='</aside><main class="board">';
+    if(manage) h+='<div class="layoutbar"><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button><button class="btn warn" data-act="reset-layout">'+ICON.warn+tt('คืนค่าเริ่มต้น','เควสและหมวดหมู่ ตัวละครไม่หาย')+'</button>'+(lsGet('dn-layout-undo')?'<button class="btn edit" data-act="undo-layout">'+ICON.swap+tt('ย้อนการคืนค่า','กลับไปรายการก่อนคืนค่า')+'</button>':'')+'</div>';
     if(q.length) h+='<div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('');
     h+='<div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('');
-    if(manage) h+='<div class="layoutbar"><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button><button class="btn warn" data-act="reset-layout">'+ICON.warn+tt('คืนค่าเริ่มต้น','เควสและหมวดหมู่ ตัวละครไม่หาย')+'</button>'+(lsGet('dn-layout-undo')?'<button class="btn edit" data-act="undo-layout">'+ICON.swap+tt('ย้อนการคืนค่า','กลับไปรายการก่อนคืนค่า')+'</button>':'')+'</div>';
   }
   h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer></main>';
   $('#app').innerHTML=tr(h);
@@ -1206,7 +1218,21 @@ document.addEventListener('click',e=>{
   else if(a==='toggle'){S.collapsed[gid]=!S.collapsed[gid];save();render()}
   else if(a==='open-char'){S.active=b.dataset.char;S.view='char';save();render()}
   else if(a==='view-all'){S.view=S.view==='all'?'char':'all';save();render()}
-  else if(a==='hide'){S.hideDone=!S.hideDone;save();render()}
+  else if(a==='edit-one'){
+    const top=b.getBoundingClientRect().top;
+    if(editIn[gid]) delete editIn[gid];else{editIn[gid]=true;if(S.collapsed[gid]){delete S.collapsed[gid];save()}}
+    render();
+    const n=$('[data-fk="ge-'+gid+'"]');
+    if(n) window.scrollBy(0,n.getBoundingClientRect().top-top);
+  }
+  else if(a==='hide-group'){
+    // Keep this category header under the pointer when rows above or below appear and disappear.
+    const top=b.getBoundingClientRect().top;
+    if(S.hideIn[gid]) delete S.hideIn[gid];else S.hideIn[gid]=true;
+    save();render();
+    const n=$('[data-fk="gh-'+gid+'"]');
+    if(n) window.scrollBy(0,n.getBoundingClientRect().top-top);
+  }
   else if(a==='manage'){manage=!manage;render()}
   else if(a==='backup') backup();
   else if(a==='bg') wallOpen();
@@ -1312,7 +1338,7 @@ function finishDrag(commit){
   render();
 }
 document.addEventListener('pointerdown',e=>{
-  if(!manage||drag||e.button!==0||dlg.open) return;
+  if(drag||e.button!==0||dlg.open) return;
   const h=e.target.closest('.drag');
   let el,type;
   if(h){
@@ -1523,7 +1549,7 @@ function applyRemote(d){
   }
   if(sync.localAt>d.updatedAt){schedulePush();return}
   let next;
-  try{next=clean({...S,...JSON.parse(d.payload),active:S.active,view:S.view,hideDone:S.hideDone,collapsed:S.collapsed})}
+  try{next=clean({...S,...JSON.parse(d.payload),active:S.active,view:S.view,hideIn:S.hideIn,collapsed:S.collapsed})}
   catch(e){setSyncState('error');return}
   rememberSnapshot();
   S=next;
@@ -1604,7 +1630,7 @@ function rememberSnapshot(force){
 }
 function restoreSnapshot(entry){
   let next;
-  try{next=clean({...S,...JSON.parse(entry.data),active:S.active,view:S.view,hideDone:S.hideDone,collapsed:S.collapsed})}
+  try{next=clean({...S,...JSON.parse(entry.data),active:S.active,view:S.view,hideIn:S.hideIn,collapsed:S.collapsed})}
   catch(e){toast('ย้อนข้อมูลไม่สำเร็จ');return}
   rememberSnapshot(true);
   S=next;
