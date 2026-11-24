@@ -142,8 +142,19 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .group.complete .gname,.group.complete .gcount,.group.complete .sign{color:var(--done)}
 .group.complete .gcount{font-weight:600}
 .group.complete .empty{background:var(--done-soft);color:var(--done);border-top-color:var(--done)}
-.row.daily{box-shadow:inset 4px 0 0 var(--daily)}
-.row.weekly{box-shadow:inset 4px 0 0 var(--weekly)}
+.row.daily{--stripe:var(--daily);box-shadow:inset 4px 0 0 var(--stripe)}
+.row.weekly{--stripe:var(--weekly);box-shadow:inset 4px 0 0 var(--stripe)}
+.leader{flex:1 1 24px;min-width:24px;align-self:center;border-bottom:2px dotted transparent}
+.row.picked:not(.dragging),.row:not(.dragging):has(:focus-visible){background:var(--raised);background:color-mix(in srgb,var(--accent) 18%,var(--surface));box-shadow:inset 4px 0 0 var(--stripe),inset 0 0 0 2px var(--accent)}
+.row.picked .leader,.row:has(:focus-visible) .leader{border-bottom-color:var(--accent)}
+.row.picked .pip:not(.on){border-color:var(--accent)}
+@media (hover:hover){
+  body:not(.is-dragging) .row:not(.dragging):hover{background:var(--raised);background:color-mix(in srgb,var(--accent) 18%,var(--surface));box-shadow:inset 4px 0 0 var(--stripe),inset 0 0 0 2px var(--accent)}
+  body:not(.is-dragging) .row:hover .leader{border-bottom-color:var(--accent)}
+  body:not(.is-dragging) .row:hover .pip:not(.on){border-color:var(--accent)}
+}
+@media (max-width:620px){.leader{display:none}}
+.layoutbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .tag.daily{background:var(--daily-soft);color:var(--daily);font-weight:600}
 .tag.weekly{background:var(--weekly-soft);color:var(--weekly);font-weight:600}
 .drag{flex:none;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:5px;cursor:grab;touch-action:none;user-select:none;color:var(--muted)}
@@ -281,7 +292,7 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="712ba3b6f013";</script>
+<script>window.DN_BUILD="7e0b561149f6";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -307,7 +318,7 @@ const DICT=[
 ['เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้','This browser blocks saving. Progress is lost when you close the page. Use Backup / Transfer to keep a code.','เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล Progress จะหายเมื่อปิดหน้า กด “Backup / ย้ายข้อมูล” เพื่อเก็บรหัสไว้'],
 ['ธีมพื้นหลัง','Theme','Theme'],['>ภาษา<','>Language<','>Language<'],
 ['aria-label="ตัวละคร"','aria-label="Characters"','aria-label="Characters"'],
-['ตัวละคร 1','Character 1','Character 1'],['เควสและกิลด์','Quests & Guild','Quest & Guild'],['เควสภารกิจรายวัน','Daily Quest','Daily Quest'],['เควสรายสัปดาห์','Weekly Quest','Weekly Quest'],['เควสบอร์ด','Board Quest','Board Quest'],['เช็คชื่อกิลด์','Guild Check-in','Guild Check-in'],['ส่งของกิลด์','Guild Delivery','Guild Delivery'],['Sea Dragon Nest (ยาก)','Sea Dragon Nest (Hard)','Sea Dragon Nest (Hard)'],
+['ตัวละคร 1','Character 1','Character 1'],['เควสและกิลด์','Quests & Guild','Quest & Guild'],['เควสทั่วไป','Quests','Quest'],['เควสกิลด์','Guild Quests','Guild Quest'],['โจมตี/ปราบปราม (เคลียร์ Nest 1 ครั้ง)','Guild Attack (Clear 1 Nest)','Guild Attack (Clear Nest 1 ครั้ง)'],['คืนค่าเริ่มต้นแล้ว','Defaults restored','คืนค่า Default แล้ว'],['คืนค่าเริ่มต้น','Restore defaults','คืนค่า Default'],['เควสและหมวดหมู่ ตัวละครไม่หาย','Quests and categories. Characters stay.','Quest และหมวดหมู่ Character ไม่หาย'],['เควส ดันเจี้ยน และหมวดหมู่จะกลับเป็นค่าเริ่มต้น รายการที่เพิ่มเองจะถูกลบ แต่ตัวละครและการติ๊กของรายการเดิมยังอยู่','Quests, dungeons, and categories go back to the defaults. Items you added are removed. Characters and ticks on default items stay.','Quest, Dungeon และหมวดหมู่จะกลับเป็น Default รายการที่เพิ่มเองจะถูกลบ แต่ Character และการติ๊กของรายการเดิมยังอยู่'],['ย้อนการคืนค่าแล้ว','Previous list restored','ย้อนการคืนค่าแล้ว'],['ย้อนการคืนค่า','Undo restore','ย้อนการคืนค่า'],['กลับไปรายการก่อนคืนค่า','Back to your previous list','กลับไปรายการก่อนคืนค่า'],['รายการและหมวดหมู่จะกลับเป็นแบบก่อนกดคืนค่าเริ่มต้น','Your items and categories go back to how they were before the restore.','รายการและหมวดหมู่จะกลับเป็นแบบก่อนกดคืนค่า Default'],['เควสภารกิจรายวัน','Daily Quest','Daily Quest'],['เควสรายสัปดาห์','Weekly Quest','Weekly Quest'],['เควสบอร์ด','Board Quest','Board Quest'],['เช็คชื่อกิลด์','Guild Check-in','Guild Check-in'],['ส่งของกิลด์','Guild Delivery','Guild Delivery'],['Sea Dragon Nest (ยาก)','Sea Dragon Nest (Hard)','Sea Dragon Nest (Hard)'],
 ['ภาพรวมทุกตัว','Overview','Overview'],['ตารางเทียบทุกตัวละคร','All characters side by side','ตารางเทียบทุก Character'],['กลับหน้าตัวละคร','Back to character','กลับหน้า Character'],['ออกจากตารางภาพรวม','Leave the overview','ออกจากตาราง Overview'],
 ['แสดงที่ครบแล้ว','Show cleared','แสดงที่ Clear แล้ว'],['ตอนนี้ซ่อนรายการที่ครบอยู่','Cleared items are hidden','ตอนนี้ซ่อนรายการที่ Clear แล้ว'],['ซ่อนที่ครบแล้ว','Hide cleared','ซ่อนที่ Clear แล้ว'],['เหลือเฉพาะที่ยังไม่เคลียร์','Show only what is left','เหลือเฉพาะที่ยังไม่ Clear'],
 ['เสร็จสิ้นการแก้ไข','Done editing','เสร็จสิ้นการแก้ไข'],['กลับไปติ๊กตามปกติ','Back to ticking','กลับไปติ๊กตามปกติ'],['แก้ไขรายการ','Edit list','แก้ไขรายการ'],['เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด','Add, remove, rename dungeons','เพิ่ม ลบ เปลี่ยนชื่อ Dungeon และหมวด'],
@@ -339,7 +350,7 @@ const DICT=[
 ['เสียงกด: ','Click sound: ','Sound: '],['ระดับเสียงกด ตอนนี้ ','Click sound level, now ','ระดับ Sound ตอนนี้ '],[' กดเพื่อเปลี่ยน',', press to change',' กดเพื่อเปลี่ยน'],[' วัน ','d ','d ',' วัน ']
 ];
 const WORDS={'นุ่ม':['Soft','Soft'],'ไม้':['Wood','Wood'],'ฟอง':['Bubble','Bubble'],'ครีมมี่':['Creamy','Creamy'],'มืด':['Dark','Dark'],'สว่าง':['Light','Light'],'ลาวา':['Lava','Lava'],'ทะเล':['Ocean','Ocean'],'ป่า':['Forest','Forest'],'ซากุระ':['Sakura','Sakura'],'ปิด':['Off','Off'],'เบา':['Low','Low'],'กลาง':['Medium','Medium'],'ดัง':['High','High']};
-const SEED_NAMES=new Set(['ตัวละคร 1','เควสและกิลด์','เควสภารกิจรายวัน','เควสรายสัปดาห์','เควสบอร์ด','เช็คชื่อกิลด์','ส่งของกิลด์','Sea Dragon Nest (ยาก)']);
+const SEED_NAMES=new Set(['ตัวละคร 1','เควสและกิลด์','เควสทั่วไป','เควสกิลด์','โจมตี/ปราบปราม (เคลียร์ Nest 1 ครั้ง)','เควสภารกิจรายวัน','เควสรายสัปดาห์','เควสบอร์ด','เช็คชื่อกิลด์','ส่งของกิลด์','Sea Dragon Nest (ยาก)']);
 const LANGS=[['th','ไทย'],['en','EN'],['mix','ไทย+EN']];
 let lang='mix';
 try{const v=localStorage.getItem('dn-lang');if(LANGS.some(x=>x[0]===v)) lang=v}catch(e){}
@@ -365,30 +376,89 @@ const item=(name,clear,fail=0,tier='normal',reset='weekly')=>({id:uid(),name,cle
 
 function seed(){
   const now=Date.now(),c={id:uid(),name:'ตัวละคร 1',job:''};
-  return {v:4,active:c.id,view:'char',hideDone:false,chars:[c],progress:{},collapsed:{},
+  return {v:5,active:c.id,view:'char',hideDone:false,chars:[c],progress:{},collapsed:{},
     stamps:{daily:dayStart(now),weekly:weekStart(now)},
-    groups:[
-      {id:uid(),kind:'quest',name:'เควสและกิลด์',items:[
-        item('เควสภารกิจรายวัน',5,0,'normal','daily'),
-                item('เควสบอร์ด',1,0,'normal','daily'),
-        item('เช็คชื่อกิลด์',1,0,'normal','daily'),
-        item('ส่งของกิลด์',1,0,'normal','daily'),
-        item('เควสรายสัปดาห์',7,0,'normal','weekly')]},
-      {id:uid(),kind:'dungeon',name:'Nest',items:[
-        item('Minotaur Nest',7),
-        item('Cerberus Nest',5),
-        item('Cerberus Nest (Hardcore)',2,0,'hard'),
-        item('Manticore Nest',3),
-        item('Manticore Nest (Hardcore)',1,0,'hard'),
-        item('Apocalypse Nest',3),
-        item('Apocalypse Nest (Hell Mode)',1,0,'hard'),
-        item('Sea Dragon Nest',1),
-        item('Sea Dragon Nest (ยาก)',1,0,'hard')]},
-      {id:uid(),kind:'dungeon',name:'Chaos Rift',items:[
-        item('Banquet Hall of Darkness',999),
-        item('Chaos Rift Kamala',3),
-        item('Chaos Rift Bairra',3)]}
-    ]};
+    groups:defaultGroups()};
+}
+const GUILD_RAID='โจมตี/ปราบปราม (เคลียร์ Nest 1 ครั้ง)';
+const guildRaid=()=>({id:'seed-guild-raid',name:GUILD_RAID,clear:1,fail:0,tier:'normal',reset:'weekly'});
+function defaultGroups(){
+  return [
+    {id:uid(),kind:'quest',name:'เควสทั่วไป',items:[
+      item('เควสภารกิจรายวัน',5,0,'normal','daily'),
+      item('เควสบอร์ด',1,0,'normal','daily'),
+      item('เควสรายสัปดาห์',7,0,'normal','weekly')]},
+    {id:'seed-guild',kind:'quest',name:'เควสกิลด์',items:[
+      item('เช็คชื่อกิลด์',1,0,'normal','daily'),
+      item('ส่งของกิลด์',1,0,'normal','daily'),
+      guildRaid()]},
+    {id:uid(),kind:'dungeon',name:'Nest',items:[
+      item('Minotaur Nest',7),
+      item('Cerberus Nest',5),
+      item('Cerberus Nest (Hardcore)',2,0,'hard'),
+      item('Manticore Nest',3),
+      item('Manticore Nest (Hardcore)',1,0,'hard'),
+      item('Apocalypse Nest',3),
+      item('Apocalypse Nest (Hell Mode)',1,0,'hard'),
+      item('Sea Dragon Nest',1),
+      item('Sea Dragon Nest (ยาก)',1,0,'hard')]},
+    {id:uid(),kind:'dungeon',name:'Chaos Rift',items:[
+      item('Banquet Hall of Darkness',999),
+      item('Chaos Rift Kamala',3),
+      item('Chaos Rift Bairra',3)]}
+  ];
+}
+// Version 5 moves guild quests into their own category. Fixed ids keep linked devices consistent.
+function migrateGuild(s){
+  if(s.groups.some(g=>g.id==='seed-guild')) return;
+  const moved=[];
+  s.groups.filter(g=>g.kind==='quest').forEach(g=>{
+    g.items=g.items.filter(i=>{
+      if(i.name==='เช็คชื่อกิลด์'||i.name==='ส่งของกิลด์'){moved.push(i);return false}
+      return true;
+    });
+    if(g.name==='เควสและกิลด์') g.name='เควสทั่วไป';
+  });
+  let last=-1;
+  s.groups.forEach((g,k)=>{if(g.kind==='quest') last=k});
+  s.groups.splice(last+1,0,{id:'seed-guild',kind:'quest',name:'เควสกิลด์',items:[...moved,guildRaid()]});
+}
+// Restore quests and categories only. Characters stay, and ticks stay on items that still exist.
+function resetLayout(){
+  try{localStorage.setItem('dn-layout-undo',JSON.stringify({groups:S.groups,progress:S.progress,stamps:S.stamps}))}catch(e){}
+  const oldGroups=S.groups,oldItems=oldGroups.flatMap(g=>g.items),used=new Set(),next=defaultGroups();
+  next.forEach(g=>{
+    const og=oldGroups.find(x=>x.name===g.name);
+    if(og) g.id=og.id;
+    g.items.forEach(i=>{
+      const m=oldItems.find(x=>x.name===i.name&&!used.has(x.id));
+      if(m){i.id=m.id;used.add(m.id)}
+    });
+  });
+  const byId=new Map(next.flatMap(g=>g.items).map(i=>[i.id,i])),progress={};
+  Object.keys(S.progress).forEach(cid=>{
+    progress[cid]={};
+    Object.keys(S.progress[cid]).forEach(id=>{
+      const i=byId.get(id),p=S.progress[cid][id];
+      if(i) progress[cid][id]={c:Math.min(p.c,i.clear),f:Math.min(p.f,i.fail)};
+    });
+  });
+  S.groups=next;S.progress=progress;S.collapsed={};
+  save();
+  toast('คืนค่าเริ่มต้นแล้ว');
+}
+function undoLayout(){
+  let saved,next;
+  try{
+    saved=JSON.parse(localStorage.getItem('dn-layout-undo'));
+    next=clean({...S,v:5,groups:saved.groups,progress:saved.progress,stamps:saved.stamps});
+  }catch(e){toast('ย้อนข้อมูลไม่สำเร็จ');return}
+  S=next;
+  try{localStorage.removeItem('dn-layout-undo')}catch(e){}
+  syncQuiet=true;applyResets();syncQuiet=false;
+  sync.last='';
+  save();
+  toast('ย้อนการคืนค่าแล้ว');
 }
 function safeImg(v){return typeof v==='string'&&v.length<200000&&/^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(v)?v:''}
 function avatar(c,size){
@@ -430,7 +500,7 @@ function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?M
 function clean(x){
   if(!x||!Array.isArray(x.chars)||!Array.isArray(x.groups)||!x.chars.length) throw new Error('bad');
   const now=Date.now();
-  const s={v:4,view:x.view==='all'?'all':'char',hideDone:!!x.hideDone,collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
+  const s={v:5,view:x.view==='all'?'all':'char',hideDone:!!x.hideDone,collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
     stamps:{daily:Number(x.stamps&&x.stamps.daily)||dayStart(now),weekly:Number(x.stamps&&x.stamps.weekly)||weekStart(now)},
     chars:x.chars.map(c=>({id:String(c.id||uid()),name:String(c.name||'ตัวละคร').slice(0,40),job:String(c.job||'').slice(0,40),img:safeImg(c.img)})),
     groups:x.groups.map(g=>({id:String(g.id||uid()),kind:g.kind==='quest'?'quest':'dungeon',name:String(g.name||'หมวดหมู่').slice(0,60),
@@ -442,6 +512,7 @@ function clean(x){
   if(fromV<3) s.groups.filter(g=>g.kind==='quest').forEach(g=>{g.items=[...g.items.filter(i=>i.reset==='daily'),...g.items.filter(i=>i.reset!=='daily')]});
   // Version 4 raises the default Weekly Quest from 6 to 7 once. A count the user sets later is kept.
   if(fromV<4) s.groups.forEach(g=>g.items.forEach(i=>{if(i.name==='เควสรายสัปดาห์'&&i.clear===6) i.clear=7}));
+  if(fromV<5) migrateGuild(s);
   const p=x.progress&&typeof x.progress==='object'?x.progress:{};
   s.chars.forEach(c=>{const o=p[c.id];if(!o||typeof o!=='object')return;s.progress[c.id]={};
     for(const k in o){s.progress[c.id][k]={c:clampInt(o[k]&&o[k].c,0,9999),f:clampInt(o[k]&&o[k].f,0,9999)}}});
@@ -487,8 +558,8 @@ function rowHtml(i,cid,manage){
   }
   if(i.fail>0) ctl+='<div class="stepper fail"><em>พลาด</em><button data-act="step" data-field="f" data-d="-1" data-item="'+i.id+'" data-fk="fm-'+i.id+'" aria-label="ลดจำนวนพลาด '+esc(i.name)+'">−</button><span>'+p.f+'/'+i.fail+'</span><button data-act="step" data-field="f" data-d="1" data-item="'+i.id+'" data-fk="fp-'+i.id+'" aria-label="เพิ่มจำนวนพลาด '+esc(i.name)+'">+</button></div>';
   if(manage) ctl+='<div class="manage"><button class="btn small" data-act="edit-item" data-item="'+i.id+'">แก้ไข</button><button class="btn small danger" data-act="del-item" data-item="'+i.id+'">ลบ</button></div>';
-  return '<div class="row '+i.reset+(done?' done':'')+(i.tier==='hard'?' hard':'')+'" data-row="'+i.id+'"'+(manage?' data-grab="1"':'')+'><div class="iname">'+(manage?'<span class="drag" role="button" tabindex="0" title="ลากเพื่อจัดลำดับ" aria-label="ลากเพื่อจัดลำดับ '+esc(i.name)+'" data-move-item="'+i.id+'" data-fk="drag-'+i.id+'">'+ICON.grip+'</span>':'')+'<b>'+esc(i.name)+'</b>'+
-    (i.tier==='hard'?'<span class="tag hard">ยาก</span>':'')+'<span class="tag '+i.reset+'">'+(i.reset==='daily'?'รายวัน':'รายสัปดาห์')+'</span>'+(done?'<span class="tag ok">ครบแล้ว</span>':'')+'</div><div class="ctrls">'+ctl+'</div></div>';
+  return '<div class="row '+i.reset+(pickedRow===i.id?' picked':'')+(done?' done':'')+(i.tier==='hard'?' hard':'')+'" data-row="'+i.id+'"'+(manage?' data-grab="1"':'')+'><div class="iname">'+(manage?'<span class="drag" role="button" tabindex="0" title="ลากเพื่อจัดลำดับ" aria-label="ลากเพื่อจัดลำดับ '+esc(i.name)+'" data-move-item="'+i.id+'" data-fk="drag-'+i.id+'">'+ICON.grip+'</span>':'')+'<b>'+esc(i.name)+'</b>'+
+    (i.tier==='hard'?'<span class="tag hard">ยาก</span>':'')+'<span class="tag '+i.reset+'">'+(i.reset==='daily'?'รายวัน':'รายสัปดาห์')+'</span>'+(done?'<span class="tag ok">ครบแล้ว</span>':'')+'<span class="leader" aria-hidden="true"></span></div><div class="ctrls">'+ctl+'</div></div>';
 }
 function groupHtml(g,cid,manage){
   const open=!S.collapsed[g.id],st=stats(cid,g.items),complete=st.total>0&&st.done>=st.total;
@@ -514,7 +585,15 @@ const ICON={
   warn:svg('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>')
 };
 const tt=(title,hint)=>'<span class="tt"><b>'+title+'</b><small>'+hint+'</small></span>';
-let manage=false;
+let manage=false,pickedRow='';
+// Touch screens have no hover, so a tap marks the row the eye should follow.
+document.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse') return;
+  const r=e.target.closest&&e.target.closest('.row');
+  pickedRow=r?r.dataset.row:'';
+  document.querySelectorAll('.row.picked').forEach(x=>x.classList.remove('picked'));
+  if(r) r.classList.add('picked');
+},true);
 function overview(){
   let h='<div class="tablewrap"><table><thead><tr><th scope="col">รายการ</th>'+S.chars.map(c=>'<th scope="col"><button class="thc" data-act="open-char" data-char="'+c.id+'">'+avatar(c,'sm')+'<span>'+esc(c.name)+'</span><small>'+esc(c.job||'-')+'</small></button></th>').join('')+'</tr></thead><tbody>';
   S.groups.forEach(g=>{
@@ -544,7 +623,7 @@ function render(){
     h+=manage?'<p class="guide editing"><b>กำลังแก้ไขรายการ</b> คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด</p>';
     if(q.length) h+='<div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('');
     h+='<div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('');
-    if(manage) h+='<div><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button></div>';
+    if(manage) h+='<div class="layoutbar"><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button><button class="btn warn" data-act="reset-layout">'+ICON.warn+tt('คืนค่าเริ่มต้น','เควสและหมวดหมู่ ตัวละครไม่หาย')+'</button>'+(lsGet('dn-layout-undo')?'<button class="btn edit" data-act="undo-layout">'+ICON.swap+tt('ย้อนการคืนค่า','กลับไปรายการก่อนคืนค่า')+'</button>':'')+'</div>';
   }
   h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer>';
   $('#app').innerHTML=tr(h);
@@ -827,6 +906,8 @@ document.addEventListener('click',e=>{
   else if(a==='add-char') charForm(null,(name,job,img)=>{const n={id:uid(),name,job,img};S.chars.push(n);S.active=n.id;S.view='char'});
   else if(a==='edit-char') charForm(c,(name,job,img)=>{c.name=name;c.job=job;c.img=img});
   else if(a==='clear-char') modal('ล้างการติ๊กของ '+mark(c.name)+'?','<p class="note">ตัวเลขผ่านและพลาดของตัวละครนี้จะกลับเป็น 0</p>','ล้าง',()=>{delete S.progress[c.id];save()},true);
+  else if(a==='reset-layout') modal('คืนค่าเริ่มต้น?','<p class="note">เควส ดันเจี้ยน และหมวดหมู่จะกลับเป็นค่าเริ่มต้น รายการที่เพิ่มเองจะถูกลบ แต่ตัวละครและการติ๊กของรายการเดิมยังอยู่</p>','คืนค่าเริ่มต้น',()=>{resetLayout()},true);
+  else if(a==='undo-layout') modal('ย้อนการคืนค่า?','<p class="note">รายการและหมวดหมู่จะกลับเป็นแบบก่อนกดคืนค่าเริ่มต้น</p>','ย้อนการคืนค่า',()=>{undoLayout()});
   else if(a==='add-group') modal('เพิ่มหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="dn_label" type="text" maxlength="60" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" data-lpignore="true" data-1p-ignore data-form-type="other" placeholder="เช่น Dark Lair"></label>','เพิ่ม',fd=>{const n=String(fd.get('dn_label')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';S.groups.push({id:uid(),kind:'dungeon',name:n,items:[]});save()});
   else if(a==='edit-group') modal('เปลี่ยนชื่อหมวดหมู่','<label class="field">ชื่อหมวดหมู่<input id="gName" name="dn_label" type="text" maxlength="60" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" data-lpignore="true" data-1p-ignore data-form-type="other" value="'+keep(g.name)+'"></label>','บันทึก',fd=>{const n=String(fd.get('dn_label')).trim();if(!n) return 'กรุณาใส่ชื่อหมวดหมู่';g.name=n;save()});
   else if(a==='del-group') confirmDel('ลบหมวด '+mark(g.name)+'?','รายการทั้ง '+g.items.length+' รายการและความคืบหน้าในหมวดนี้จะหายถาวร',()=>{const ids=g.items.map(i=>i.id);S.groups=S.groups.filter(x=>x.id!==g.id);Object.values(S.progress).forEach(p=>ids.forEach(id=>delete p[id]))});
