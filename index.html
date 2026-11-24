@@ -441,7 +441,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="01acceb72fde";</script>
+<script>window.DN_BUILD="631ec48aa560";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -536,7 +536,7 @@ const item=(name,clear,fail=0,tier='normal',reset='weekly')=>({id:uid(),name,cle
 
 function seed(){
   const now=Date.now(),c={id:uid(),name:'ตัวละคร 1',job:''};
-  return {v:5,active:c.id,view:'char',hideIn:{},chars:[c],progress:{},collapsed:{},
+  return {v:6,active:c.id,view:'char',hideIn:{},chars:[c],progress:{},collapsed:{},
     stamps:{daily:dayStart(now),weekly:weekStart(now)},
     groups:defaultGroups()};
 }
@@ -546,7 +546,7 @@ function defaultGroups(){
   return [
     {id:uid(),kind:'quest',name:'เควสทั่วไป',items:[
       item('เควสภารกิจรายวัน',5,0,'normal','daily'),
-      item('เควสบอร์ด',1,0,'normal','daily'),
+      item('เควสบอร์ด',1,0,'normal','weekly'),
       item('เควสรายสัปดาห์',7,0,'normal','weekly')]},
     {id:'seed-guild',kind:'quest',name:'เควสกิลด์',items:[
       item('เช็คชื่อกิลด์',1,0,'normal','daily'),
@@ -611,7 +611,7 @@ function undoLayout(){
   let saved,next;
   try{
     saved=JSON.parse(localStorage.getItem('dn-layout-undo'));
-    next=clean({...S,v:5,groups:saved.groups,progress:saved.progress,stamps:saved.stamps});
+    next=clean({...S,v:6,groups:saved.groups,progress:saved.progress,stamps:saved.stamps});
   }catch(e){toast('ย้อนข้อมูลไม่สำเร็จ');return}
   S=next;
   try{localStorage.removeItem('dn-layout-undo')}catch(e){}
@@ -669,7 +669,7 @@ function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?M
 function clean(x){
   if(!x||!Array.isArray(x.chars)||!Array.isArray(x.groups)||!x.chars.length) throw new Error('bad');
   const now=Date.now();
-  const s={v:5,view:x.view==='all'?'all':'char',hideIn:{},collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
+  const s={v:6,view:x.view==='all'?'all':'char',hideIn:{},collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
     stamps:{daily:Number(x.stamps&&x.stamps.daily)||dayStart(now),weekly:Number(x.stamps&&x.stamps.weekly)||weekStart(now)},
     chars:x.chars.map(c=>({id:String(c.id||uid()),name:String(c.name||'ตัวละคร').slice(0,40),job:String(c.job||'').slice(0,40),img:safeImg(c.img)})),
     groups:x.groups.map(g=>({id:String(g.id||uid()),kind:g.kind==='quest'?'quest':'dungeon',name:String(g.name||'หมวดหมู่').slice(0,60),
@@ -682,6 +682,8 @@ function clean(x){
   // Version 4 raises the default Weekly Quest from 6 to 7 once. A count the user sets later is kept.
   if(fromV<4) s.groups.forEach(g=>g.items.forEach(i=>{if(i.name==='เควสรายสัปดาห์'&&i.clear===6) i.clear=7}));
   if(fromV<5) migrateGuild(s);
+  // Board quests reset weekly. Earlier versions shipped them as daily.
+  if(fromV<6) s.groups.forEach(g=>g.items.forEach(i=>{if(i.name==='เควสบอร์ด'&&i.reset==='daily') i.reset='weekly'}));
   // The old single switch becomes "hidden" on every category, so nothing jumps back open after this update.
   const hid=x.hideIn&&typeof x.hideIn==='object'?x.hideIn:null;
   s.groups.forEach(g=>{if(hid?hid[g.id]===true:x.hideDone===true) s.hideIn[g.id]=true});
