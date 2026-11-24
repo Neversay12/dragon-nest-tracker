@@ -307,44 +307,63 @@ dialog.wall .btn:hover{border-color:var(--accent)}
 @media (min-width:761px){.has-bg th:first-child,.has-bg td:first-child{position:static}}
 @media (max-width:760px){.has-bg th:first-child,.has-bg td:first-child{background:rgba(20,23,32,.86)}.has-bg.wall-light th:first-child,.has-bg.wall-light td:first-child{background:rgba(255,255,255,.9)}}
 /* The blur sits on a pseudo-element so panels do not become a positioning parent for dragged rows. */
-.wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner){position:relative;isolation:isolate}
-.wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner)::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;-webkit-backdrop-filter:blur(var(--wpblur,0px));backdrop-filter:blur(var(--wpblur,0px))}
+.wall-pb #app :is(.side,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner){position:relative;isolation:isolate}
+.wall-pb #app :is(.side,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner)::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;-webkit-backdrop-filter:blur(var(--wpblur,0px));backdrop-filter:blur(var(--wpblur,0px))}
 /* Phones and tablets keep one column. A mouse-driven desktop gets a left rail and a right board, leaving the middle for the picture. */
-.rail,.board{display:contents}
 .ghide{flex:none;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .ghide svg{width:15px;height:15px;flex:none}
 .toolgrid .btn.tool:last-child:nth-child(odd){grid-column:1/-1}
 .gbtns{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
 @media (max-width:760px){.ghead .gbtns{margin:0 12px 8px auto;justify-content:flex-end}}
+/* Top bar: title, reset clocks, and settings icons. */
+.topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.brand{flex:1 1 auto;min-width:0}
+.brand h1{font-size:21px;white-space:nowrap}
+.topbar .clocks{gap:8px;flex-wrap:wrap}
+.topbar .clock{display:flex;align-items:baseline;gap:7px;padding:3px 11px;border-radius:999px;background:var(--raised);border:1px solid var(--line)}
+.topbar .clock span{display:inline;font-size:12px}
+.topbar .clock b{font-size:15px}
+.tbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px}
+.ibtn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:40px;height:40px;padding:0 9px;border-radius:10px;background:var(--raised);border:1px solid var(--line);color:var(--ink);cursor:pointer;list-style:none}
+.ibtn::-webkit-details-marker{display:none}
+.ibtn svg{width:20px;height:20px;flex:none}
+.ibtn b{font-size:13px;font-weight:600}
+.ibtn:hover,details[open]>.ibtn{border-color:var(--accent);color:var(--accent)}
+.ibtn.snd.off{color:var(--muted)}
+.ibtn.syncp::after{content:"";position:absolute;right:6px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--muted);box-shadow:0 0 0 2px var(--surface)}
+.ibtn.syncp[data-state="ok"]::after{background:var(--done)}
+.ibtn.syncp[data-state="saving"]::after,.ibtn.syncp[data-state="connecting"]::after{background:var(--accent)}
+.ibtn.syncp[data-state="error"]::after,.ibtn.syncp[data-state="offline"]::after{background:var(--hard)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tmenu{position:relative}
+.tmenu .pop{position:absolute;right:0;top:calc(100% + 8px);z-index:20;display:flex;flex-direction:column;gap:4px;min-width:170px;padding:8px;border-radius:10px;background:var(--pop,var(--surface));border:1px solid var(--line);box-shadow:0 12px 30px rgba(8,10,18,.35)}
+.tmenu .pop .skin{justify-content:flex-start;width:100%;border-radius:8px}
+.has-bg .tmenu .pop{--pop:rgba(20,23,32,.97)}
+.has-bg.wall-light .tmenu .pop{--pop:rgba(255,255,255,.98)}
+.has-bg #app .tmenu .pop .skin{background:transparent}
+.has-bg #app .tmenu .pop .skin[aria-checked="true"]{background:var(--raised)}
+.shell,.side,.board,.lane{display:flex;flex-direction:column;gap:14px;min-width:0}
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,560px),1fr));gap:14px 18px;align-items:start}
+@media (max-width:1099px),(hover:none),(pointer:coarse){
+  .brand{flex-basis:100%}
+  .tbar{width:100%;justify-content:space-between;gap:4px}
+  .topbar .clocks{width:100%}
+  .topbar .clock{padding:2px 9px}
+  .ibtn{min-width:38px;height:38px;padding:0 7px}
+  .ibtn.wide b{display:none}
+}
+/* Desktop: the top bar stays on top, characters on the left, ticking on the right. */
 @media (min-width:1100px) and (hover:hover) and (pointer:fine){
-  #app{max-width:none;display:grid;grid-template-columns:clamp(310px,19vw,360px) minmax(0,1fr) clamp(500px,33vw,640px);gap:20px;align-items:start;padding:16px 20px 32px}
-  .rail,.board{display:flex;flex-direction:column;gap:12px;min-width:0}
-  .rail{grid-column:1;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin;padding-right:3px}
-  .board{grid-column:3}
-  .board.wide,html:not(.has-bg) .board{grid-column:2/4}
-  html:not(.has-bg) .board:not(.wide){max-width:1000px}
-  .rail header{flex-direction:column;align-items:stretch;gap:8px}
-  .rail h1{font-size:23px}
-  .rail .sub{display:none}
-  .rail .clocks{justify-content:space-between}
-  .rail .skinbar{gap:6px}
-  .rail .skins{gap:4px}
-  .rail .skin{min-height:29px;font-size:12px}
-  .rail .tabs{flex-direction:column;overflow:visible;padding:2px}
-  .rail .tab{width:100%;min-width:0}
-  .rail .tab strong{max-width:none}
-  .rail .tab.add{justify-content:center}
-  .rail .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-  .rail .toolgrid .btn.tool{padding:6px 8px;gap:7px}
-  .rail .toolgrid .tt small{display:none}
-  .rail .charcard{padding:10px}
-  .rail .charcard .avatar.lg{width:52px;height:52px}
-  .rail .guide{font-size:12px;padding:6px 9px}
-  .rail .guide:not(.editing){display:none}
-  .rail .tab{padding:4px 9px}
-  .rail .tab .avatar{width:34px;height:34px;font-size:15px}
-  .rail .tabs{gap:5px}
-  .rail .btn.tool{min-height:36px}
+  #app{max-width:none;padding:0 20px 32px;gap:16px}
+  .topbar{position:sticky;top:0;z-index:10;border-top:0;border-radius:0 0 12px 12px;padding:10px 18px}
+  .has-bg .topbar{-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);background:var(--chip)}
+  .shell{display:grid;grid-template-columns:290px minmax(0,1fr);gap:20px;align-items:start}
+  .side{position:sticky;top:78px;max-height:calc(100vh - 94px);overflow-y:auto;scrollbar-width:thin;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;gap:12px}
+  .side .tabs{flex-direction:column;overflow:visible;padding:0;gap:6px}
+  .side .tab{width:100%;min-width:0;padding:6px 10px}
+  .side .tab strong{max-width:none}
+  .side .tab.add{justify-content:center}
+  .side .toolgrid{grid-template-columns:1fr;gap:6px}
 }
 html.wall-open{overflow:hidden}
 html.wall-open #app{visibility:hidden}
@@ -419,7 +438,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="294ea63acfbe";</script>
+<script>window.DN_BUILD="31c97c244ddc";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -440,6 +459,7 @@ const escPlain=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 // Language: Thai source strings are translated at render. Text the user typed is wrapped in
 // private-use markers so it is never translated. Columns: Thai key, English, Thai+English, optional pure-Thai override.
 const DICT=[
+['รูปพื้นหลัง','Background','Background'],['เชื่อม Device','Link devices','เชื่อม Device'],['เสียงกด','Key sound','Sound'],['title="ภาษา" aria-label="ภาษา"','title="Language" aria-label="Language"','title="Language" aria-label="Language"'],
 ['‹ กลับ','‹ Back','‹ Back'],['ปรับแต่งพื้นหลัง','Personalization','ปรับแต่ง Background'],['คลังรูปพื้นหลัง','Wallpaper library','คลัง Wallpaper'],['การแสดงผล','Appearance','Appearance'],
 ['กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ซิงค์ไปเครื่องอื่น','Click a picture to use it. Pictures stay on this device and do not sync.','กดรูปเพื่อเปลี่ยนทันที รูปเก็บในเครื่องนี้และไม่ Sync ไปเครื่องอื่น'],
 ['พื้นหลังที่ใช้อยู่','Current background','Background ที่ใช้อยู่'],['ยังไม่ได้ใช้รูป','No picture','ยังไม่ได้ใช้รูป'],['ไม่ใช้รูป','Use no picture','ไม่ใช้รูป'],['รูปก่อนหน้า','Previous picture','รูปก่อนหน้า'],
@@ -628,10 +648,19 @@ function currentSkin(){
   if(t==='dark'||t==='light') return t;
   return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 }
-function skinRow(){
-  const cur=currentSkin();
-  return '<div class="skinbar"><div class="skins" role="radiogroup" aria-label="ธีมพื้นหลัง"><span>ธีมพื้นหลัง</span>'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'" data-fk="skin-'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div><div class="skins"><span>ภาษา</span><div class="langs" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'" data-fk="lang-'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div>'+syncPill()+updatePill()+'<button class="skin snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound" aria-label="ระดับเสียงกด ตอนนี้ '+L(SOUND_LEVELS[soundLevel][0])+' กดเพื่อเปลี่ยน">'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'เสียงกด: '+(soundLevel?L(SOUND_STYLES[soundStyle].name)+' · ':'')+L(SOUND_LEVELS[soundLevel][0])+'</button><button class="skin bgbtn" data-act="bg" data-fk="bg">'+svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/>')+(wall.img?'เปลี่ยนรูปพื้นหลัง':'ใส่รูปพื้นหลัง')+'</button></div></div>';
+// Settings live as icons in the top bar. Theme and language open a small menu.
+function topTools(){
+  const cur=currentSkin(),ib=l=>' title="'+l+'" aria-label="'+l+'"',lb=LANGS.find(x=>x[0]===lang)||LANGS[2];
+  const theme='<details class="tmenu"><summary class="ibtn"'+ib('ธีมพื้นหลัง')+'>'+ICON.palette+'</summary><div class="pop" role="radiogroup" aria-label="ธีมพื้นหลัง">'+SKINS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===cur)+'" data-act="skin" data-skin="'+x[0]+'"><i style="background:'+x[2]+'"></i>'+L(x[1])+'</button>').join('')+'</div></details>';
+  const langs='<details class="tmenu"><summary class="ibtn wide"'+ib('ภาษา')+'>'+ICON.lang+'<b>'+keep(lb[1])+'</b></summary><div class="pop" role="radiogroup" aria-label="Language">'+LANGS.map(x=>'<button class="skin" role="radio" aria-checked="'+(x[0]===lang)+'" data-act="lang" data-lang="'+x[0]+'">'+keep(x[1])+'</button>').join('')+'</div></details>';
+  const sound='<button class="ibtn snd'+(soundLevel?'':' off')+'" data-act="sound" data-fk="sound"'+ib('เสียงกด')+'>'+svg(soundLevel?'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/>'+(soundLevel>1?'<path d="M18.5 6.5a8 8 0 0 1 0 11"/>':''):'<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/>')+'</button>';
+  const dev=SYNC_CFG?'<button class="ibtn syncp" data-act="sync" data-fk="sync" data-state="'+sync.state+'"'+ib('เชื่อม Device')+'>'+svg('<rect x="2" y="5" width="13" height="10" rx="1.5"/><path d="M6 19h5"/><rect x="17" y="8" width="5" height="11" rx="1"/>')+'<span class="vh" data-sync-label>'+SYNC_TEXT[sync.state]+'</span></button>':'';
+  const bgb='<button class="ibtn" data-act="bg" data-fk="bg"'+ib('รูปพื้นหลัง')+'>'+ICON.shirt+'</button>';
+  const bak='<button class="ibtn" data-act="backup"'+ib('สำรอง/ย้ายข้อมูล')+'>'+ICON.swap+'</button>';
+  return '<div class="tbar">'+updatePill()+dev+sound+langs+theme+bgb+bak+'</div>';
 }
+document.addEventListener('click',e=>{document.querySelectorAll('details.tmenu[open]').forEach(d=>{if(!d.contains(e.target)) d.open=false})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') document.querySelectorAll('details.tmenu[open]').forEach(d=>{d.open=false;const x=d.querySelector('summary');if(x) x.focus()})});
 applySkin();
 function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?Math.min(max,Math.max(min,v)):min}
 function clean(x){
@@ -725,6 +754,9 @@ const ICON={
   grip:svg('<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>'),
   swap:svg('<path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/>'),
   user:svg('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+  palette:svg('<path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.9 2-2 0-.6-.3-1-.6-1.4-.3-.4-.6-.8-.6-1.4 0-1.1.9-2 2-2h2.4A3.8 3.8 0 0 0 21 10.4C21 6.3 17 3 12 3z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="15" cy="7" r="1.2"/>'),
+  lang:svg('<path d="M3 5h9M7.5 3v2M5 5c.8 3 3 5.5 6 7M10 5c-.8 3-3 5.5-6 7"/><path d="M12 21l4.5-10L21 21M13.6 17.5h5.8"/>'),
+  shirt:svg('<path d="M8 3 3 6l2 5 3-1v11h8V10l3 1 2-5-5-3a4 4 0 0 1-8 0z"/>'),
   warn:svg('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>')
 };
 const tt=(title,hint)=>'<span class="tt"><b>'+title+'</b><small>'+hint+'</small></span>';
@@ -751,26 +783,27 @@ function render(){
   const scrollX=$('.tabs')?$('.tabs').scrollLeft:0;
   const c=S.chars.find(x=>x.id===S.active)||S.chars[0];S.active=c.id;
   const now=Date.now();
-  let h='<aside class="rail"><header><div><h1>Dragon Nest Tracker</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
+  let h='<header class="topbar"><div class="brand"><h1>Dragon Nest Tracker</h1></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div>'+topTools()+'</header>';
   if(!storageOk) h+='<p class="err">เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้</p>';
   h+=linkBanner();
-  h+=skinRow();
+  h+='<div class="shell"><aside class="side">';
   h+='<nav class="tabs" role="tablist" aria-label="ตัวละคร">'+S.chars.map(x=>{const st=stats(x.id);return '<button class="tab" role="tab" aria-selected="'+(S.view==='char'&&x.id===c.id)+'" data-act="open-char" data-char="'+x.id+'" data-fk="t-'+x.id+'">'+(manage&&S.chars.length>1?'<span class="tab-grip" title="ลากเพื่อจัดลำดับ" aria-hidden="true">'+ICON.grip+'</span>':'')+avatar(x)+'<span class="tabtxt"><strong>'+esc(x.name)+'</strong><small>'+(x.job?esc(x.job):'ยังไม่ใส่ Job')+' · '+st.pct+'%</small><span class="bar"><i style="width:'+st.pct+'%"></i></span></span></button>'}).join('')+'<button class="tab add" data-act="add-char">+ เพิ่มตัวละคร</button></nav>';
   h+='<div class="toolgrid"><button class="btn tool" data-act="view-all" data-fk="va" aria-pressed="'+(S.view==='all')+'">'+ICON.grid+(S.view==='all'?tt('กลับหน้าตัวละคร','ออกจากตารางภาพรวม'):tt('ภาพรวมทุกตัว','ตารางเทียบทุกตัวละคร'))+'</button>';
   if(S.view==='char') h+='<button class="btn tool" data-act="manage" data-fk="mg" aria-pressed="'+manage+'">'+(manage?ICON.check+tt('เสร็จสิ้นการจัดหมวด','กลับไปติ๊กตามปกติ'):ICON.pen+tt('จัดหมวดหมู่','เพิ่ม ย้าย หรือคืนค่าหมวด'))+'</button>';
-  h+='<button class="btn tool" data-act="backup">'+ICON.swap+tt('สำรอง/ย้ายข้อมูล','ย้ายเครื่องหรือส่งรายการให้เพื่อน')+'</button></div>';
-  if(S.view==='all') h+='</aside><main class="board wide">'+overview();
+  h+='</div></aside><main class="board">';
+  if(S.view==='all') h+=overview();
   else{
     const st=stats(c.id);
     h+='<div class="toolbar charcard"><button class="hero" data-act="edit-char" aria-label="แก้ไขตัวละคร '+esc(c.name)+'">'+avatar(c,'lg')+'<span class="herotxt"><span class="char-title">'+esc(c.name)+'</span><span class="jobpill">'+(c.job?esc(c.job):'กดเพื่อใส่ Job / Class')+'</span><small>เคลียร์แล้ว '+st.done+'/'+st.total+'</small></span></button><div><button class="btn edit" data-act="edit-char">'+ICON.user+tt('แก้ไขตัวละคร','ชื่อ, Job, รูป')+'</button><button class="btn warn" data-act="clear-char">'+ICON.warn+tt('ล้างการติ๊ก','รีเป็น 0 เฉพาะตัวนี้')+'</button></div></div>';
     const q=S.groups.filter(g=>g.kind==='quest'),d=S.groups.filter(g=>g.kind==='dungeon');
     h+=manage?'<p class="guide editing"><b>กำลังจัดหมวดหมู่</b> คลิกค้างที่ ≡ บนหัวหมวดเพื่อย้ายลำดับ แก้ไขรายการได้จากปุ่มแก้ไขของแต่ละหมวด</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด</p>';
-    h+='</aside><main class="board">';
     if(manage) h+='<div class="layoutbar"><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button><button class="btn warn" data-act="reset-layout">'+ICON.warn+tt('คืนค่าเริ่มต้น','เควสและหมวดหมู่ ตัวละครไม่หาย')+'</button>'+(lsGet('dn-layout-undo')?'<button class="btn edit" data-act="undo-layout">'+ICON.swap+tt('ย้อนการคืนค่า','กลับไปรายการก่อนคืนค่า')+'</button>':'')+'</div>';
-    if(q.length) h+='<div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('');
-    h+='<div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('');
+    // Quests and dungeons sit side by side on wide screens and stack on narrow ones.
+    h+='<div class="lanes">';
+    if(q.length) h+='<div class="lane"><div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('')+'</div>';
+    h+='<div class="lane"><div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('')+'</div></div>';
   }
-  h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer></main>';
+  h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer></main></div>';
   $('#app').innerHTML=tr(h);
   if($('.tabs')) $('.tabs').scrollLeft=scrollX;
   if(fk){const el=$('[data-fk="'+fk+'"]');if(el) el.focus({preventScroll:true})}
