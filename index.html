@@ -286,6 +286,15 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 /* Picture mode: the photo is dimmed, panels are one thin layer, and text is white in every theme. */
 html.has-bg #app,html.has-bg dialog.wall{--ink:#fff;--muted:rgba(255,255,255,.8);--line:rgba(255,255,255,.17);--raised:rgba(255,255,255,.08);--bg:rgba(8,10,16,.52);--hard:#ff9f8f;--hard-soft:rgba(92,28,22,.84);--done:#5dd6a0;--done-soft:rgba(24,104,74,.44);--daily:#ffcf70;--daily-soft:rgba(74,52,10,.84);--weekly:#d2b6ff;--weekly-soft:rgba(60,40,106,.84);color:#fff;color-scheme:dark}
 html.has-bg #app{text-shadow:0 1px 2px rgba(0,0,0,.8),0 0 9px rgba(0,0,0,.38)}
+html.has-bg.wall-light #app,html.has-bg.wall-light dialog.wall{--ink:#141a2a;--muted:rgba(20,26,42,.76);--line:rgba(20,26,42,.16);--raised:rgba(255,255,255,.38);--bg:rgba(255,255,255,.6);--hard:#b3301e;--hard-soft:rgba(252,226,221,.92);--done:#13704a;--done-soft:rgba(212,244,228,.78);--daily:#7a4800;--daily-soft:rgba(253,240,213,.94);--weekly:#5b2ca6;--weekly-soft:rgba(239,230,251,.94);color:#141a2a;color-scheme:light}
+html.has-bg.wall-light #app{text-shadow:0 0 2px rgba(255,255,255,.9),0 0 10px rgba(255,255,255,.55)}
+html.wall-light #bgImg::after{background:#fff}
+.has-bg.wall-light .pip.on{color:#fff}
+.has-bg.wall-light .row.dragging,.has-bg.wall-light .group.dragging,.has-bg.wall-light .tab.dragging{background:rgba(255,255,255,.97)}
+dialog.wall .btn{background:var(--wpanel);border-color:var(--wline);color:var(--ink)}
+dialog.wall .btn:hover{border-color:var(--accent)}
+.wnote{font-size:12px;color:var(--muted);margin:7px 0 12px}
+.wrange input:disabled{opacity:.4}
 .has-bg #app .btn:not(.primary):not(.warn):not([aria-pressed="true"]),.has-bg #app .skin:not(.ready),.has-bg #app .langs{background:var(--chip)}
 .has-bg #app .langs button[aria-checked="true"]{background:var(--accent)}
 .has-bg #app :is(.btn.primary,.btn[aria-pressed="true"],.langs button[aria-checked="true"],.skin.ready,.pip.on){text-shadow:none}
@@ -296,7 +305,7 @@ html.has-bg #app{text-shadow:0 1px 2px rgba(0,0,0,.8),0 0 9px rgba(0,0,0,.38)}
 .has-bg .pip.on{color:#07140e}
 .has-bg .row.dragging,.has-bg .group.dragging,.has-bg .tab.dragging{background:rgba(20,23,32,.96)}
 @media (min-width:761px){.has-bg th:first-child,.has-bg td:first-child{position:static}}
-@media (max-width:760px){.has-bg th:first-child,.has-bg td:first-child{background:rgba(20,23,32,.86)}}
+@media (max-width:760px){.has-bg th:first-child,.has-bg td:first-child{background:rgba(20,23,32,.86)}.has-bg.wall-light th:first-child,.has-bg.wall-light td:first-child{background:rgba(255,255,255,.9)}}
 /* The blur sits on a pseudo-element so panels do not become a positioning parent for dragged rows. */
 .wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner){position:relative;isolation:isolate}
 .wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner)::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;-webkit-backdrop-filter:blur(var(--wpblur,0px));backdrop-filter:blur(var(--wpblur,0px))}
@@ -410,7 +419,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="33f41dd4beb5";</script>
+<script>window.DN_BUILD="294ea63acfbe";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -437,7 +446,7 @@ const DICT=[
 ['เพิ่มรูป','Import image','เพิ่มรูป'],['เลือกไฟล์ ลากมาวาง หรือ Ctrl+V','Choose, drop, or Ctrl+V','เลือกไฟล์ ลากมาวาง หรือ Ctrl+V'],['ใช้อยู่','In use','ใช้อยู่'],['ลบรูป','Delete picture','ลบรูป'],['ยืนยันลบ','Confirm','ยืนยันลบ'],
 ['เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า','This browser cannot store pictures. They disappear when the page closes.','เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า'],
 ['ปรับความเบลอ ความชัด และความโปร่งของแผง','Adjust blur, picture strength, and panel transparency.','ปรับ Blur ความชัด และความโปร่งของ Panel'],['ตัวอย่างแผง','Panel preview','Panel Preview'],['เควสตัวอย่าง','Sample quest','Sample Quest'],['ดันเจี้ยนตัวอย่าง','Sample dungeon','Sample Dungeon'],
-['ความเบลอของรูป','Background blur','Background Blur'],['ความชัดของรูป','Picture strength','ความชัดของรูป'],['ความทึบของแผง','Panel opacity','ความทึบของ Panel'],['เบลอหลังแผง','Blur behind panels','Blur หลัง Panel'],['คืนค่าการแสดงผล','Reset appearance','Reset Appearance'],
+['ความเบลอของรูป','Background blur','Background Blur'],['ความชัดของรูป','Picture strength','ความชัดของรูป'],['ความทึบของแผง','Panel opacity','ความทึบของ Panel'],['เบลอหลังแผง','Blur behind panels','Blur หลัง Panel'],['การเลื่อนรูป','Picture scrolling','การเลื่อนรูป'],['ตรึงรูปไว้','Fixed','ตรึงรูปไว้'],['เลื่อนตามหน้า','Scroll with page','เลื่อนตามหน้า'],['เลื่อนหน้าลงแล้วรูปจะเลื่อนจากบนลงล่าง เหมาะกับรูปแนวตั้ง','As you scroll down, the picture moves from top to bottom. Good for tall pictures.','เลื่อนหน้าลงแล้วรูปจะเลื่อนจากบนลงล่าง เหมาะกับรูปแนวตั้ง'],['ตำแหน่งรูป (บน–ล่าง)','Picture position (top–bottom)','ตำแหน่งรูป (บน–ล่าง)'],['คืนค่าการแสดงผล','Reset appearance','Reset Appearance'],
 ['โหมดสี','Theme mode','Theme Mode'],['โหมดสว่าง','Light','Light'],['โหมดมืด','Dark','Dark'],['ตามเครื่อง','Follow system','Follow System'],
 ['เพิ่มรูปแล้ว','Picture added','เพิ่มรูปแล้ว'],['ลบรูปแล้ว','Picture deleted','ลบรูปแล้ว'],['คลังเต็มแล้ว ลบรูปเก่าก่อน','Library is full. Delete a picture first.','คลังเต็มแล้ว ลบรูปเก่าก่อน'],['พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า','Not enough storage. Delete an older picture.','พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า'],
 ['ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ','Track quests and dungeons per character. Data stays on your device.','ติ๊ก Quest และ Dungeon แยกตาม Character ข้อมูลเก็บในเครื่องของคุณ'],
@@ -939,10 +948,10 @@ document.addEventListener('click',e=>{
 },true);
 // Wallpapers stay on this device in IndexedDB, because localStorage is too small and Firestore documents are capped.
 const BG_KEY='dn-bg',BG_DIM='dn-bg-dim',WALL_KEY='dn-wall',WALL_MAX=24;
-const WALL_RE=/^data:image\/(jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/;
+const WALL_RE=/^data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/;
 // Dark themes let the picture lead. Light themes use a milky panel. Each tone remembers its own sliders.
-const WALL_TONES=()=>({d:{show:62,glass:20},l:{show:62,glass:20}});
-var wall={id:'',img:'',name:'',blur:0,pblur:0,tones:WALL_TONES(),list:[],view:'lib'};
+const WALL_TONES=()=>({d:{show:62,glass:20},l:{show:66,glass:46}});
+var wall={id:'',img:'',name:'',blur:0,pblur:0,posY:50,pan:false,tones:WALL_TONES(),list:[],view:'lib'};
 function wallTone(){
   const h=getComputedStyle(document.documentElement).getPropertyValue('--surface').trim().replace('#','');
   const x=h.length===3?h.split('').map(c=>c+c).join(''):h,n=parseInt(x,16);
@@ -956,9 +965,12 @@ try{
     if(typeof v.id==='string') wall.id=v.id;
     wall.blur=clampInt(Number(v.blur)||0,0,24);
     wall.pblur=clampInt(Number(v.pblur)||0,0,16);
+    if(Number.isFinite(Number(v.posY))) wall.posY=clampInt(Number(v.posY),0,100);
+    wall.pan=v.pan===true;
     // Version 2 is picture mode. Older panel values were far too opaque, so they start from the new defaults.
-    if(v.v===2) ['d','l'].forEach(t=>{
-      const x=v.tones&&v.tones[t];if(!x) return;
+    // Version 3 gave light themes dark text, so light values saved before that start over.
+    if(v.v===2||v.v===3) ['d','l'].forEach(t=>{
+      const x=v.tones&&v.tones[t];if(!x||(t==='l'&&v.v!==3)) return;
       if(Number.isFinite(Number(x.show))) wall.tones[t].show=clampInt(Number(x.show),15,100);
       if(Number.isFinite(Number(x.glass))) wall.tones[t].glass=clampInt(Number(x.glass),0,100);
     });
@@ -966,7 +978,7 @@ try{
     const old=clampInt(100-(Number(localStorage.getItem(BG_DIM))||0),15,100);wall.tones.d.show=old;wall.tones.l.show=old;
   }
 }catch(e){}
-const wallSave=()=>{try{localStorage.setItem(WALL_KEY,JSON.stringify({v:2,id:wall.id,blur:wall.blur,pblur:wall.pblur,tones:wall.tones}))}catch(e){}};
+const wallSave=()=>{try{localStorage.setItem(WALL_KEY,JSON.stringify({v:3,id:wall.id,blur:wall.blur,pblur:wall.pblur,posY:wall.posY,pan:wall.pan,tones:wall.tones}))}catch(e){}};
 function hexA(v,a){
   let h=String(v).trim().replace('#','');
   if(h.length===3) h=h.split('').map(c=>c+c).join('');
@@ -983,20 +995,19 @@ function paintWall(){
   el.style.setProperty('--dim',1-wall.show/100);
   el.style.setProperty('--wblur',wall.blur+'px');
   root.classList.toggle('has-bg',has);
+  const light=wallTone()==='l';
   root.classList.toggle('wall-pb',has&&wall.pblur>0);
+  root.classList.toggle('wall-light',has&&light);
   root.style.setProperty('--wpblur',wall.pblur+'px');
-  const light=wallTone()==='l',accent=skin==='sakura'?'#ff8db7':'#86a8ff',onAccent=skin==='sakura'?'#2a0b18':'#10131c';
-  [app,box].forEach(x=>{
-    if(has&&light){x.style.setProperty('--accent',accent);x.style.setProperty('--on-accent',onAccent)}
-    else{x.style.removeProperty('--accent');x.style.removeProperty('--on-accent')}
-  });
+  wallPan();
+  const tint=light?'255,255,255':'14,16,24';
   if(has){
-    app.style.setProperty('--surface','rgba(14,16,24,'+wall.glass/100+')');
-    app.style.setProperty('--chip','rgba(14,16,24,'+Math.max(wall.glass,34)/100+')');
-    box.style.setProperty('--wside','rgba(14,16,24,.36)');
-    box.style.setProperty('--wpanel','rgba(14,16,24,.4)');
-    box.style.setProperty('--wline','rgba(255,255,255,.17)');
-    box.style.setProperty('--whover','rgba(255,255,255,.15)');
+    app.style.setProperty('--surface','rgba('+tint+','+wall.glass/100+')');
+    app.style.setProperty('--chip','rgba('+tint+','+Math.max(wall.glass,light?58:34)/100+')');
+    box.style.setProperty('--wside','rgba('+tint+','+(light?.55:.36)+')');
+    box.style.setProperty('--wpanel','rgba('+tint+','+(light?.62:.4)+')');
+    box.style.setProperty('--wline',light?'rgba(21,26,40,.16)':'rgba(255,255,255,.17)');
+    box.style.setProperty('--whover',light?'rgba(21,26,40,.1)':'rgba(255,255,255,.15)');
   }else{
     app.style.removeProperty('--surface');app.style.removeProperty('--chip');
     box.style.setProperty('--wside',hexA(surface,.62));
@@ -1005,6 +1016,17 @@ function paintWall(){
     box.style.setProperty('--whover',hexA(ink,.13));
   }
 }
+// "Scroll with page": the picture pans from top to bottom as the page scrolls, so tall photos show in full.
+function wallPan(){
+  const el=$('#bgImg');if(!el) return;
+  let y=wall.posY;
+  if(wall.pan){const max=document.documentElement.scrollHeight-innerHeight;if(max>0) y=Math.min(100,Math.max(0,scrollY/max*100))}
+  el.style.backgroundPosition='50% '+y+'%';
+}
+let panQueued=false;
+const panSoon=()=>{if(!wall.pan||panQueued) return;panQueued=true;requestAnimationFrame(()=>{panQueued=false;wallPan()})};
+addEventListener('scroll',panSoon,{passive:true});
+addEventListener('resize',panSoon);
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>paintWall());
 let wdbP=null,wallMem=false;
 const wmem={meta:new Map(),full:new Map()};
@@ -1058,7 +1080,9 @@ function wallMake(file){return new Promise((ok,no)=>{
         return cv.toDataURL('image/jpeg',q);
       };
       let img;
+      const big=Math.max(im.naturalWidth,im.naturalHeight);
       if(file.type==='image/gif'&&file.size<=6e6) img=await readData(file); // keeps the animation
+      else if(/^image\/(jpeg|png|webp)$/.test(file.type)&&file.size<=8e6&&big<=4096) img=await readData(file); // untouched quality
       else{img=make(2560,.86);if(img.length>4e6) img=make(1920,.8);if(img.length>4e6) img=make(1600,.72)}
       ok({img,thumb:wallThumb(im)});
     }catch(e){no(new Error('bad'))}
@@ -1101,7 +1125,7 @@ async function wallOpen(){
   paintWall();
   box.innerHTML=tr('<aside class="wside"><button type="button" class="wback" id="wBack">‹ กลับ</button><small>ปรับแต่งพื้นหลัง</small><nav class="wnav"><button type="button" data-wview="lib">'+WICON.lib+'<span>คลังรูปพื้นหลัง</span></button><button type="button" data-wview="look">'+WICON.look+'<span>การแสดงผล</span></button></nav></aside><main class="wmain" id="wMain"></main><input id="wFile" type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden>');
   $('#wBack',box).onclick=wallClose;
-  box.oncancel=e=>{e.preventDefault();wallClose()};
+  box.oncancel=e=>{if(e.target!==box) return;e.preventDefault();wallClose()};
   box.querySelectorAll('[data-wview]').forEach(b=>b.onclick=()=>{wall.view=b.dataset.wview;wallRender()});
   const file=$('#wFile',box);
   file.onchange=()=>{wallAdd(Array.from(file.files));file.value=''};
@@ -1133,21 +1157,21 @@ function wallRender(){
 }
 function wallLook(main){
   const range=(id,label,min,max,v,unit)=>'<label class="wrange"><span>'+label+'<b id="'+id+'V">'+v+unit+'</b></span><input id="'+id+'" type="range" min="'+min+'" max="'+max+'" value="'+v+'"></label>';
-  const mode=currentMode();
   main.innerHTML=tr('<div class="wpage"><div class="whead"><h2>การแสดงผล</h2><p>ปรับความเบลอ ความชัด และความโปร่งของแผง</p></div><div class="wlook"><div class="wcol"><div class="wprev"><i id="wpImg"></i><i id="wpShade"></i><div class="wmini" id="wpMini"><b>ตัวอย่างแผง</b><span>เควสตัวอย่าง</span><span>ดันเจี้ยนตัวอย่าง</span></div></div></div><div class="wcol"><div class="wpanel">'+
     range('wBlur','ความเบลอของรูป',0,24,wall.blur,'px')+range('wShow','ความชัดของรูป',15,100,wall.show,'%')+range('wGlass','ความทึบของแผง',0,100,wall.glass,'%')+range('wPanelBlur','เบลอหลังแผง',0,16,wall.pblur,'px')+
-    '</div><div class="wpanel"><div class="wtitle">โหมดสี</div><div class="wmodes">'+[['light','โหมดสว่าง'],['dark','โหมดมืด'],['','ตามเครื่อง']].map(x=>'<button type="button" data-wmode="'+x[0]+'" aria-pressed="'+(mode===x[0])+'">'+x[1]+'</button>').join('')+'</div></div><div><button type="button" class="btn" data-wact="reset-look">คืนค่าการแสดงผล</button></div></div></div></div>');
+    '</div><div class="wpanel"><div class="wtitle">การเลื่อนรูป</div><div class="wmodes"><button type="button" data-wpan="0" aria-pressed="'+!wall.pan+'">ตรึงรูปไว้</button><button type="button" data-wpan="1" aria-pressed="'+wall.pan+'">เลื่อนตามหน้า</button></div><p class="wnote">เลื่อนหน้าลงแล้วรูปจะเลื่อนจากบนลงล่าง เหมาะกับรูปแนวตั้ง</p>'+range('wPos','ตำแหน่งรูป (บน–ล่าง)',0,100,wall.posY,'%')+'</div><div><button type="button" class="btn" data-wact="reset-look">คืนค่าการแสดงผล</button></div></div></div></div>');
   const sync=()=>{
     const pi=$('#wpImg',main);
     pi.style.backgroundImage=wall.img?'url("'+wall.img+'")':'none';
-    pi.style.filter='blur('+(wall.blur/2.5)+'px)';
-    $('#wpShade',main).style.opacity=wall.img?1-wall.show/100:1;
-    const mini=$('#wpMini',main),pb=wall.img&&wall.pblur?'blur('+wall.pblur/2+'px)':'none';mini.style.background=wall.img?'rgba(14,16,24,'+wall.glass/100+')':getComputedStyle(document.documentElement).getPropertyValue('--surface');mini.style.webkitBackdropFilter=pb;mini.style.backdropFilter=pb;
+    pi.style.filter='blur('+(wall.blur/2.5)+'px)';pi.style.backgroundPosition='50% '+wall.posY+'%';
+    const shade=$('#wpShade',main);shade.style.background=wallTone()==='l'?'#fff':'#000';shade.style.opacity=wall.img?1-wall.show/100:1;
+    const mini=$('#wpMini',main),pb=wall.img&&wall.pblur?'blur('+wall.pblur/2+'px)':'none';mini.style.background=wall.img?(wallTone()==='l'?'rgba(255,255,255,':'rgba(14,16,24,')+wall.glass/100+')':getComputedStyle(document.documentElement).getPropertyValue('--surface');mini.style.webkitBackdropFilter=pb;mini.style.backdropFilter=pb;
   };
-  [['wBlur','blur','px'],['wShow','show','%'],['wGlass','glass','%'],['wPanelBlur','pblur','px']].forEach(x=>{
+  [['wBlur','blur','px'],['wShow','show','%'],['wGlass','glass','%'],['wPanelBlur','pblur','px'],['wPos','posY','%']].forEach(x=>{
     const r=$('#'+x[0],main);
     r.oninput=()=>{wall[x[1]]=clampInt(r.value,Number(r.min),Number(r.max));$('#'+x[0]+'V',main).textContent=wall[x[1]]+x[2];paintWall();sync();wallSave()};
   });
+  $('#wPos',main).disabled=wall.pan;
   sync();
 }
 const currentMode=()=>skin==='dark'||skin==='light'?skin:skin?'custom':'';
@@ -1173,18 +1197,14 @@ async function wallAdd(files){
   if(last){wall.view='lib';await wallUse(last);toast('เพิ่มรูปแล้ว')}
 }
 async function wallClick(e){
-  const mode=e.target.closest('[data-wmode]');
-  if(mode){
-    skin=mode.dataset.wmode||null;
-    try{if(skin) localStorage.setItem('dn-skin',skin);else localStorage.removeItem('dn-skin')}catch(err){}
-    applySkin();wallRender();return;
-  }
+  const pan=e.target.closest('[data-wpan]');
+  if(pan){wall.pan=pan.dataset.wpan==='1';wallSave();paintWall();wallRender();return}
   const b=e.target.closest('[data-wact]');if(!b) return;
   const a=b.dataset.wact,card=b.closest('.wcard'),id=card&&card.dataset.id;
   if(a==='add') $('#wFile').click();
   else if(a==='none'){wall.id='';wall.img='';wallSave();paintWall();wallRender()}
   else if(a==='use') wallUse(id);
-  else if(a==='reset-look'){wall.blur=0;wall.pblur=0;wall.tones[wallTone()]=WALL_TONES()[wallTone()];wallSave();paintWall();wallRender()}
+  else if(a==='reset-look'){wall.blur=0;wall.pblur=0;wall.posY=50;wall.pan=false;wall.tones[wallTone()]=WALL_TONES()[wallTone()];wallSave();paintWall();wallRender()}
   else if(a==='del'){
     if(!b.classList.contains('sure')){
       b.classList.add('sure');b.textContent=tr('ยืนยันลบ');
