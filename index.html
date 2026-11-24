@@ -111,7 +111,7 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 #app{position:relative;z-index:1}
 #toast{z-index:5}
 #bgImg{position:fixed;inset:calc(var(--wblur,0px) * -2);z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;filter:blur(var(--wblur,0px))}
-#bgImg::after{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--dim,.4)}
+#bgImg::after{content:"";position:absolute;inset:0;background:#000;opacity:var(--dim,.4)}
 .skinbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px}
 .skin.bgbtn{padding:2px 12px 2px 8px;font-weight:600;border-style:dashed;border-color:var(--accent);color:var(--accent)}
 .skin.bgbtn svg,.skin.snd svg{width:17px;height:17px;flex:none}
@@ -125,8 +125,7 @@ th small{font-weight:400;font-size:11px;color:var(--muted)}
 .skin.snd.off{color:var(--muted)}
 .skin.snd.off svg{color:var(--muted)}
 .has-bg header,.has-bg .skinbar{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:10px 12px}
-.has-bg .section-label,.has-bg footer{width:fit-content;max-width:100%;background:var(--surface);color:var(--ink);border-radius:4px;padding:1px 8px}
-.has-bg .section-label{margin:4px 0 -6px}
+.has-bg .section-label,.has-bg footer{width:fit-content;max-width:100%;background:none;color:var(--ink);padding:0}
 .field input[type=range]{padding:0;border:0;background:none;accent-color:var(--accent)}
 .gtoggle .gcount{display:inline-flex;align-items:center;gap:5px}
 .gcount svg{width:16px;height:16px;flex:none;stroke-width:3}
@@ -284,10 +283,55 @@ dialog form{display:flex;flex-direction:column;gap:11px}
 }
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .2s}.pip{transition:background .1s}}
 .has-bg .btn.warn:hover{color:#fff}
-.has-bg #app .btn:not(.primary):not(.warn):not([aria-pressed="true"]),.has-bg #app .skin,.has-bg #app .langs{background:var(--solid)}
+/* Picture mode: the photo is dimmed, panels are one thin layer, and text is white in every theme. */
+html.has-bg #app,html.has-bg dialog.wall{--ink:#fff;--muted:rgba(255,255,255,.8);--line:rgba(255,255,255,.17);--raised:rgba(255,255,255,.08);--bg:rgba(8,10,16,.52);--hard:#ff9f8f;--hard-soft:rgba(92,28,22,.84);--done:#5dd6a0;--done-soft:rgba(24,104,74,.44);--daily:#ffcf70;--daily-soft:rgba(74,52,10,.84);--weekly:#d2b6ff;--weekly-soft:rgba(60,40,106,.84);color:#fff;color-scheme:dark}
+html.has-bg #app{text-shadow:0 1px 2px rgba(0,0,0,.8),0 0 9px rgba(0,0,0,.38)}
+.has-bg #app .btn:not(.primary):not(.warn):not([aria-pressed="true"]),.has-bg #app .skin:not(.ready),.has-bg #app .langs{background:var(--chip)}
 .has-bg #app .langs button[aria-checked="true"]{background:var(--accent)}
-.has-bg th:first-child,.has-bg td:first-child{background:var(--solid)}
-.has-bg .pip.on{color:var(--solid)}
+.has-bg #app :is(.btn.primary,.btn[aria-pressed="true"],.langs button[aria-checked="true"],.skin.ready,.pip.on){text-shadow:none}
+.has-bg #app .btn[aria-pressed="true"] *{text-shadow:none}
+.has-bg .group:not(.complete) .ghead{background:transparent}
+.has-bg thead th,.has-bg thead th:first-child,.has-bg th:first-child,.has-bg td:first-child{background:transparent}
+.has-bg tr.gr td{background:rgba(255,255,255,.07)}
+.has-bg .pip.on{color:#07140e}
+.has-bg .row.dragging,.has-bg .group.dragging,.has-bg .tab.dragging{background:rgba(20,23,32,.96)}
+@media (min-width:761px){.has-bg th:first-child,.has-bg td:first-child{position:static}}
+@media (max-width:760px){.has-bg th:first-child,.has-bg td:first-child{background:rgba(20,23,32,.86)}}
+/* The blur sits on a pseudo-element so panels do not become a positioning parent for dragged rows. */
+.wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner){position:relative;isolation:isolate}
+.wall-pb #app :is(header,.skinbar,.tab,.charcard,.guide,.group,.tablewrap,.linkbanner)::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;-webkit-backdrop-filter:blur(var(--wpblur,0px));backdrop-filter:blur(var(--wpblur,0px))}
+/* Phones and tablets keep one column. A mouse-driven desktop gets a left rail and a right board, leaving the middle for the picture. */
+.rail,.board{display:contents}
+@media (min-width:1100px) and (hover:hover) and (pointer:fine){
+  #app{max-width:none;display:grid;grid-template-columns:clamp(310px,19vw,360px) minmax(0,1fr) clamp(500px,33vw,640px);gap:20px;align-items:start;padding:16px 20px 32px}
+  .rail,.board{display:flex;flex-direction:column;gap:12px;min-width:0}
+  .rail{grid-column:1;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin;padding-right:3px}
+  .board{grid-column:3}
+  .board.wide,html:not(.has-bg) .board{grid-column:2/4}
+  html:not(.has-bg) .board:not(.wide){max-width:1000px}
+  .rail header{flex-direction:column;align-items:stretch;gap:8px}
+  .rail h1{font-size:23px}
+  .rail .sub{display:none}
+  .rail .clocks{justify-content:space-between}
+  .rail .skinbar{gap:6px}
+  .rail .skins{gap:4px}
+  .rail .skin{min-height:29px;font-size:12px}
+  .rail .tabs{flex-direction:column;overflow:visible;padding:2px}
+  .rail .tab{width:100%;min-width:0}
+  .rail .tab strong{max-width:none}
+  .rail .tab.add{justify-content:center}
+  .rail .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .rail .toolgrid .btn.tool{padding:6px 8px;gap:7px}
+  .rail .toolgrid .tt small{display:none}
+  .rail .charcard{padding:10px}
+  .rail .charcard .avatar.lg{width:52px;height:52px}
+  .rail .guide{font-size:12px;padding:6px 9px}
+  .rail .guide:not(.editing){display:none}
+  .rail .tab{padding:4px 9px}
+  .rail .tab .avatar{width:34px;height:34px;font-size:15px}
+  .rail .tabs{gap:5px}
+  .rail .btn.tool{min-height:36px}
+}
 html.wall-open{overflow:hidden}
 html.wall-open #app{visibility:hidden}
 dialog.wall{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--ink);overflow:hidden}
@@ -331,7 +375,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 .wcol{display:flex;flex-direction:column;gap:14px;min-width:0}
 .wprev{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:10px;border:1px solid var(--wline);background:var(--bg);display:flex;align-items:center;justify-content:center}
 .wprev i{position:absolute;inset:-14px;background:center/cover no-repeat}
-.wprev i+i{inset:0;background:var(--bg)}
+.wprev i+i{inset:0;background:#000}
 .wmini{position:relative;width:min(62%,340px);padding:12px;border:1px solid var(--line);border-radius:8px}
 .wmini b{display:block;font-family:var(--display);margin-bottom:7px}
 .wmini span{display:flex;justify-content:space-between;padding:4px 7px;border-top:1px solid var(--line);font-size:13px}
@@ -361,7 +405,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="d364c3e85cad";</script>
+<script>window.DN_BUILD="700d5a90883d";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -388,7 +432,7 @@ const DICT=[
 ['เพิ่มรูป','Import image','เพิ่มรูป'],['เลือกไฟล์ ลากมาวาง หรือ Ctrl+V','Choose, drop, or Ctrl+V','เลือกไฟล์ ลากมาวาง หรือ Ctrl+V'],['ใช้อยู่','In use','ใช้อยู่'],['ลบรูป','Delete picture','ลบรูป'],['ยืนยันลบ','Confirm','ยืนยันลบ'],
 ['เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า','This browser cannot store pictures. They disappear when the page closes.','เบราว์เซอร์นี้เก็บรูปไม่ได้ รูปจะหายเมื่อปิดหน้า'],
 ['ปรับความเบลอ ความชัด และความโปร่งของแผง','Adjust blur, picture strength, and panel transparency.','ปรับ Blur ความชัด และความโปร่งของ Panel'],['ตัวอย่างแผง','Panel preview','Panel Preview'],['เควสตัวอย่าง','Sample quest','Sample Quest'],['ดันเจี้ยนตัวอย่าง','Sample dungeon','Sample Dungeon'],
-['ความเบลอของรูป','Background blur','Background Blur'],['ความชัดของรูป','Picture strength','ความชัดของรูป'],['ความทึบของแผง','Panel opacity','ความทึบของ Panel'],['คืนค่าการแสดงผล','Reset appearance','Reset Appearance'],
+['ความเบลอของรูป','Background blur','Background Blur'],['ความชัดของรูป','Picture strength','ความชัดของรูป'],['ความทึบของแผง','Panel opacity','ความทึบของ Panel'],['เบลอหลังแผง','Blur behind panels','Blur หลัง Panel'],['คืนค่าการแสดงผล','Reset appearance','Reset Appearance'],
 ['โหมดสี','Theme mode','Theme Mode'],['โหมดสว่าง','Light','Light'],['โหมดมืด','Dark','Dark'],['ตามเครื่อง','Follow system','Follow System'],
 ['เพิ่มรูปแล้ว','Picture added','เพิ่มรูปแล้ว'],['ลบรูปแล้ว','Picture deleted','ลบรูปแล้ว'],['คลังเต็มแล้ว ลบรูปเก่าก่อน','Library is full. Delete a picture first.','คลังเต็มแล้ว ลบรูปเก่าก่อน'],['พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า','Not enough storage. Delete an older picture.','พื้นที่ในเครื่องไม่พอ ลองลบรูปเก่า'],
 ['ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ','Track quests and dungeons per character. Data stays on your device.','ติ๊ก Quest และ Dungeon แยกตาม Character ข้อมูลเก็บในเครื่องของคุณ'],
@@ -686,7 +730,7 @@ function render(){
   const scrollX=$('.tabs')?$('.tabs').scrollLeft:0;
   const c=S.chars.find(x=>x.id===S.active)||S.chars[0];S.active=c.id;
   const now=Date.now();
-  let h='<header><div><h1>Dragon Nest Tracker</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
+  let h='<aside class="rail"><header><div><h1>Dragon Nest Tracker</h1><p class="sub">ติ๊กเควสและดันเจี้ยนแยกตามตัวละคร ข้อมูลเก็บในเครื่องของคุณ</p></div><div class="clocks"><div class="clock"><span>รีรายวัน 08:00</span><b id="cdD">'+cd(dayStart(now)+D-now)+'</b></div><div class="clock"><span>รีรายสัปดาห์ เสาร์ 08:00</span><b id="cdW">'+cd(weekStart(now)+W-now)+'</b></div></div></header>';
   if(!storageOk) h+='<p class="err">เบราว์เซอร์นี้ไม่อนุญาตให้บันทึกข้อมูล ความคืบหน้าจะหายเมื่อปิดหน้า กด “สำรอง/ย้ายข้อมูล” เพื่อเก็บรหัสไว้</p>';
   h+=linkBanner();
   h+=skinRow();
@@ -694,17 +738,18 @@ function render(){
   h+='<div class="toolgrid"><button class="btn tool" data-act="view-all" data-fk="va" aria-pressed="'+(S.view==='all')+'">'+ICON.grid+(S.view==='all'?tt('กลับหน้าตัวละคร','ออกจากตารางภาพรวม'):tt('ภาพรวมทุกตัว','ตารางเทียบทุกตัวละคร'))+'</button>';
   if(S.view==='char') h+='<button class="btn tool" data-act="hide" data-fk="hd" aria-pressed="'+S.hideDone+'">'+(S.hideDone?ICON.eyeOff+tt('แสดงที่ครบแล้ว','ตอนนี้ซ่อนรายการที่ครบอยู่'):ICON.eye+tt('ซ่อนที่ครบแล้ว','เหลือเฉพาะที่ยังไม่เคลียร์'))+'</button><button class="btn tool" data-act="manage" data-fk="mg" aria-pressed="'+manage+'">'+(manage?ICON.check+tt('เสร็จสิ้นการแก้ไข','กลับไปติ๊กตามปกติ'):ICON.pen+tt('แก้ไขรายการ','เพิ่ม ลบ เปลี่ยนชื่อดันและหมวด'))+'</button>';
   h+='<button class="btn tool" data-act="backup">'+ICON.swap+tt('สำรอง/ย้ายข้อมูล','ย้ายเครื่องหรือส่งรายการให้เพื่อน')+'</button></div>';
-  if(S.view==='all') h+=overview();
+  if(S.view==='all') h+='</aside><main class="board wide">'+overview();
   else{
     const st=stats(c.id);
     h+='<div class="toolbar charcard"><button class="hero" data-act="edit-char" aria-label="แก้ไขตัวละคร '+esc(c.name)+'">'+avatar(c,'lg')+'<span class="herotxt"><span class="char-title">'+esc(c.name)+'</span><span class="jobpill">'+(c.job?esc(c.job):'กดเพื่อใส่ Job / Class')+'</span><small>เคลียร์แล้ว '+st.done+'/'+st.total+'</small></span></button><div><button class="btn edit" data-act="edit-char">'+ICON.user+tt('แก้ไขตัวละคร','ชื่อ, Job, รูป')+'</button><button class="btn warn" data-act="clear-char">'+ICON.warn+tt('ล้างการติ๊ก','รีเป็น 0 เฉพาะตัวนี้')+'</button></div></div>';
     const q=S.groups.filter(g=>g.kind==='quest'),d=S.groups.filter(g=>g.kind==='dungeon');
     h+=manage?'<p class="guide editing"><b>กำลังแก้ไขรายการ</b> คลิกค้างที่ ≡ แล้วลากไปวางตำแหน่งที่ต้องการ ใช้ปุ่มแก้ไข ลบ และเพิ่มในแต่ละหมวด เสร็จแล้วกด “เสร็จสิ้นการแก้ไข”</p>':'<p class="guide"><b>วิธีติ๊ก</b> กดช่องสี่เหลี่ยมตามจำนวนครั้งที่ผ่าน กดช่องเดิมซ้ำเพื่อเอาออก รายการที่นับเยอะ เช่น 0/999 ให้กด + เพื่อเพิ่ม หรือ − เพื่อลด</p>';
+    h+='</aside><main class="board">';
     if(q.length) h+='<div class="section-label">ภารกิจ</div>'+q.map(g=>groupHtml(g,c.id,manage)).join('');
     h+='<div class="section-label">ดันเจี้ยน</div>'+d.map(g=>groupHtml(g,c.id,manage)).join('');
     if(manage) h+='<div class="layoutbar"><button class="btn primary" data-act="add-group">+ เพิ่มหมวดหมู่</button><button class="btn warn" data-act="reset-layout">'+ICON.warn+tt('คืนค่าเริ่มต้น','เควสและหมวดหมู่ ตัวละครไม่หาย')+'</button>'+(lsGet('dn-layout-undo')?'<button class="btn edit" data-act="undo-layout">'+ICON.swap+tt('ย้อนการคืนค่า','กลับไปรายการก่อนคืนค่า')+'</button>':'')+'</div>';
   }
-  h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer>';
+  h+='<footer>เครื่องมือแฟนเมด ไม่เกี่ยวข้องกับผู้พัฒนาเกม เวลารีเซ็ตอิงเวลาประเทศไทย</footer></main>';
   $('#app').innerHTML=tr(h);
   if($('.tabs')) $('.tabs').scrollLeft=scrollX;
   if(fk){const el=$('[data-fk="'+fk+'"]');if(el) el.focus({preventScroll:true})}
@@ -884,8 +929,8 @@ document.addEventListener('click',e=>{
 const BG_KEY='dn-bg',BG_DIM='dn-bg-dim',WALL_KEY='dn-wall',WALL_MAX=24;
 const WALL_RE=/^data:image\/(jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/;
 // Dark themes let the picture lead. Light themes use a milky panel. Each tone remembers its own sliders.
-const WALL_TONES=()=>({d:{show:74,glass:62},l:{show:82,glass:84}});
-var wall={id:'',img:'',name:'',blur:0,tones:WALL_TONES(),list:[],view:'lib'};
+const WALL_TONES=()=>({d:{show:62,glass:20},l:{show:62,glass:20}});
+var wall={id:'',img:'',name:'',blur:0,pblur:0,tones:WALL_TONES(),list:[],view:'lib'};
 function wallTone(){
   const h=getComputedStyle(document.documentElement).getPropertyValue('--surface').trim().replace('#','');
   const x=h.length===3?h.split('').map(c=>c+c).join(''):h,n=parseInt(x,16);
@@ -898,16 +943,18 @@ try{
   if(v&&typeof v==='object'){
     if(typeof v.id==='string') wall.id=v.id;
     wall.blur=clampInt(Number(v.blur)||0,0,24);
-    ['d','l'].forEach(t=>{
+    wall.pblur=clampInt(Number(v.pblur)||0,0,16);
+    // Version 2 is picture mode. Older panel values were far too opaque, so they start from the new defaults.
+    if(v.v===2) ['d','l'].forEach(t=>{
       const x=v.tones&&v.tones[t];if(!x) return;
       if(Number.isFinite(Number(x.show))) wall.tones[t].show=clampInt(Number(x.show),15,100);
-      if(Number.isFinite(Number(x.glass))) wall.tones[t].glass=clampInt(Number(x.glass),35,100);
+      if(Number.isFinite(Number(x.glass))) wall.tones[t].glass=clampInt(Number(x.glass),0,100);
     });
   }else if(localStorage.getItem(BG_DIM)!==null){
     const old=clampInt(100-(Number(localStorage.getItem(BG_DIM))||0),15,100);wall.tones.d.show=old;wall.tones.l.show=old;
   }
 }catch(e){}
-const wallSave=()=>{try{localStorage.setItem(WALL_KEY,JSON.stringify({id:wall.id,blur:wall.blur,tones:wall.tones}))}catch(e){}};
+const wallSave=()=>{try{localStorage.setItem(WALL_KEY,JSON.stringify({v:2,id:wall.id,blur:wall.blur,pblur:wall.pblur,tones:wall.tones}))}catch(e){}};
 function hexA(v,a){
   let h=String(v).trim().replace('#','');
   if(h.length===3) h=h.split('').map(c=>c+c).join('');
@@ -918,18 +965,33 @@ function hexA(v,a){
 function paintWall(){
   const el=$('#bgImg'),app=$('#app'),box=$('#wallDlg'),root=document.documentElement;
   if(!el||!app) return;
-  const has=!!wall.img,css=getComputedStyle(root),surface=css.getPropertyValue('--surface'),raised=css.getPropertyValue('--raised'),ink=css.getPropertyValue('--ink');
+  const has=!!wall.img,css=getComputedStyle(root),surface=css.getPropertyValue('--surface'),ink=css.getPropertyValue('--ink');
   el.hidden=!has;
   el.style.backgroundImage=has?'url("'+wall.img+'")':'none';
   el.style.setProperty('--dim',1-wall.show/100);
   el.style.setProperty('--wblur',wall.blur+'px');
   root.classList.toggle('has-bg',has);
-  if(has){app.style.setProperty('--surface',hexA(surface,wall.glass/100));app.style.setProperty('--raised',hexA(raised,wall.glass/100));app.style.setProperty('--solid',hexA(surface,.96))}
-  else{app.style.removeProperty('--surface');app.style.removeProperty('--raised');app.style.removeProperty('--solid')}
-  box.style.setProperty('--wside',hexA(surface,.62));
-  box.style.setProperty('--wpanel',hexA(surface,.72));
-  box.style.setProperty('--wline',hexA(ink,.16));
-  box.style.setProperty('--whover',hexA(ink,.13));
+  root.classList.toggle('wall-pb',has&&wall.pblur>0);
+  root.style.setProperty('--wpblur',wall.pblur+'px');
+  const light=wallTone()==='l',accent=skin==='sakura'?'#ff8db7':'#86a8ff',onAccent=skin==='sakura'?'#2a0b18':'#10131c';
+  [app,box].forEach(x=>{
+    if(has&&light){x.style.setProperty('--accent',accent);x.style.setProperty('--on-accent',onAccent)}
+    else{x.style.removeProperty('--accent');x.style.removeProperty('--on-accent')}
+  });
+  if(has){
+    app.style.setProperty('--surface','rgba(14,16,24,'+wall.glass/100+')');
+    app.style.setProperty('--chip','rgba(14,16,24,'+Math.max(wall.glass,34)/100+')');
+    box.style.setProperty('--wside','rgba(14,16,24,.36)');
+    box.style.setProperty('--wpanel','rgba(14,16,24,.4)');
+    box.style.setProperty('--wline','rgba(255,255,255,.17)');
+    box.style.setProperty('--whover','rgba(255,255,255,.15)');
+  }else{
+    app.style.removeProperty('--surface');app.style.removeProperty('--chip');
+    box.style.setProperty('--wside',hexA(surface,.62));
+    box.style.setProperty('--wpanel',hexA(surface,.72));
+    box.style.setProperty('--wline',hexA(ink,.16));
+    box.style.setProperty('--whover',hexA(ink,.13));
+  }
 }
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>paintWall());
 let wdbP=null,wallMem=false;
@@ -1061,16 +1123,16 @@ function wallLook(main){
   const range=(id,label,min,max,v,unit)=>'<label class="wrange"><span>'+label+'<b id="'+id+'V">'+v+unit+'</b></span><input id="'+id+'" type="range" min="'+min+'" max="'+max+'" value="'+v+'"></label>';
   const mode=currentMode();
   main.innerHTML=tr('<div class="wpage"><div class="whead"><h2>การแสดงผล</h2><p>ปรับความเบลอ ความชัด และความโปร่งของแผง</p></div><div class="wlook"><div class="wcol"><div class="wprev"><i id="wpImg"></i><i id="wpShade"></i><div class="wmini" id="wpMini"><b>ตัวอย่างแผง</b><span>เควสตัวอย่าง</span><span>ดันเจี้ยนตัวอย่าง</span></div></div></div><div class="wcol"><div class="wpanel">'+
-    range('wBlur','ความเบลอของรูป',0,24,wall.blur,'px')+range('wShow','ความชัดของรูป',15,100,wall.show,'%')+range('wGlass','ความทึบของแผง',35,100,wall.glass,'%')+
+    range('wBlur','ความเบลอของรูป',0,24,wall.blur,'px')+range('wShow','ความชัดของรูป',15,100,wall.show,'%')+range('wGlass','ความทึบของแผง',0,100,wall.glass,'%')+range('wPanelBlur','เบลอหลังแผง',0,16,wall.pblur,'px')+
     '</div><div class="wpanel"><div class="wtitle">โหมดสี</div><div class="wmodes">'+[['light','โหมดสว่าง'],['dark','โหมดมืด'],['','ตามเครื่อง']].map(x=>'<button type="button" data-wmode="'+x[0]+'" aria-pressed="'+(mode===x[0])+'">'+x[1]+'</button>').join('')+'</div></div><div><button type="button" class="btn" data-wact="reset-look">คืนค่าการแสดงผล</button></div></div></div></div>');
   const sync=()=>{
     const pi=$('#wpImg',main);
     pi.style.backgroundImage=wall.img?'url("'+wall.img+'")':'none';
     pi.style.filter='blur('+(wall.blur/2.5)+'px)';
     $('#wpShade',main).style.opacity=wall.img?1-wall.show/100:1;
-    $('#wpMini',main).style.background=hexA(getComputedStyle(document.documentElement).getPropertyValue('--surface'),wall.img?wall.glass/100:1);
+    const mini=$('#wpMini',main),pb=wall.img&&wall.pblur?'blur('+wall.pblur/2+'px)':'none';mini.style.background=wall.img?'rgba(14,16,24,'+wall.glass/100+')':getComputedStyle(document.documentElement).getPropertyValue('--surface');mini.style.webkitBackdropFilter=pb;mini.style.backdropFilter=pb;
   };
-  [['wBlur','blur','px'],['wShow','show','%'],['wGlass','glass','%']].forEach(x=>{
+  [['wBlur','blur','px'],['wShow','show','%'],['wGlass','glass','%'],['wPanelBlur','pblur','px']].forEach(x=>{
     const r=$('#'+x[0],main);
     r.oninput=()=>{wall[x[1]]=clampInt(r.value,Number(r.min),Number(r.max));$('#'+x[0]+'V',main).textContent=wall[x[1]]+x[2];paintWall();sync();wallSave()};
   });
@@ -1110,7 +1172,7 @@ async function wallClick(e){
   if(a==='add') $('#wFile').click();
   else if(a==='none'){wall.id='';wall.img='';wallSave();paintWall();wallRender()}
   else if(a==='use') wallUse(id);
-  else if(a==='reset-look'){wall.blur=0;wall.tones[wallTone()]=WALL_TONES()[wallTone()];wallSave();paintWall();wallRender()}
+  else if(a==='reset-look'){wall.blur=0;wall.pblur=0;wall.tones[wallTone()]=WALL_TONES()[wallTone()];wallSave();paintWall();wallRender()}
   else if(a==='del'){
     if(!b.classList.contains('sure')){
       b.classList.add('sure');b.textContent=tr('ยืนยันลบ');
@@ -1201,8 +1263,7 @@ function beginDrag(d){
 function placeSlot(d,y){
   const others=dragPeers(d).filter(x=>x!==d.el);
   if(!others.length) return;
-  const base=$('#app').getBoundingClientRect().top;
-  const next=others.find(o=>y<base+o.offsetTop+o.offsetHeight/2);
+  const next=others.find(o=>{const r=o.getBoundingClientRect();return y<r.top+r.height/2});
   const last=others[others.length-1];
   const same=next?(d.slot.nextElementSibling===next||(d.slot.nextElementSibling===d.el&&d.el.nextElementSibling===next)):(last.nextElementSibling===d.slot||(last.nextElementSibling===d.el&&d.el.nextElementSibling===d.slot));
   if(same) return;
@@ -1211,18 +1272,19 @@ function placeSlot(d,y){
   if(calm()) return;
   others.forEach(o=>{const dy=tops.get(o)-o.offsetTop;if(dy&&o.animate) o.animate([{transform:'translateY('+dy+'px)'},{transform:'none'}],{duration:130,easing:'ease-out'})});
 }
-function placeCharSlot(d,x){
+const charVertical=d=>getComputedStyle(d.parent).flexDirection==='column';
+function placeCharSlot(d,x,y){
   const others=dragPeers(d).filter(o=>o!==d.el);
   if(!others.length) return;
-  const base=$('#app').getBoundingClientRect().left,scroll=d.parent.scrollLeft;
-  const next=others.find(o=>x<base+o.offsetLeft-scroll+o.offsetWidth/2);
+  const vertical=charVertical(d);
+  const next=others.find(o=>{const r=o.getBoundingClientRect();return vertical?y<r.top+r.height/2:x<r.left+r.width/2});
   const last=others[others.length-1];
   const same=next?(d.slot.nextElementSibling===next||(d.slot.nextElementSibling===d.el&&d.el.nextElementSibling===next)):(last.nextElementSibling===d.slot||(last.nextElementSibling===d.el&&d.el.nextElementSibling===d.slot));
   if(same) return;
-  const lefts=new Map(others.map(o=>[o,o.offsetLeft]));
+  const lefts=new Map(others.map(o=>[o,[o.offsetLeft,o.offsetTop]]));
   if(next) d.parent.insertBefore(d.slot,next);else last.after(d.slot);
   if(calm()) return;
-  others.forEach(o=>{const dx=lefts.get(o)-o.offsetLeft;if(dx&&o.animate) o.animate([{transform:'translateX('+dx+'px)'},{transform:'none'}],{duration:130,easing:'ease-out'})});
+  others.forEach(o=>{const a=lefts.get(o),dx=a[0]-o.offsetLeft,dy=a[1]-o.offsetTop;if((dx||dy)&&o.animate) o.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'none'}],{duration:130,easing:'ease-out'})});
 }
 function finishDrag(commit){
   const d=drag;drag=null;
@@ -1273,9 +1335,10 @@ document.addEventListener('pointermove',e=>{
   e.preventDefault();
   if(drag.type==='char'){
     drag.el.style.left=(e.clientX-drag.offX)+'px';
+    if(charVertical(drag)) drag.el.style.top=(e.clientY-drag.offY)+'px';
     const b=drag.parent.getBoundingClientRect();
     if(e.clientX<b.left+36) drag.parent.scrollLeft-=10;else if(e.clientX>b.right-36) drag.parent.scrollLeft+=10;
-    placeCharSlot(drag,e.clientX);
+    placeCharSlot(drag,e.clientX,e.clientY);
     return;
   }
   drag.el.style.top=(e.clientY-drag.offY)+'px';
