@@ -441,7 +441,7 @@ dialog.wall[open]{display:grid;grid-template-columns:220px minmax(0,1fr)}
 }
 </style>
 <script>window.DN_SYNC_CONFIG={apiKey:"AIzaSyCyO2wMwk4S_JcZYNjWALgf0_Gl7JDpzW4",authDomain:"dragon-nest-tracker.firebaseapp.com",projectId:"dragon-nest-tracker",storageBucket:"dragon-nest-tracker.firebasestorage.app",messagingSenderId:"345558254153",appId:"1:345558254153:web:1e967affe18f3bad0ab598"};</script>
-<script>window.DN_BUILD="a2dae4020f8f";</script>
+<script>window.DN_BUILD="69e564f5fda7";</script>
 </head>
 <body>
 <div id="bgImg" hidden></div>
@@ -536,7 +536,7 @@ const item=(name,clear,fail=0,tier='normal',reset='weekly')=>({id:uid(),name,cle
 
 function seed(){
   const now=Date.now(),c={id:uid(),name:'ตัวละคร 1',job:''};
-  return {v:7,active:c.id,view:'char',hideIn:{},chars:[c],progress:{},collapsed:{},
+  return {v:8,active:c.id,view:'char',hideIn:{},chars:[c],progress:{},collapsed:{},
     stamps:{daily:dayStart(now),weekly:weekStart(now)},
     groups:defaultGroups()};
 }
@@ -545,13 +545,12 @@ const guildRaid=()=>({id:'seed-guild-raid',name:GUILD_RAID,clear:1,fail:0,tier:'
 function defaultGroups(){
   return [
     {id:uid(),kind:'quest',name:'เควสประจำวัน',items:[
-      item('เควสภารกิจรายวัน',5,0,'normal','daily')]},
+      item('เควสภารกิจรายวัน',5,0,'normal','daily'),
+      item('เช็คชื่อกิลด์',1,0,'normal','daily'),
+      item('ส่งของกิลด์',1,0,'normal','daily')]},
     {id:'seed-weekly',kind:'quest',name:'เควสประจำสัปดาห์',items:[
       item('เควสบอร์ด',1,0,'normal','weekly'),
-      item('เควสรายสัปดาห์',7,0,'normal','weekly')]},
-    {id:'seed-guild',kind:'quest',name:'เควสกิลด์',items:[
-      item('เช็คชื่อกิลด์',1,0,'normal','daily'),
-      item('ส่งของกิลด์',1,0,'normal','daily'),
+      item('เควสรายสัปดาห์',7,0,'normal','weekly'),
       guildRaid()]},
     {id:uid(),kind:'dungeon',name:'Nest',items:[
       item('Minotaur Nest',7),
@@ -612,7 +611,7 @@ function undoLayout(){
   let saved,next;
   try{
     saved=JSON.parse(localStorage.getItem('dn-layout-undo'));
-    next=clean({...S,v:7,groups:saved.groups,progress:saved.progress,stamps:saved.stamps});
+    next=clean({...S,v:8,groups:saved.groups,progress:saved.progress,stamps:saved.stamps});
   }catch(e){toast('ย้อนข้อมูลไม่สำเร็จ');return}
   S=next;
   try{localStorage.removeItem('dn-layout-undo')}catch(e){}
@@ -670,7 +669,7 @@ function clampInt(v,min,max){v=Math.floor(Number(v));return Number.isFinite(v)?M
 function clean(x){
   if(!x||!Array.isArray(x.chars)||!Array.isArray(x.groups)||!x.chars.length) throw new Error('bad');
   const now=Date.now();
-  const s={v:7,view:x.view==='all'?'all':'char',hideIn:{},collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
+  const s={v:8,view:x.view==='all'?'all':'char',hideIn:{},collapsed:x.collapsed&&typeof x.collapsed==='object'?x.collapsed:{},progress:{},
     stamps:{daily:Number(x.stamps&&x.stamps.daily)||dayStart(now),weekly:Number(x.stamps&&x.stamps.weekly)||weekStart(now)},
     chars:x.chars.map(c=>({id:String(c.id||uid()),name:String(c.name||'ตัวละคร').slice(0,40),job:String(c.job||'').slice(0,40),img:safeImg(c.img)})),
     groups:x.groups.map(g=>({id:String(g.id||uid()),kind:g.kind==='quest'?'quest':'dungeon',name:String(g.name||'หมวดหมู่').slice(0,60),
@@ -700,6 +699,16 @@ function clean(x){
         if(s.collapsed[g.id]) s.collapsed[n.id]=true;
         if(s.hideIn[g.id]) s.hideIn[n.id]=true;
       }
+    }
+  }
+  // Guild quests join the daily and weekly categories by their reset, and the guild category goes away.
+  if(fromV<8){
+    const gk=s.groups.findIndex(g=>g.id==='seed-guild'),day=s.groups.find(g=>g.kind==='quest'&&g.name==='เควสประจำวัน'),week=s.groups.find(g=>g.id==='seed-weekly');
+    if(gk>=0&&day&&week){
+      const guild=s.groups[gk];
+      guild.items.forEach(i=>(i.reset==='daily'?day:week).items.push(i));
+      s.groups.splice(gk,1);
+      delete s.hideIn[guild.id];delete s.collapsed[guild.id];
     }
   }
   const p=x.progress&&typeof x.progress==='object'?x.progress:{};
